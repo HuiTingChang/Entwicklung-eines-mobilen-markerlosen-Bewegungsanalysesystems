@@ -17,6 +17,10 @@
     - [Kinect for Windows SDK v2.0](https://www.microsoft.com/en-us/download/details.aspx?id=44561)
       - requires Visual Studio 2012 or 2013, currently trying with [2015 Community Edition](https://www.visualstudio.com/downloads/) anyway
         - VS uses 14 GB disk space and installation takes veeeeery long!
+
+### AnyBody
+
+http://www.anybodytech.com/
   
 ## Organization
 
