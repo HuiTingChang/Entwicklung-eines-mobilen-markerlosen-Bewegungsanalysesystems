@@ -26,7 +26,11 @@
 
 ### AnyBody
 
+Multi-body human biomechanics simulation tool; Some researchers at the HIA are interested in using in the future.
+
 http://www.anybodytech.com/
+
+One alternative open tool is [OpenSim](http://simtk-confluence.stanford.edu:8080/display/OpenSim/User%27s+Guide)
   
 ## Organization
 
