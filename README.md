@@ -11,8 +11,8 @@
 - Required drivers
     - [Kinect for Windows Runtime v2.0](https://www.microsoft.com/en-us/download/details.aspx?id=44559)
       - runs on Windows 8, 8.1, 10 (you might want to consider using Windows to go with the RWTH licene from Microsoft Imagine, but consider the required disk space for Visual Studio!)
-    - Runtime v1.5 might run on Windows 7, but USB 3.0 support is incomplete, so not recommended
-    - alternative: 
+    - Runtime v1.8 runs on Windows 7, but USB 3.0 support is incomplete and **not useable for Kinect Sensor v2.0** anyway ((source)[https://social.msdn.microsoft.com/Forums/en-US/45830eac-f7ed-41fe-8621-8a7bcb84cebb/use-kinect-v2-with-windows-7?forum=kinectv2sdk])
+    - alternative: (runs on Windows 7, Ubuntu, Mac OS, ...) [libfreenect2](https://github.com/OpenKinect/libfreenect2) of the project [OpenKinect](http://www.openkinect.org/)
 - IDE
     - [Kinect for Windows SDK v2.0](https://www.microsoft.com/en-us/download/details.aspx?id=44561)
       - requires Visual Studio 2012 or 2013, currently trying with [2015 Community Edition](https://www.visualstudio.com/downloads/) anyway
