@@ -16,9 +16,13 @@
 - IDE
     - [Kinect for Windows SDK v2.0](https://www.microsoft.com/en-us/download/details.aspx?id=44561)
       - examples can be found at [the codeplex repository](https://kinectforwindows.codeplex.com/), one of which is [the coloringbook](https://github.com/Microsoft/Windows-appsample-coloringbook)
+      - [developer documentation](https://msdn.microsoft.com/library/dn799271.aspx)
       - requires Visual Studio 2012 or 2013, currently trying with [2015 Community Edition](https://www.visualstudio.com/downloads/) anyway
         - VS uses 14 GB disk space and installation takes veeeeery long!
     - freenect2: use any C++ IDE, documentation can be found at the [OpenKinect Doxygen site](https://openkinect.github.io/libfreenect2/) and examples [in the examples directory of its release](https://github.com/OpenKinect/libfreenect2/tree/master/examples)
+- Faking it without the actual camera
+    - [Fakenect](https://openkinect.org/wiki/Fakenect) from OpenKinect, provides some sample outputs for download
+    - [the Kinect SDK record/play-back feature](https://msdn.microsoft.com/en-us/library/dn785516.aspx)
 
 ## Wii Balance Board
 
