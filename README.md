@@ -13,6 +13,7 @@ For developers:
     - für Windows 8/10):
       + Kinect for Windows Runtime v2.0 (https://www.microsoft.com/en-us/download/details.aspx?id=44559)
       + Kinect for Windows SDK v2.0 (https://www.microsoft.com/en-us/download/details.aspx?id=44561)
+    - AnyBody: http://www.anybodytech.com/
   Required drivers: (link)
     - 
   
