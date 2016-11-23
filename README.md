@@ -19,6 +19,7 @@
       - [developer documentation](https://msdn.microsoft.com/library/dn799271.aspx)
       - requires Visual Studio 2012 or 2013, currently trying with [2015 Community Edition](https://www.visualstudio.com/downloads/) anyway
         - VS uses 14 GB disk space and installation takes veeeeery long!
+        - Visual Studio 2015 Community Edition couldn't be installed on Windows 10 **to go** on 2016-11-18 using Julia's USB key drive at her laptop with Windows 7
     - freenect2: use any C++ IDE, documentation can be found at the [OpenKinect Doxygen site](https://openkinect.github.io/libfreenect2/) and examples [in the examples directory of its release](https://github.com/OpenKinect/libfreenect2/tree/master/examples)
 - Faking it without the actual camera
     - [Fakenect](https://openkinect.org/wiki/Fakenect) from OpenKinect, provides some sample outputs for download
