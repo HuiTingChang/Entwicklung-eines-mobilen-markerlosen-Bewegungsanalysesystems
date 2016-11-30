@@ -1,5 +1,7 @@
 # Entwicklung-eines-mobilen-markerlosen-Bewegungsanalysesystems
 
+[![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/ghinyy/Lobby)
+
 > :mega: Please help to fill in/correct
 
 ## For developers
@@ -44,9 +46,14 @@ One alternative open tool is [OpenSim](http://simtk-confluence.stanford.edu:8080
 - Revision control
     - We’ll probably use a repository on the [FH GitLab](https://git.noc.fh-aachen.de/explore/projects). Learn more about GitLab [in its documentation](https://docs.gitlab.com/ce/README.html)
     - A good way to get started with the git workflow, no matter where your repository is hosted, is to follow [the simple guide](http://rogerdudler.github.io/git-guide/) for a quick starter and refer to the [full docs](https://git-scm.com/doc) for more specific cases
+    - Those "*.md" files are [markdown](https://docs.gitlab.com/ce/user/markdown.html)
 
 ## Organization
 
+- Communication:
+    - [ghinny/Lobby](https://gitter.im/ghinyy/Lobby) at gitter (it can integrate with git repositories)
+        - Find [documentatin here](https://gitter.zendesk.com/hc/en-us/categories/200024041-RTFM)
+        - It supports some [GitHub-Flavored Markdown](https://guides.github.com/features/mastering-markdown/)
 - Project doc:
     - https://www.fh-aachen.de/fileadmin/people/fb09_terstegge/SWE_16_17/Gruppe_13.pdf
 - Place:
