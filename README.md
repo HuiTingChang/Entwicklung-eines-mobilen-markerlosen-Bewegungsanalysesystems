@@ -8,6 +8,8 @@
 
 ### Kinect Sensor v2.0 (for XBox One, with Windows adapter)
 
+Get started by installing Visual Studio, Kinect SDK 2.0 (ships with Runtime 2.0) and following the [Kinect for Windows Programming Guide](https://msdn.microsoft.com/en-us/library/dn782037.aspx). You’re also advised to take a look at the Body Basics-D2D sample by going to [Project/Solution](https://msdn.microsoft.com/en-us/library/dn782040.aspx).
+
 - Hardware Requirements:
     - USB 3.0, preferably Intel or NEC host controller ([source](https://github.com/OpenKinect/libfreenect2))
 - Required drivers
