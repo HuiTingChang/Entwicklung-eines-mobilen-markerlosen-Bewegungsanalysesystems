@@ -38,10 +38,16 @@ Multi-body human biomechanics simulation tool; Some researchers at the HIA are i
 http://www.anybodytech.com/
 
 One alternative open tool is [OpenSim](http://simtk-confluence.stanford.edu:8080/display/OpenSim/User%27s+Guide)
-  
+
+## Software development tools
+
+- Revision control
+    - We’ll probably use a repository on the [FH GitLab](https://git.noc.fh-aachen.de/explore/projects). Learn more about GitLab [in its documentation](https://docs.gitlab.com/ce/README.html)
+    - A good way to get started with the git workflow, no matter where your repository is hosted, is to follow [the simple guide](http://rogerdudler.github.io/git-guide/) for a quick starter and refer to the [full docs](https://git-scm.com/doc) for more specific cases
+
 ## Organization
 
 - Project doc:
     - https://www.fh-aachen.de/fileadmin/people/fb09_terstegge/SWE_16_17/Gruppe_13.pdf
 - Place:
-    - [HIA](http://www.hia.rwth-aachen.de/) 2.Stock Zimmer 2.19 
+    - [HIA](http://www.hia.rwth-aachen.de/) 2.Stock Zimmer 2.19
