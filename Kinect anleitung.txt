@@ -1,11 +1,11 @@
-how to create a c++  app with Qt and Kincet support
+how to create a c++  app with Qt and Kinekt support
 Pre Install
 VisualStudio2013 / 2015
 -> https://e5.onthehub.com/WebStore/OfferingDetails.aspx?o=631da0e7-2038-e311-93f6-
 b8ca3a5db7a1&pmv=00000000-0000-0000-0000-000000000000&ws=77000217-8b6f-e011-
 971f-0030487d8897&vsro=8
 
-Weiter verwenden wir Qt5 als Bibliothek für die GUI Erstellung. Diese bekommt Ihr unter
+Weiter verwenden wir Qt5 als Bibliothek fÃ¼r die GUI Erstellung. Diese bekommt Ihr unter
 folgender Adresse:
 QT 5.6.0 (LPGL)
 -> http://download.qt.io/official_releases/qt/5.6/5.6.0/qt-opensource-windows-x86-msvc2013-
@@ -23,22 +23,22 @@ add Kinekt SDK
 
 Create a project
 
-1. Datei -> Neu-> Vorlagen-> Visual Basic -> Qt5 Projekt -> QtApplication -> Check points ( Core, GUI, Widgets) -> Weiter -> Basis Klasse -> Qwidget auswählen 
+1. Datei -> Neu-> Vorlagen-> Visual Basic -> Qt5 Projekt -> QtApplication -> Check points ( Core, GUI, Widgets) -> Weiter -> Basis Klasse -> Qwidget auswÃ¤hlen 
 
 Linken 
-1. Project Eigenschaften -> C/C++  -> Allgemein -> Zusätzliche Includeverzeichisse ->Bearbeiten -> 
-In neue Line Pfard zu header hinzufügen
+1. Project Eigenschaften -> C/C++  -> Allgemein -> ZusÃ¤tzliche Includeverzeichisse ->Bearbeiten -> 
+In neue Line Pfard zu header hinzufÃ¼gen
 : C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\inc
 
-2. Project Eigenschaften -> Linker -> Allgemein -> Zusätzliche  Bibliothekverzeichnisse -> Bearbeiten- >
-In neue Line Pfard zu *.lib hinzufügen
+2. Project Eigenschaften -> Linker -> Allgemein -> ZusÃ¤tzliche  Bibliothekverzeichnisse -> Bearbeiten- >
+In neue Line Pfard zu *.lib hinzufÃ¼gen
 
 C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\Lib\x86
 ( $(QTDIR)\lib ) muss schon vorhandeln sein.
 
-3. Project Eigenschaften -> Linker -> Eingabe-> Zusätzliche  Abhängigkeiten-> Bearbeiten- >
+3. Project Eigenschaften -> Linker -> Eingabe-> ZusÃ¤tzliche  AbhÃ¤ngigkeiten-> Bearbeiten- >
 kinect20.lib
-( Müssen shon da sein 
+( MÃ¼ssen shon da sein 
 qtmaind.lib
 Qt5Cored.lib
 Qt5Guid.lib
