@@ -59,4 +59,4 @@ One alternative open tool is [OpenSim](http://simtk-confluence.stanford.edu:8080
 - Project doc:
     - https://www.fh-aachen.de/fileadmin/people/fb09_terstegge/SWE_16_17/Gruppe_13.pdf
 - Place:
-    - [HIA](http://www.hia.rwth-aachen.de/) 2.Stock Zimmer 2.19
+    - [HIA](http://www.hia.rwth-aachen.de/) 2nd floor [mediTEC Room 2.19](http://www.meditec.hia.rwth-aachen.de/en/chair/employees/) (contact supervisor Matías de la Fuente, AOR Dr.-Ing.)
