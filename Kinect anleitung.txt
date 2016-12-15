@@ -19,6 +19,8 @@ folgender Adresse:
 * Qt 5.7.1 (for VS 2015, Win 64 bit)
 -> http://download.qt.io/official_releases/qt/5.7/5.7.1/qt-opensource-windows-x86-msvc2015_64-5.7.1.exe
 
+More options can be found at [the "Download Qt Opensource" page](https://www.qt.io/download-open-source/)
+
 ## Get the Visual Studio integration
 
 Zur Integration in die Entwicklungsumgebung Visual Studio brauchen wir dann noch
@@ -26,6 +28,12 @@ folgendes Programmpaket:
 
 * Qt VS Add-in 1.2.4 (for VS 2013) -> http://download.qt.io/official_releases/vsaddin/qt-vs-addin-1.2.4-opensource.exe
 * Qt VS Add-in 2.0.0 (for VS 2015) -> http://download.qt.io/official_releases/vsaddin/qt-vs-tools-msvc2015-2.0.0.vsix
+
+## Bind the installed library into Visual Studio
+
+1. In Visual Studio, navigate Qt VS Tools -> Qt Options
+2. click on "Add", name can be arbitrary, look for a folder like "C:\\Qt\\Qt<YOUR_QT_VERSION>\\<YOUR_QT_VERSION>\\msvc<YOUR_VS_VERSION>", where you can find the required "qmake.exe". If it doesn’t complain, click on OK
+3. voilà there’s the new Qt entry, so click on OK and you should now be able to compile Qt stuff
 
 
 TODO :
