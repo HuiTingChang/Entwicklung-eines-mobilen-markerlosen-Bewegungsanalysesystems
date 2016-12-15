@@ -1,23 +1,35 @@
-How to create a c++  app with Qt and Kinekt support
+# How to create a c++  app with Qt and Kinekt support
+
+## Get Visual Studio
+
 Pre Install
 VisualStudio2013 / 2015
--> https://e5.onthehub.com/WebStore/OfferingDetails.aspx?o=631da0e7-2038-e311-93f6-
+-> e. g. from Microsoft Imagine: https://e5.onthehub.com/WebStore/OfferingDetails.aspx?o=631da0e7-2038-e311-93f6-
 b8ca3a5db7a1&pmv=00000000-0000-0000-0000-000000000000&ws=77000217-8b6f-e011-
 971f-0030487d8897&vsro=8
 
+## Get the opensource (LGPL) Qt5 library
+
 Weiter verwenden wir Qt5 als Bibliothek für die GUI Erstellung. Diese bekommt Ihr unter
 folgender Adresse:
-QT 5.6.0 (LPGL)
+
+* Qt 5.6.0 (for VS 2013, Win 32 bit)
 -> http://download.qt.io/official_releases/qt/5.6/5.6.0/qt-opensource-windows-x86-msvc2013-
 5.6.0.exe
+* Qt 5.7.1 (for VS 2015, Win 64 bit)
+-> http://download.qt.io/official_releases/qt/5.7/5.7.1/qt-opensource-windows-x86-msvc2015_64-5.7.1.exe
+
+## Get the Visual Studio integration
 
 Zur Integration in die Entwicklungsumgebung Visual Studio brauchen wir dann noch
 folgendes Programmpaket:
-QT VSAddin -> http://download.qt.io/official_releases/vsaddin/qt-vs-addin-1.2.4-opensource.exe
+
+* Qt VS Add-in 1.2.4 (for VS 2013) -> http://download.qt.io/official_releases/vsaddin/qt-vs-addin-1.2.4-opensource.exe
+* Qt VS Add-in 2.0.0 (for VS 2015) -> http://download.qt.io/official_releases/vsaddin/qt-vs-tools-msvc2015-2.0.0.vsix
 
 
 TODO :
-add Kinekt SDK
+add Kinekt SDK (see the [README](README.md) for the time being)
 
 
 
