@@ -8,6 +8,8 @@ VisualStudio2013 / 2015
 b8ca3a5db7a1&pmv=00000000-0000-0000-0000-000000000000&ws=77000217-8b6f-e011-
 971f-0030487d8897&vsro=8
 
+**Make sure to install (enable) Visual C++ 2015 Tools for Windows Desktop needed for Qt GUI projects!** 
+
 ## Get the opensource (LGPL) Qt5 library
 
 Weiter verwenden wir Qt5 als Bibliothek für die GUI Erstellung. Diese bekommt Ihr unter
