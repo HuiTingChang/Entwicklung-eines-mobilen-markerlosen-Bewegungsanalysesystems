@@ -1,4 +1,4 @@
-how to create a c++  app with Qt and Kinekt support
+How to create a c++  app with Qt and Kinekt support
 Pre Install
 VisualStudio2013 / 2015
 -> https://e5.onthehub.com/WebStore/OfferingDetails.aspx?o=631da0e7-2038-e311-93f6-
@@ -17,16 +17,16 @@ QT VSAddin -> http://download.qt.io/official_releases/vsaddin/qt-vs-addin-1.2.4-
 
 
 TODO :
-add Kinekt SDK 
+add Kinekt SDK
 
 
 
 Create a project
 
-1. Datei -> Neu-> Vorlagen-> Visual Basic -> Qt5 Projekt -> QtApplication -> Check points ( Core, GUI, Widgets) -> Weiter -> Basis Klasse -> Qwidget auswählen 
+1. Datei -> Neu-> Vorlagen-> Visual Basic -> Qt5 Projekt -> QtApplication -> Check points ( Core, GUI, Widgets) -> Weiter -> Basis Klasse -> Qwidget auswählen
 
-Linken 
-1. Project Eigenschaften -> C/C++  -> Allgemein -> Zusätzliche Includeverzeichisse ->Bearbeiten -> 
+Linken
+1. Project Eigenschaften -> C/C++  -> Allgemein -> Zusätzliche Includeverzeichisse ->Bearbeiten ->
 In neue Line Pfard zu header hinzufügen
 : C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\inc
 
@@ -38,12 +38,12 @@ C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\Lib\x86
 
 3. Project Eigenschaften -> Linker -> Eingabe-> Zusätzliche  Abhängigkeiten-> Bearbeiten- >
 kinect20.lib
-( Müssen shon da sein 
+( Müssen shon da sein
 qtmaind.lib
 Qt5Cored.lib
 Qt5Guid.lib
-Qt5Widgetsd.lib) 
-4. In header 
+Qt5Widgetsd.lib)
+4. In header
 #include <Kinect.h>
 
 Mehr Beispile hier:
