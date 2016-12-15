@@ -18,7 +18,7 @@ QT VSAddin -> http://download.qt.io/official_releases/vsaddin/qt-vs-addin-1.2.4-
 
 TODO :
 add Kinekt SDK 
-
+fdfdfdfdf
 
 
 Create a project
