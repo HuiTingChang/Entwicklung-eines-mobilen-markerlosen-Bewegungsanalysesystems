@@ -1,44 +1,65 @@
-how to create a c++  app with Qt and Kinekt support
+# How to create a c++  app with Qt and Kinekt support
+
+## Get Visual Studio
+
 Pre Install
 VisualStudio2013 / 2015
--> https://e5.onthehub.com/WebStore/OfferingDetails.aspx?o=631da0e7-2038-e311-93f6-
+-> e. g. from Microsoft Imagine: https://e5.onthehub.com/WebStore/OfferingDetails.aspx?o=631da0e7-2038-e311-93f6-
 b8ca3a5db7a1&pmv=00000000-0000-0000-0000-000000000000&ws=77000217-8b6f-e011-
 971f-0030487d8897&vsro=8
 
-Weiter verwenden wir Qt5 als Bibliothek für die GUI Erstellung. Diese bekommt Ihr unter
+**Make sure to install (enable) Visual C++ 2015 Tools for Windows Desktop needed for Qt GUI projects!** 
+
+## Get the opensource (LGPL) Qt5 library
+
+Weiter verwenden wir Qt5 als Bibliothek fÃ¼r die GUI Erstellung. Diese bekommt Ihr unter
 folgender Adresse:
-QT 5.6.0 (LPGL)
+
+* Qt 5.6.0 (for VS 2013, Win 32 bit)
 -> http://download.qt.io/official_releases/qt/5.6/5.6.0/qt-opensource-windows-x86-msvc2013-
 5.6.0.exe
+* Qt 5.7.1 (for VS 2015, Win 64 bit)
+-> http://download.qt.io/official_releases/qt/5.7/5.7.1/qt-opensource-windows-x86-msvc2015_64-5.7.1.exe
+
+More options can be found at [the "Download Qt Opensource" page](https://www.qt.io/download-open-source/)
+
+## Get the Visual Studio integration
 
 Zur Integration in die Entwicklungsumgebung Visual Studio brauchen wir dann noch
 folgendes Programmpaket:
-QT VSAddin -> http://download.qt.io/official_releases/vsaddin/qt-vs-addin-1.2.4-opensource.exe
+
+* Qt VS Add-in 1.2.4 (for VS 2013) -> http://download.qt.io/official_releases/vsaddin/qt-vs-addin-1.2.4-opensource.exe
+* Qt VS Add-in 2.0.0 (for VS 2015) -> http://download.qt.io/official_releases/vsaddin/qt-vs-tools-msvc2015-2.0.0.vsix
+
+## Bind the installed library into Visual Studio
+
+1. In Visual Studio, navigate Qt VS Tools -> Qt Options
+2. click on "Add", name can be arbitrary, look for a folder like "C:\\Qt\\Qt<YOUR_QT_VERSION>\\<YOUR_QT_VERSION>\\msvc<YOUR_VS_VERSION>", where you can find the required "qmake.exe". If it doesnâ€™t complain, click on OK
+3. voilÃ  thereâ€™s the new Qt entry, so click on OK and you should now be able to compile Qt stuff
 
 
 TODO :
-add Kinekt SDK 
-fdfdfdfdf
+add Kinekt SDK (see the [README](README.md) for the time being)
 
 
 Create a project
 
-1. Datei -> Neu-> Vorlagen-> Visual Basic -> Qt5 Projekt -> QtApplication -> Check points ( Core, GUI, Widgets) -> Weiter -> Basis Klasse -> Qwidget auswählen 
+1. Datei -> Neu-> Vorlagen-> Visual Basic -> Qt5 Projekt -> QtApplication -> Check points ( Core, GUI, Widgets) -> Weiter -> Basis Klasse -> Qwidget auswÃ¤hlen 
 
 Linken 
-1. Project Eigenschaften -> C/C++  -> Allgemein -> Zusätzliche Includeverzeichisse ->Bearbeiten -> 
-In neue Line Pfard zu header hinzufügen
+1. Project Eigenschaften -> C/C++  -> Allgemein -> ZusÃ¤tzliche Includeverzeichisse ->Bearbeiten -> 
+In neue Line Pfard zu header hinzufÃ¼gen
 : C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\inc
 
-2. Project Eigenschaften -> Linker -> Allgemein -> Zusätzliche  Bibliothekverzeichnisse -> Bearbeiten- >
-In neue Line Pfard zu *.lib hinzufügen
+2. Project Eigenschaften -> Linker -> Allgemein -> ZusÃ¤tzliche  Bibliothekverzeichnisse -> Bearbeiten- >
+In neue Line Pfard zu *.lib hinzufÃ¼gen
 
 C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\Lib\x86
 ( $(QTDIR)\lib ) muss schon vorhandeln sein.
 
-3. Project Eigenschaften -> Linker -> Eingabe-> Zusätzliche  Abhängigkeiten-> Bearbeiten- >
+3. Project Eigenschaften -> Linker -> Eingabe-> ZusÃ¤tzliche  AbhÃ¤ngigkeiten-> Bearbeiten- >
 kinect20.lib
-( Müssen shon da sein 
+( MÃ¼ssen shon da sein 
 qtmaind.lib
 Qt5Cored.lib
 Qt5Guid.lib
