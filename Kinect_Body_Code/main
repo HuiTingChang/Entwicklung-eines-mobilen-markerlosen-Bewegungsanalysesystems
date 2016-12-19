@@ -1,0 +1,18 @@
+#include "trial.h"
+#include <QtWidgets/QApplication>
+
+int main(int argc, char *argv[])
+{
+	QApplication a(argc, argv);
+	try
+	{
+		trial w;
+		w.run();
+	}
+	catch (std::exception& ex)
+	{
+		std::cout << ex.what() << std::endl;
+	}
+
+	return a.exec();
+}
