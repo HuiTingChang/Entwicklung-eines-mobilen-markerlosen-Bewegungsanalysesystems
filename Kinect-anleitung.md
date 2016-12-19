@@ -32,7 +32,7 @@ folgendes Programmpaket:
 ## Bind the installed library into Visual Studio
 
 1. In Visual Studio, navigate Qt VS Tools -> Qt Options
-2. click on "Add", name can be arbitrary, look for a folder like "C:\\Qt\\Qt<YOUR_QT_VERSION>\\<YOUR_QT_VERSION>\\msvc<YOUR_VS_VERSION>", where you can find the required "qmake.exe". If it doesn’t complain, click on OK
+2. click on "Add", name can be arbitrary, look for a folder like `C:\Qt\Qt<YOUR_QT_VERSION>\<YOUR_QT_VERSION>\msvc<YOUR_VS_VERSION>`, where you can find the required `qmake.exe`. If it doesn’t complain, click on OK
 3. voilà there’s the new Qt entry, so click on OK and you should now be able to compile Qt stuff
 
 
@@ -48,21 +48,23 @@ add Kinekt SDK (see the [README](README.md) for the time being)
 
 1.  Project Eigenschaften -> C/C++  -> Allgemein -> Zusätzliche Includeverzeichisse ->Bearbeiten -> 
     In neue Line Pfard zu header hinzufügen
-    C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\inc
+    `C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\inc`
     
 2.  Project Eigenschaften -> Linker -> Allgemein -> Zusätzliche  Bibliothekverzeichnisse -> Bearbeiten- >
     In neue Line Pfard zu *.lib hinzufügen
     
-    C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\Lib\x86
-    ( $(QTDIR)\lib ) muss schon vorhandeln sein.
+    `C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\Lib\x86`
+    
+    ( `$(QTDIR)\lib`  muss schon vorhandeln sein)
    
 3.  Project Eigenschaften -> Linker -> Eingabe-> Zusätzliche  Abhängigkeiten-> Bearbeiten- >
-    kinect20.lib
+    `kinect20.lib`
+    
     ( Müssen shon da sein 
-    qtmaind.lib
-    Qt5Cored.lib
-    Qt5Guid.lib
-    Qt5Widgetsd.lib) 
+    `qtmaind.lib`
+    `Qt5Cored.lib`
+    `Qt5Guid.lib`
+    `Qt5Widgetsd.lib`) 
 4.  In header 
     
     ```cpp
