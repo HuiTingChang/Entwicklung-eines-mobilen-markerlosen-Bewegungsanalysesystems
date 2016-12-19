@@ -4,9 +4,8 @@
 
 Pre Install
 VisualStudio2013 / 2015
--> e. g. from Microsoft Imagine: https://e5.onthehub.com/WebStore/OfferingDetails.aspx?o=631da0e7-2038-e311-93f6-
-b8ca3a5db7a1&pmv=00000000-0000-0000-0000-000000000000&ws=77000217-8b6f-e011-
-971f-0030487d8897&vsro=8
+-> e. g. from Microsoft Imagine:
+https://e5.onthehub.com/WebStore/OfferingDetails.aspx?o=631da0e7-2038-e311-93f6-b8ca3a5db7a1&pmv=00000000-0000-0000-0000-000000000000&ws=77000217-8b6f-e011-971f-0030487d8897&vsro=8
 
 **Make sure to install (enable) Visual C++ 2015 Tools for Windows Desktop needed for Qt GUI projects!** 
 
@@ -16,8 +15,7 @@ Weiter verwenden wir Qt5 als Bibliothek für die GUI Erstellung. Diese bekommt I
 folgender Adresse:
 
 * Qt 5.6.0 (for VS 2013, Win 32 bit)
--> http://download.qt.io/official_releases/qt/5.6/5.6.0/qt-opensource-windows-x86-msvc2013-
-5.6.0.exe
+-> http://download.qt.io/official_releases/qt/5.6/5.6.0/qt-opensource-windows-x86-msvc2013-5.6.0.exe
 * Qt 5.7.1 (for VS 2015, Win 64 bit)
 -> http://download.qt.io/official_releases/qt/5.7/5.7.1/qt-opensource-windows-x86-msvc2015_64-5.7.1.exe
 
@@ -42,36 +40,42 @@ TODO :
 add Kinekt SDK (see the [README](README.md) for the time being)
 
 
-Create a project
+## Create a project
 
 1. Datei -> Neu-> Vorlagen-> Visual Basic -> Qt5 Projekt -> QtApplication -> Check points ( Core, GUI, Widgets) -> Weiter -> Basis Klasse -> Qwidget auswählen 
 
-Linken 
-1. Project Eigenschaften -> C/C++  -> Allgemein -> Zusätzliche Includeverzeichisse ->Bearbeiten -> 
-In neue Line Pfard zu header hinzufügen
-: C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\inc
+## Linken
 
-2. Project Eigenschaften -> Linker -> Allgemein -> Zusätzliche  Bibliothekverzeichnisse -> Bearbeiten- >
-In neue Line Pfard zu *.lib hinzufügen
-
-C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\Lib\x86
-( $(QTDIR)\lib ) muss schon vorhandeln sein.
-
-3. Project Eigenschaften -> Linker -> Eingabe-> Zusätzliche  Abhängigkeiten-> Bearbeiten- >
-kinect20.lib
-( Müssen shon da sein 
-qtmaind.lib
-Qt5Cored.lib
-Qt5Guid.lib
-Qt5Widgetsd.lib) 
-4. In header 
+1.  Project Eigenschaften -> C/C++  -> Allgemein -> Zusätzliche Includeverzeichisse ->Bearbeiten -> 
+    In neue Line Pfard zu header hinzufügen
+    C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\inc
+    
+2.  Project Eigenschaften -> Linker -> Allgemein -> Zusätzliche  Bibliothekverzeichnisse -> Bearbeiten- >
+    In neue Line Pfard zu *.lib hinzufügen
+    
+    C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\Lib\x86
+    ( $(QTDIR)\lib ) muss schon vorhandeln sein.
+   
+3.  Project Eigenschaften -> Linker -> Eingabe-> Zusätzliche  Abhängigkeiten-> Bearbeiten- >
+    kinect20.lib
+    ( Müssen shon da sein 
+    qtmaind.lib
+    Qt5Cored.lib
+    Qt5Guid.lib
+    Qt5Widgetsd.lib) 
+4.  In header 
+    
+    ```cpp
 #include <Kinect.h>
+   ```
+    
+    Mehr Beispile hier:
+    https://github.com/UnaNancyOwen/Kinect2Sample
 
-Mehr Beispile hier:
-https://github.com/UnaNancyOwen/Kinect2Sample
 
+## Testqt.h
 
-Testqt.h
+```cpp
 #ifndef TESTQT_H
 #define TESTQT_H
 
@@ -105,9 +109,12 @@ private:
 };
 
 #endif // TESTQT_H
+```
 
 
-Testqt.cpp
+## Testqt.cpp
+
+```cpp
 #include "testqt.h"
 #include <iostream>
 TestQT::TestQT(QWidget *parent)
@@ -189,9 +196,11 @@ HRESULT TestQT::InitializeDefaultSensor()
 
 	return hr;
 }
+```
 
-Main
+## Main
 
+```cpp
 #include "testqt.h"
 #include <QtWidgets/QApplication>
 
@@ -202,3 +211,4 @@ int main(int argc, char *argv[])
 	w.show();
 	return a.exec();
 }
+```
