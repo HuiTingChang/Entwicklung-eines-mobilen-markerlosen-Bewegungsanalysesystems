@@ -21,6 +21,14 @@ folgender Adresse:
 
 More options can be found at [the "Download Qt Opensource" page](https://www.qt.io/download-open-source/)
 
+## Get the OpenCV libraries for Image Processing
+
+Zur vollständigen Installation von OpenCV Bibliotheken und ihre Einbindung in VS
+wird die Durchführung der entsprechenden Schritte unter dem folgenden Link empfohlen
+
+* How to Install OpenCV 2.4.11 in Visual Studio C++ 2013
+-> https://marcomuraresearch.wordpress.com/2015/04/16/install-opencv-visual-studio/
+
 ## Get the Visual Studio integration
 
 Zur Integration in die Entwicklungsumgebung Visual Studio brauchen wir dann noch
