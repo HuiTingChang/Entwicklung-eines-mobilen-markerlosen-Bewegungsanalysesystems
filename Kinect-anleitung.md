@@ -44,8 +44,25 @@ folgendes Programmpaket:
 3. voilà there’s the new Qt entry, so click on OK and you should now be able to compile Qt stuff
 
 
-TODO :
-add Kinekt SDK (see the [README](README.md) for the time being)
+
+Kinect Sensor v2.0 (for XBox One, with Windows adapter)
+
+Get started by installing  Kinect SDK 2.0 (ships with Runtime 2.0) and following the Kinect for Windows Programming Guide. 
+https://msdn.microsoft.com/en-us/library/dn782037.aspx
+
+Hardware Requirements:
+USB 3.0, preferably Intel or NEC host controller
+
+Required drivers
+We’ll use this: Kinect for Windows Runtime v2.0
+https://www.microsoft.com/en-us/download/details.aspx?id=44559
+runs on Windows 8, 8.1, 10 
+
+IDE
+We’ll use this: Kinect for Windows SDK v2.0
+https://www.microsoft.com/en-us/download/details.aspx?id=44561
+examples can be found at
+https://github.com/UnaNancyOwen/Kinect2Sample
 
 
 ## Create a project
