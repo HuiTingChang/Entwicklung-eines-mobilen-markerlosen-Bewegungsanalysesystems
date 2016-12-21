@@ -1,5 +1,13 @@
 # How to create a c++  app with Qt and Kinekt support
 
+This procedure will make a sample C++ app with Qt using Kinect body functions.
+
+Original build instructions can be found at the [UnaNancyOwen/Kinect2Sample repository]
+(https://github.com/UnaNancyOwen/Kinect2Sample/blob/master/HOWTOBUILD.md).
+
+Sample apps based on the code from above repository are licensed under the
+[MIT License](https://github.com/UnaNancyOwen/Kinect2Sample/blob/master/LICENSE).
+
 ## Get Visual Studio
 
 Pre Install
