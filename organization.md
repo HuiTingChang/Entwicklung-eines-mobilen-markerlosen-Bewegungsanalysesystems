@@ -1,8 +1,9 @@
-## Regeln für die Zusammenarbeit:
+## Regeln für die Zusammenarbeit
 
-1- Protokoll: der jenige der das Protokoll schreibt muss es spätestens am folgenden Tag hochgeladen werden. 
-2- Reihenfolge für das protokoll: Ina-Gilbert-Nuno-Yushin-Yuliia-HuiTing
-3- Es gibt keine Pflichthausaufgaben außer Protokoll hochladen.
+1. Protokoll
+    * muss von denjenigen, die das Protokoll schreiben, spätestens am folgenden Tag hochgeladen werden. 
+2. Reihenfolge für das Protokoll: Inna — Gilbert — Nuno — Yushin — Yuliia — Hui-Ting
+3. Es gibt keine Pflichthausaufgaben außer das Hochladen eines Protokolls.
 
 
 ## Regeln/Vorschläge für die Entwirklung:
