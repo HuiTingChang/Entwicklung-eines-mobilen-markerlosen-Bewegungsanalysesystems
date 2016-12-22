@@ -37,9 +37,8 @@ Get started by installing Visual Studio, Kinect SDK 2.0 (ships with Runtime 2.0)
 ## Wii Balance Board
 
 - Required drivers
-    - probably best and free and open: [xwiimote](https://dvdhrm.github.io/xwiimote/)
-    - for other systems on [wiibrew](http://wiibrew.org/wiki/Wiimote/Library)
-
+    - https://github.com/rpavlik/wiiuse (CMake required) 
+    
 ### AnyBody
 
 Multi-body human biomechanics simulation tool; Some researchers at the HIA are interested in using in the future.
