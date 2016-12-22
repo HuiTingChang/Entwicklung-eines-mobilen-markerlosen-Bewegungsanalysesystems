@@ -26,6 +26,7 @@ folgender Adresse:
 -> http://download.qt.io/official_releases/qt/5.6/5.6.0/qt-opensource-windows-x86-msvc2013-5.6.0.exe
 * Qt 5.7.1 (for VS 2015, Win 64 bit)
 -> http://download.qt.io/official_releases/qt/5.7/5.7.1/qt-opensource-windows-x86-msvc2015_64-5.7.1.exe
+* Qt 5.4.1 (for VS 2013, Win 64 bit)
 
 More options can be found at [the "Download Qt Opensource" page](https://www.qt.io/download-open-source/)
 
