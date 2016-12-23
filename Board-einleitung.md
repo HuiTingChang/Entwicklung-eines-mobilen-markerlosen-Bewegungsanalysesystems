@@ -4,6 +4,14 @@
 	https://github.com/rpavlik/wiiuse
 	Für Kompelieren braucht man CMake programm
 	
+	Now it’s included as submodule in directory `inc/wiiuse`. Just run (in the
+	Gruppe-13 root directory)
+	
+	```
+	git submodule init
+	git submodule update
+	```
+	
 2.  Linken ( Add verfahren) 
 	
 	C/C++-> Allgemein -> 
