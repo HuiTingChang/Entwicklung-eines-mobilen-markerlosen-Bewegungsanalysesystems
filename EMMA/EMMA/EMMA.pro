@@ -11,6 +11,10 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = EMMA
 TEMPLATE = app
 
+debug { DESTDIR = $${OUT_PWD}/debug }
+release { DESTDIR = $${OUT_PWD}/release }
+debug_and_release { DESTDIR = $${OUT_PWD}/bin }
+
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
