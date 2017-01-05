@@ -48,3 +48,48 @@ win32 {
     QMAKE_EXTRA_TARGETS += dllcopy
     PRE_TARGETDEPS += $$WIIDLL_TARGET
 }
+
+win32:INCLUDEPATH += "$$(KINECTSDK20_DIR)/inc"\
+        $$(OPENCV_DIR)/build/include
+
+ARC = x64
+
+OPENCV_VER = $$(OPENCV_VER)
+
+equals(OPENCV_VER, 310) {
+        OPENCV_LIBDIR = $$(OPENCV_DIR)/build/$${ARC}/vc14/lib
+} else {
+        OPENCV_LIBDIR = $$(OPENCV_DIR)/build/$${ARC}/vc12/lib
+}
+
+debug {
+        LIB_SUFFIX = d
+} else {
+        LIB_SUFFIX = ""
+}
+
+equals(OPENCV_VER, 310) {
+        win32:LIBS += "$$(KINECTSDK20_DIR)/Lib/$${ARC}/Kinect20.lib"\
+                $${OPENCV_LIBDIR}/opencv_world$$(OPENCV_VER)$${LIB_SUFFIX}.lib
+} else {
+        win32:LIBS += "$$(KINECTSDK20_DIR)/Lib/$${ARC}/Kinect20.lib"\
+                $${OPENCV_LIBDIR}/opencv_calib3d$$(OPENCV_VER)$${LIB_SUFFIX}.lib\
+                $${OPENCV_LIBDIR}/opencv_contrib$$(OPENCV_VER)$${LIB_SUFFIX}.lib\
+                $${OPENCV_LIBDIR}/opencv_core$$(OPENCV_VER)$${LIB_SUFFIX}.lib\
+                $${OPENCV_LIBDIR}/opencv_features2d$$(OPENCV_VER)$${LIB_SUFFIX}.lib\
+                $${OPENCV_LIBDIR}/opencv_flann$$(OPENCV_VER)$${LIB_SUFFIX}.lib\
+                $${OPENCV_LIBDIR}/opencv_gpu$$(OPENCV_VER)$${LIB_SUFFIX}.lib\
+                $${OPENCV_LIBDIR}/opencv_highgui$$(OPENCV_VER)$${LIB_SUFFIX}.lib\
+                $${OPENCV_LIBDIR}/opencv_imgproc$$(OPENCV_VER)$${LIB_SUFFIX}.lib\
+                $${OPENCV_LIBDIR}/opencv_legacy$$(OPENCV_VER)$${LIB_SUFFIX}.lib\
+                $${OPENCV_LIBDIR}/opencv_ml$$(OPENCV_VER)$${LIB_SUFFIX}.lib\
+                $${OPENCV_LIBDIR}/opencv_nonfree$$(OPENCV_VER)$${LIB_SUFFIX}.lib\
+                $${OPENCV_LIBDIR}/opencv_objdetect$$(OPENCV_VER)$${LIB_SUFFIX}.lib\
+                $${OPENCV_LIBDIR}/opencv_ocl$$(OPENCV_VER)$${LIB_SUFFIX}.lib\
+                $${OPENCV_LIBDIR}/opencv_photo$$(OPENCV_VER)$${LIB_SUFFIX}.lib\
+                $${OPENCV_LIBDIR}/opencv_stitching$$(OPENCV_VER)$${LIB_SUFFIX}.lib\
+                $${OPENCV_LIBDIR}/opencv_superres$$(OPENCV_VER)$${LIB_SUFFIX}.lib\
+                $${OPENCV_LIBDIR}/opencv_ts$$(OPENCV_VER)$${LIB_SUFFIX}.lib\
+                $${OPENCV_LIBDIR}/opencv_video$$(OPENCV_VER)$${LIB_SUFFIX}.lib\
+                $${OPENCV_LIBDIR}/opencv_videostab$$(OPENCV_VER)$${LIB_SUFFIX}.lib
+}
