@@ -30,7 +30,8 @@ void Capture::timerEvent(QTimerEvent * ev) {
 	if (ev->timerId() != m_timer.timerId()) return;
 
 	//Mat frame =cv::imread("C:/SWE 16_17/Gruppe-13/Kinect_Body_Code/Body_Widget/penguin2.jpg");
-	Mat frame = kinect.run();
+	double angle = 0;
+	Mat frame = kinect.run(&angle);
 
 	if (frame.empty())
 	{

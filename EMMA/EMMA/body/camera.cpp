@@ -21,7 +21,7 @@ Kinect::~Kinect()
 }
 
 // Processing
-Mat Kinect::run()
+Mat Kinect::run(double* angle)
 {
     // Main Loop
 //    while( true )
@@ -31,6 +31,9 @@ Mat Kinect::run()
 
         // Draw Data
         draw();
+
+		// Angle calc
+		angleCalc(angle);
 
         // Send Data
         return show();
@@ -410,4 +413,11 @@ inline Mat Kinect::showBody()
 
 	// Return image
 	return resizeMat;
+}
+
+void Kinect::angleCalc(double* angle)
+{
+	//jposition
+
+		//angle=
 }

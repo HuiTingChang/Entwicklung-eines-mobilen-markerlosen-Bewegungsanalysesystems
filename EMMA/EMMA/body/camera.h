@@ -48,7 +48,7 @@ public:
     ~Kinect();
 
     // Processing
-    Mat run();
+    Mat run(double* angle);
 
 private:
     // Initialize
@@ -99,6 +99,9 @@ private:
 
     // Show Body
     inline Mat showBody();
+
+	// Angle Calc
+	void angleCalc(double* angle);
 };
 
 #endif // __CAMERA__
