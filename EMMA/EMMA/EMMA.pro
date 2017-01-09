@@ -31,16 +31,28 @@ SOURCES += main.cpp\
         mainwindow.cpp \
         BalanceBoard.cpp \
         ApplicationData.cpp \
-        BalanceBoardThread.cpp
+        BalanceBoardThread.cpp \
+		./body_widget.cpp \
+		./camera.cpp \
+		./cvCapture.cpp \
+		./cvConverter.cpp \
+		./qimagelabel.cpp
 
 HEADERS  += mainwindow.h \
         BalanceBoard.h \
         ApplicationData.h \
-        BalanceBoardThread.h
+        BalanceBoardThread.h \
+		./body_widget.h \
+		./camera.h \
+		./cvCapture.h \
+		./cvConverter.h \
+		./qimagelabel.h \
+		./util.h
 
-FORMS    += mainwindow.ui
+FORMS    += emma.ui
 
-INCLUDEPATH += ../../inc/wiiuse/src
+INCLUDEPATH += ../../inc/wiiuse/src \
+		body
 
 unix:LIBS += -static -L../../inc/wiiuse/build/src -llibwiiuse.so
 
