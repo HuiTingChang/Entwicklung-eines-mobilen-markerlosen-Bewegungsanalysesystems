@@ -28,9 +28,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+        BalanceBoard.cpp \
+        ApplicationData.cpp \
+        BalanceBoardThread.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+        BalanceBoard.h \
+        ApplicationData.h \
+        BalanceBoardThread.h
 
 FORMS    += mainwindow.ui
 
