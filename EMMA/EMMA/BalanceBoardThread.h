@@ -19,7 +19,7 @@ public:
 	bool initializeBoard();
 	void work(struct wiimote_t** parameter);
 	void handle_event(struct wiimote_t* wm);
-
+	QPoint centerOfPressure(float tl, float tr, float bl, float br);
 
 	void run();
 

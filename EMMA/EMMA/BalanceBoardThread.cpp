@@ -95,7 +95,14 @@ void BalanceBoardThread::work(struct wiimote_t** wimotes){
 
 
 
+QPoint BalanceBoardThread::centerOfPressure(float tl, float tr, float bl, float br ){
+	int L = 433; 
+	int W = 228; 
+	int cX = L / 2 * ((tr + br) - (tl + bl)) / (tr + br + tl + bl);
+	int cY = W / 2 * ((tr + tl) - (br + bl)) / (tr + br + tl + bl);
 
+	return QPoint( cX, cY ) ;
+}
 
 
 void BalanceBoardThread::handle_event(struct wiimote_t* wm)
@@ -107,11 +114,17 @@ void BalanceBoardThread::handle_event(struct wiimote_t* wm)
 		float x = ((wb->tr + wb->br) / total) * 2 - 1;
 
 		float y = ((wb->tl + wb->tr) / total) * 2 - 1;
-		qDebug() << "Weight: " << total;
 
+		QPoint centrOfMass = centerOfPressure(wb->tl, wb->tr, wb->bl, wb->br);
+		qDebug() << "Center of pressure: " << " X : " << centrOfMass.x() << " Y : " << centrOfMass.y();
+
+
+		/*
+		qDebug() << "Weight: " << total;
+		
 		qDebug() << "Interpolated weight:: " << wb->tl << "  " << wb->tr << "  " << wb->bl << "  " << wb->br;
 
 		qDebug() << "Raw: " << total << "  " << wb->rtl << "  " << wb->rtr << "  " << wb->rbl << "  " << wb->rbr;
-
+		*/
 	}
 }

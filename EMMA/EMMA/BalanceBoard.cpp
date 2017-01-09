@@ -15,6 +15,7 @@ BalanceBoard::~BalanceBoard()
 {
 }
 
+ 
 void BalanceBoard::startBoard(){
 
 	b = new BalanceBoardThread(t_data);
@@ -27,6 +28,6 @@ void BalanceBoard::startBoard(){
 
 void BalanceBoard::onProgressChanged(){
 
-	qDebug() << "working";
+	qDebug() << "working" << "Schwerpunkt ";
 
 }

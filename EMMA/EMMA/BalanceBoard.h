@@ -14,6 +14,8 @@ public:
 	void startBoard();
 	BalanceBoardThread* b;
 
+
+	
 	private slots:
 	void onProgressChanged();
 private:
