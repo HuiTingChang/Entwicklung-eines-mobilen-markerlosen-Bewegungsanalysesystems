@@ -5,6 +5,7 @@
 #include <chrono>
 
 #include <ppl.h>
+#include <math.h>
 
 // Constructor
 Kinect::Kinect()
@@ -33,8 +34,12 @@ Mat Kinect::run(double* angle)
         // Draw Data
         draw();
 
+		// test joint points for calculating the angle of right knee
+		JointType j1 = JointType_HipRight;
+		JointType j2 = JointType_KneeRight;
+		JointType j3 = JointType_AnkleRight;
 		// Angle calc
-		angleCalc(angle);
+		calcAngle(j1, j2, j3, angle);
 
         // Send Data
         return show();
@@ -416,9 +421,20 @@ inline Mat Kinect::showBody()
 	return resizeMat;
 }
 
-void Kinect::angleCalc(double* angle)
+void Kinect::calcAngle(const JointType j1, const JointType j2, const JointType j3, double* angle)
 {
-	//jposition
+	std::array<float, 3> v1_XYZ = { (jposition[j1].X - jposition[j2].X), (jposition[j1].Y - jposition[j2].Y), (jposition[j1].Z - jposition[j2].Z) };
+	std::array<float, 3> v2_XYZ = { (jposition[j3].X - jposition[j2].X), (jposition[j3].Y - jposition[j2].Y), (jposition[j3].Z - jposition[j2].Z) };
+	double inner_product = calcInnerProduct(v1_XYZ, v2_XYZ);
+	double v1_length = calcVectorLength(v1_XYZ);
+	double v2_length = calcVectorLength(v2_XYZ);
+	//angle=
+}
 
-		//angle=
+double calcInnerProduct(const std::array<float, 3> v1, const std::array<float, 3> v2){
+	return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
+}
+
+double calcVectorLength(const std::array<float, 3> v){
+	return sqrt(pow(v[0], 2) + pow(v[1], 2) + pow(v[3], 2));
 }

@@ -100,8 +100,14 @@ private:
     // Show Body
     inline Mat showBody();
 
-	// Angle Calc
-	void angleCalc(double* angle);
+	// Calculates angle using the 3 given joints: j1, j2 and j3
+	void calcAngle(const JointType j1, const JointType j2, const JointType j3, double* angle);
+
+	// Calculates inner product of 2 3-D vectors
+	double calcInnerProduct(const std::array<float, 3> v1, const std::array<float, 3> v2);
+	
+	// Calculates the lenth of a 3-D vector
+	double calcVectorLength(const std::array<float, 3> v);
 };
 
 #endif // __CAMERA__
