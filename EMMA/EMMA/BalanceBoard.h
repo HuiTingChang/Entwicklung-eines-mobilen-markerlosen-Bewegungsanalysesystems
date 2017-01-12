@@ -1,6 +1,6 @@
 #pragma once
 #include "BalanceBoardThread.h"
-#include "ui_mainwindow.h"
+#include "ui_emma.h"
 class BalanceBoard	: public QWidget
 {
 	Q_OBJECT
@@ -19,7 +19,7 @@ public:
 	private slots:
 	void onProgressChanged();
 private:
-	Ui::MainWindow ui;   
+	Ui::Body_WidgetClass ui;
 
 
 };

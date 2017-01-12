@@ -28,31 +28,30 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
         BalanceBoard.cpp \
         ApplicationData.cpp \
         BalanceBoardThread.cpp \
-		./body_widget.cpp \
-		./camera.cpp \
-		./cvCapture.cpp \
-		./cvConverter.cpp \
-		./qimagelabel.cpp
+        body/body_widget.cpp \
+        body/camera.cpp \
+        body/cvCapture.cpp \
+        body/cvConverter.cpp \
+        body/qimagelabel.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  += \
         BalanceBoard.h \
         ApplicationData.h \
         BalanceBoardThread.h \
-		./body_widget.h \
-		./camera.h \
-		./cvCapture.h \
-		./cvConverter.h \
-		./qimagelabel.h \
-		./util.h
+        body/body_widget.h \
+        body/camera.h \
+        body/cvCapture.h \
+        body/cvConverter.h \
+        body/qimagelabel.h \
+        body/util.h
 
 FORMS    += emma.ui
 
 INCLUDEPATH += ../../inc/wiiuse/src \
-		body
+	body
 
 unix:LIBS += -static -L../../inc/wiiuse/build/src -llibwiiuse.so
 
@@ -70,7 +69,10 @@ win32 {
 win32:INCLUDEPATH += "$$(KINECTSDK20_DIR)/inc"\
         $$(OPENCV_DIR)/build/include
 
-ARC = x64
+# set environment variable ARC to x86 if you need
+# in all other cases we use x64
+ARC = $$(ARC)
+!equals(ARC, x86):ARC = x64
 
 OPENCV_VER = $$(OPENCV_VER)
 

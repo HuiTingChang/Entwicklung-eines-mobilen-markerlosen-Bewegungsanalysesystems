@@ -1,8 +1,7 @@
-#include "mainwindow.h"
 #include <QApplication>
 #include "ApplicationData.h"
 #include "BalanceBoard.h"
-#include "body/body_widget.h"
+#include "body_widget.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -11,7 +10,7 @@ int main(int argc, char *argv[])
 
 	ApplicationData* data;
 	data = new ApplicationData();
-	BalanceBoard board(data);
+	//BalanceBoard board(data);
 
 
 	
