@@ -9,7 +9,8 @@
 // Constructor
 Kinect::Kinect()
 {
-    // Initialize
+	bodies = { { nullptr } };
+	// Initialize
     initialize();
 }
 

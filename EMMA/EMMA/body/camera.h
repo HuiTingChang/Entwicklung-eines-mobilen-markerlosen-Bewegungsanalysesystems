@@ -33,7 +33,7 @@ private:
     cv::Mat colorMat;
 
     // Body Buffer
-	std::array<IBody*, BODY_COUNT> bodies = { { nullptr } };
+	std::array<IBody*, BODY_COUNT> bodies;
     std::array<cv::Vec3b, BODY_COUNT> colors;
 
 	// Joint Positions
