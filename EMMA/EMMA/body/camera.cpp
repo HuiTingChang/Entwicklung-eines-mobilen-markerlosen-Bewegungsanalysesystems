@@ -3,7 +3,7 @@
 
 #include <thread>
 #include <chrono>
-
+#include "qvector3d.h"
 #include <ppl.h>
 #include <math.h>
 
@@ -39,7 +39,7 @@ Mat Kinect::run(double* angle)
 		JointType j2 = JointType_KneeRight;
 		JointType j3 = JointType_AnkleRight;
 		// Angle calc
-		calcAngle(j1, j2, j3, angle);
+	//	calcAngle(j1, j2, j3, angle);
 
         // Send Data
         return show();
@@ -421,20 +421,23 @@ inline Mat Kinect::showBody()
 	return resizeMat;
 }
 
-void Kinect::calcAngle(const JointType j1, const JointType j2, const JointType j3, double* angle)
-{
-	std::array<float, 3> v1_XYZ = { (jposition[j1].X - jposition[j2].X), (jposition[j1].Y - jposition[j2].Y), (jposition[j1].Z - jposition[j2].Z) };
-	std::array<float, 3> v2_XYZ = { (jposition[j3].X - jposition[j2].X), (jposition[j3].Y - jposition[j2].Y), (jposition[j3].Z - jposition[j2].Z) };
-	double inner_product = calcInnerProduct(v1_XYZ, v2_XYZ);
-	double v1_length = calcVectorLength(v1_XYZ);
-	double v2_length = calcVectorLength(v2_XYZ);
+
+//void Kinect::calcAngle( JointType j1,  JointType j2,  JointType j3, double* angle)
+//{
+	//QVector3D v1_XYZ ( (jposition[j1].X - jposition[j2].X), (jposition[j1].Y - jposition[j2].Y), (jposition[j1].Z - jposition[j2].Z)) ;
+	//QVector3D v2_XYZ ( (jposition[j3].X - jposition[j2].X), (jposition[j3].Y - jposition[j2].Y), (jposition[j3].Z - jposition[j2].Z) );
+//	double inner_product = calcInnerProduct(v1_XYZ, v2_XYZ);
+	//double v1_length = calcVectorLength(v1_XYZ);
+	//double v2_length = calcVectorLength(v2_XYZ);
 	//angle=
-}
+//}
 
-double calcInnerProduct(const std::array<float, 3> v1, const std::array<float, 3> v2){
-	return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
-}
-
-double calcVectorLength(const std::array<float, 3> v){
+//double calcInnerProduct(const QVector3D  v1, const QVector3D v2){
+	//return v1.x() * v2.x() + v1.y() * v2.y() + v1.z()* v2.z();
+//}
+/*
+double calcVectorLength(const QVector3D v){
 	return sqrt(pow(v[0], 2) + pow(v[1], 2) + pow(v[3], 2));
 }
+
+*/

@@ -72,7 +72,7 @@ win32:INCLUDEPATH += "$$(KINECTSDK20_DIR)/inc"\
 # set environment variable ARC to x86 if you need
 # in all other cases we use x64
 ARC = $$(ARC)
-!equals(ARC, x86):ARC = x64
+!equals(ARC, x86):ARC = x86
 
 OPENCV_VER = $$(OPENCV_VER)
 

@@ -4,7 +4,7 @@
 #include <Windows.h>
 #include <Kinect.h>
 #include <opencv2/opencv.hpp>
-
+#include "qvector3d.h"
 #include <vector>
 #include <array>
 
@@ -101,13 +101,13 @@ private:
     inline Mat showBody();
 
 	// Calculates angle using the 3 given joints: j1, j2 and j3
-	void calcAngle(const JointType j1, const JointType j2, const JointType j3, double* angle);
+//	void calcAngle( JointType j1,  JointType j2,  JointType j3, double* angle);
 
 	// Calculates inner product of 2 3-D vectors
-	double calcInnerProduct(const std::array<float, 3> v1, const std::array<float, 3> v2);
+	//double calcInnerProduct(const QVector3D v1, const QVector3D v2);
 	
 	// Calculates the lenth of a 3-D vector
-	double calcVectorLength(const std::array<float, 3> v);
+//	double calcVectorLength(const QVector3D v);
 };
 
 #endif // __CAMERA__

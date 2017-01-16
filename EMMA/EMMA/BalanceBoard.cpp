@@ -1,10 +1,10 @@
 #include "BalanceBoard.h"
 #include "ApplicationData.h"
 #include "qdebug.h"
-BalanceBoard::BalanceBoard(ApplicationData *data )
-	 
+BalanceBoard::BalanceBoard(ApplicationData *data, QWidget *parent)
+: QWidget(parent)
 {
-	 
+	ui.setupUi(this);
 	t_data = data;
 
 	startBoard();
@@ -29,5 +29,6 @@ void BalanceBoard::startBoard(){
 void BalanceBoard::onProgressChanged(){
 
 	qDebug() << "working" << "Schwerpunkt ";
+
 
 }

@@ -8,9 +8,6 @@ int main(int argc, char *argv[])
 	//MainWindow w;
 	Body_Widget w;
 
-	ApplicationData* data;
-	data = new ApplicationData();
-	//BalanceBoard board(data);
 
 
 	

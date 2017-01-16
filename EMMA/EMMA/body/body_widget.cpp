@@ -1,5 +1,6 @@
 #include "body_widget.h"
 
+#include "ApplicationData.h"
 
 Body_Widget::Body_Widget(QWidget *parent)
 	: QWidget(parent)
@@ -10,6 +11,11 @@ Body_Widget::Body_Widget(QWidget *parent)
 	qRegisterMetaType<cv::Mat>();
 
 
+
+	ApplicationData* data;
+	data = new ApplicationData();
+	BalanceBoard board(data, parent);
+ 
 	// Objekt Erstellung
 	capture = new Capture();
 	converter = new Converter();
@@ -82,7 +88,7 @@ Body_Widget::Body_Widget(QWidget *parent)
 	converter->moveToThread(converterThread);
 
 	converter->connect(capture, SIGNAL(matReady(cv::Mat)), SLOT(processFrame(cv::Mat)));
-	converter->connect(image_label, SIGNAL(resize(QSize)), SLOT(setSize(QSize)));
+	//converter->connect(image_label, SIGNAL(resize(QSize)), SLOT(setSize(QSize))); // Ich habe das auskommentiert , damit man noch andere labels sieht
 
 	connect(load_button, SIGNAL(clicked()), this, SLOT(load_button_clicked()));
 	connect(converter, SIGNAL(imageReady(QImage)), SLOT(setImage(QImage)));

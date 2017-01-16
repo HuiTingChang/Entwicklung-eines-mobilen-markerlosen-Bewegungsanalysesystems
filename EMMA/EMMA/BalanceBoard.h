@@ -7,7 +7,7 @@ class BalanceBoard	: public QWidget
 
 
 public:
-	BalanceBoard(ApplicationData *data  );
+	BalanceBoard(ApplicationData *data, QWidget  *parent );
 	~BalanceBoard();
 	ApplicationData* t_data;
 

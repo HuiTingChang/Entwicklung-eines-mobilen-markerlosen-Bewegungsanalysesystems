@@ -9,7 +9,7 @@
 #include <QtWidgets/QWidget>
 #include <QDebug>
 #include <QResizeEvent>
-
+#include "BalanceBoard.h"
 #include "cvCapture.h"
 #include "cvConverter.h"
 #include "QImageLabel.h"
