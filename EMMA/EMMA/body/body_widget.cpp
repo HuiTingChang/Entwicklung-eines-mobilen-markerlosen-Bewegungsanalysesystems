@@ -1,5 +1,6 @@
 #include "body_widget.h"
 
+#include <QMessageBox>
 #include "ApplicationData.h"
 
 Body_Widget::Body_Widget(QWidget *parent)

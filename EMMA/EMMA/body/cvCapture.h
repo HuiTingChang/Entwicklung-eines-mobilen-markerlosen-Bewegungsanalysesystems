@@ -1,22 +1,11 @@
 #include <QObject>
-#include <QWidget>
 #include <QBasicTimer>
-#include <QTimerEvent>
-#include <QThread>
-#include <QDebug>
-#include <QResizeEvent>
-#include <QMessageBox>
 
 // OpenCv
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui.hpp>      // Mat
 
-#include <iostream>                         // cout, endl
-#include <stdint.h>                         // uint32_t
-#include <QtCore/QLibrary>
-#include <QtCore/QDebug>
-#include <Qtcore/qfile.h>
-#include <windows.h>
+//#include <windows.h>
 
 // Eigene Dateien
 #include "camera.h"

@@ -1,10 +1,10 @@
 #ifndef __CAMERA__
 #define __CAMERA__
 
-#include <Windows.h>
+//#include <Windows.h>
 #include <Kinect.h>
 #include <opencv2/opencv.hpp>
-#include "qvector3d.h"
+//#include <QVector3D>
 #include <vector>
 #include <array>
 

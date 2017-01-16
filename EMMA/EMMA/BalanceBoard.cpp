@@ -1,6 +1,6 @@
 #include "BalanceBoard.h"
 #include "ApplicationData.h"
-#include "qdebug.h"
+#include <QDebug>
 BalanceBoard::BalanceBoard(ApplicationData *data, QWidget *parent)
 : QWidget(parent)
 {

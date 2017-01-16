@@ -3,11 +3,8 @@
 
 #include <thread>
 #include <chrono>
-#include <array>
-#include "qvector3d.h"
 #include <QtConcurrent>
-#include <ppl.h>
-#include <math.h>
+//#include <cmath>
 
 // Constructor
 Kinect::Kinect()

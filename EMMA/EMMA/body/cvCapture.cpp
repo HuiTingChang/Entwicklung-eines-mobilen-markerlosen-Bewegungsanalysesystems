@@ -1,5 +1,16 @@
 #include "cvCapture.h"
 
+#include <QWidget>
+#include <QTimerEvent>
+#include <QThread>
+#include <QResizeEvent>
+#include <QDebug>
+#include <QFile>
+
+#include <iostream>                         // cout, endl
+#include <cstdint>                         // uint32_t
+#include <QLibrary>
+
 Capture::Capture(QObject * parent) : QObject(parent), m_stopNow(false), isStopped(true)
 {
 
