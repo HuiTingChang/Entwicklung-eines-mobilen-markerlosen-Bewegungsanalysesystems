@@ -127,7 +127,7 @@ void Body_Widget::closeEvent(QCloseEvent * ev)
 {
 	setWindowTitle("Closing Software");
 	QMetaObject::invokeMethod(capture, "stop");
-	QThread::msleep(1000);
+    captureThread->wait(1000);
 
 
 	/*  converterThread->terminate();
@@ -144,6 +144,6 @@ void Body_Widget::on_actionExit_triggered()
 {
 	setWindowTitle("Closing Software");
 	QMetaObject::invokeMethod(capture, "stop");
-	QThread::msleep(1000);
+    captureThread->wait(1000);
 	QApplication::quit();
 }
