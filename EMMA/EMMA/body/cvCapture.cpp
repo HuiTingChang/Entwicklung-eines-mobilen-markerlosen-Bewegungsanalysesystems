@@ -11,6 +11,9 @@
 #include <cstdint>                         // uint32_t
 #include <QLibrary>
 
+using namespace std;
+using namespace cv;
+
 Capture::Capture(QObject * parent) : QObject(parent), m_stopNow(false), isStopped(true)
 {
 
@@ -19,7 +22,7 @@ Capture::Capture(QObject * parent) : QObject(parent), m_stopNow(false), isStoppe
 void Capture::start() 
 {
 	isStopped = false;
-	// Ruft die timerEvent Funktion von QObject (this) auf, die entsprechend überschrieben wird.
+    // Ruft die timerEvent Funktion von QObject (this) auf, die entsprechend ueberschrieben wird.
 	m_timer.start(10, this); 
 	emit started();
 }

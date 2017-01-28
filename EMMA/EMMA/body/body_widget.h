@@ -6,13 +6,13 @@
 #include <QLabel>
 #include <QMenuBar>
 #include <QPushButton>
-#include <QtWidgets/QWidget>
+#include <QWidget>
 #include <QDebug>
 #include <QResizeEvent>
 #include "BalanceBoard.h"
 #include "cvCapture.h"
 #include "cvConverter.h"
-#include "QImageLabel.h"
+#include "qimagelabel.h"
 #include "ui_emma.h"
 
 class Body_Widget : public QWidget

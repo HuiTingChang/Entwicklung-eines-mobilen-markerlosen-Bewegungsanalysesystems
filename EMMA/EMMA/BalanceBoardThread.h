@@ -5,6 +5,7 @@
 #include "ApplicationData.h"
 #include <QThread>
 #include <QMutex>
+#include <QPoint>
 class BalanceBoardThread : public QThread
 {
 	Q_OBJECT

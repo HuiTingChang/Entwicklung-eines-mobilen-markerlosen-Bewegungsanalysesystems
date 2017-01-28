@@ -10,9 +10,6 @@
 // Eigene Dateien
 #include "camera.h"
 
-using namespace std;
-using namespace cv;
-
 // associated with qRegisterMetaType<cv::Mat>(); in body_widget.cpp
 Q_DECLARE_METATYPE(cv::Mat)
 
