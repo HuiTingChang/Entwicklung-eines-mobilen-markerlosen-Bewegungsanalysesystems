@@ -77,10 +77,15 @@ win32 {
 win32:INCLUDEPATH += "$$(KINECTSDK20_DIR)/inc"\
         $$(OPENCV_DIR)/build/include
 
-# set environment variable ARC to x86 if you need
-# in all other cases we use x64
+# set environment variable ARC to x86 or x64 if
+# it is different from the architecture of the Qt build kit
 ARC = $$(ARC)
-!equals(ARC, x86):ARC = x86
+isEmpty(ARC):ARC = $$QMAKE_HOST.arch
+contains(ARC, x86_64) {
+    ARC = x64
+} else {
+    ARC = x86
+}
 
 OPENCV_VER = $$(OPENCV_VER)
 

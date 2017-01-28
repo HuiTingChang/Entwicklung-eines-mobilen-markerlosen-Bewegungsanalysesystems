@@ -12,7 +12,7 @@
 #include "camera.h"
 #endif
 
-#ifndef Kinect
+#ifndef __CAMERA__
 #include "mockcamera.h"
 #define Kinect MockCamera
 #endif
