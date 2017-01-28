@@ -34,7 +34,6 @@ SOURCES += main.cpp\
         ApplicationData.cpp \
         BalanceBoardThread.cpp \
         body/body_widget.cpp \
-        body/camera.cpp \
         body/cvCapture.cpp \
         body/cvConverter.cpp \
         body/qimagelabel.cpp
@@ -44,11 +43,18 @@ HEADERS  += \
         ApplicationData.h \
         BalanceBoardThread.h \
         body/body_widget.h \
-        body/camera.h \
         body/cvCapture.h \
         body/cvConverter.h \
         body/qimagelabel.h \
         body/util.h
+
+win32 {
+    SOURCES += body/camera.cpp
+    HEADERS += body/camera.h
+} else {
+    SOURCES += body/mockcamera.cpp
+    HEADERS += body/mockcamera.h
+}
 
 FORMS    += emma.ui
 

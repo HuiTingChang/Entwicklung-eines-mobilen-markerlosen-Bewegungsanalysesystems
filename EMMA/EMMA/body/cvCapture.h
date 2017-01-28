@@ -8,8 +8,14 @@
 //#include <windows.h>
 
 // Eigene Dateien
+#ifdef WIN32
 #include "camera.h"
+#endif
 
+#ifndef Kinect
+#include "mockcamera.h"
+#define Kinect MockCamera
+#endif
 
 class Capture : public QObject {
 	Q_OBJECT
