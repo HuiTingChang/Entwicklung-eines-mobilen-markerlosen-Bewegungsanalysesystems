@@ -1,5 +1,5 @@
 #pragma once
-class ApplicationData // Klasse für die globalen Variablen 
+class ApplicationData // Klasse fuer die globalen Variablen
 {
 public:
 	ApplicationData();

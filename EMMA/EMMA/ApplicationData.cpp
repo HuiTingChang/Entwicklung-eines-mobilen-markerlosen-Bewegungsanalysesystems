@@ -1,6 +1,6 @@
 #include "ApplicationData.h"
 
-// Klasse für die globalen Variablen 
+// Klasse fuer die globalen Variablen
 ApplicationData::ApplicationData()
 {
 	widgetWork = true;
