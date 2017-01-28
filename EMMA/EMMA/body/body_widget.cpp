@@ -3,6 +3,9 @@
 #include <QMessageBox>
 #include "ApplicationData.h"
 
+// associated with qRegisterMetaType<cv::Mat>(); in body_widget.cpp
+Q_DECLARE_METATYPE(cv::Mat)
+
 Body_Widget::Body_Widget(QWidget *parent)
 	: QWidget(parent)
 {

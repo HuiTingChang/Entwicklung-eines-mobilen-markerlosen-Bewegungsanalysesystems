@@ -10,8 +10,6 @@
 // Eigene Dateien
 #include "camera.h"
 
-// associated with qRegisterMetaType<cv::Mat>(); in body_widget.cpp
-Q_DECLARE_METATYPE(cv::Mat)
 
 class Capture : public QObject {
 	Q_OBJECT
