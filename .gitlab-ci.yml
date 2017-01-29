@@ -1,0 +1,12 @@
+# image made using the Dockerfile found in EMMA
+image: emma
+
+build_job:
+  stage: build
+  script:
+    - EMMA/ci_build.sh
+
+test_job:
+  stage: test
+  script:
+    - EMMA/ci_test.sh
