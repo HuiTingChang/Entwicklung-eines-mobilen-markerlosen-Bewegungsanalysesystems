@@ -11,7 +11,8 @@ build_job:
     - EMMA/ci_build.sh
   artifacts:
     paths:
-      - EMMA/release/
+      - EMMA/EMMA/release/
+      - inc/wiiuse/build/src/libwiiuse.so
 
 test_job:
   stage: test
