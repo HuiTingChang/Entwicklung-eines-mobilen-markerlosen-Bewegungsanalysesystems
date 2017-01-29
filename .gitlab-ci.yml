@@ -5,6 +5,9 @@ build_job:
   stage: build
   script:
     - EMMA/ci_build.sh
+  cache:
+    paths:
+      - EMMA/release
 
 test_job:
   stage: test
