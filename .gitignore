@@ -1,0 +1,14 @@
+# compiled stuffs
+EMMA/build-EMMA*
+EMMA/EMMA/debug
+EMMA/EMMA/release
+*.o
+*.so
+*.lib
+*.dll
+
+# Qt
+EMMA/EMMA/Makefile
+*.pro.user
+moc_*.cpp
+ui_*.h
