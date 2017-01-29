@@ -1,7 +1,8 @@
 #! /bin/bash
-# submodule is now updated through gitlab-runner
-#git submodule init
-#git submodule update --depth 1
+# submodule is currently not updated through gitlab-runner
+# because of some certificate problem
+git submodule init
+git submodule update --depth 1
 pushd inc/wiiuse
 git checkout master
 mkdir -p build

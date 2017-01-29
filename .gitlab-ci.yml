@@ -1,7 +1,9 @@
 # image made using the Dockerfile found in EMMA
 image: yuwash/emma
-variables:
-  GIT_SUBMODULE_STRATEGY: normal
+
+# submodule update currently fails due to some certificate problem
+#variables:
+#  GIT_SUBMODULE_STRATEGY: normal
 
 build_job:
   stage: build
