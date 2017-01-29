@@ -1,11 +1,13 @@
 # image made using the Dockerfile found in EMMA
 image: yuwash/emma
+variables:
+  GIT_SUBMODULE_STRATEGY: normal
 
 build_job:
   stage: build
   script:
     - EMMA/ci_build.sh
-  cache:
+  artifacts:
     paths:
       - EMMA/release
 
@@ -13,3 +15,5 @@ test_job:
   stage: test
   script:
     - EMMA/ci_test.sh
+  dependencies:
+    - build_job
