@@ -29,7 +29,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
-SOURCES += main.cpp\
+SOURCES += ../../inc/inih/cpp/INIReader.cpp \
+        main.cpp \
         BalanceBoard.cpp \
         ApplicationData.cpp \
         BalanceBoardThread.cpp \
@@ -38,7 +39,8 @@ SOURCES += main.cpp\
         body/cvConverter.cpp \
         body/qimagelabel.cpp
 
-HEADERS  += \
+HEADERS  += ../../inc/inih/ini.h \
+        ../../inc/inih/cpp/INIReader.h \
         BalanceBoard.h \
         ApplicationData.h \
         BalanceBoardThread.h \
@@ -59,7 +61,13 @@ win32 {
 FORMS    += emma.ui
 
 INCLUDEPATH += ../../inc/wiiuse/src \
-	body
+    ../../inc/inih \
+    body
+
+config_files.path = $${DESTDIR}
+config_files.files = emma.ini
+
+INSTALLS += config_files
 
 unix:LIBS += -L$${PWD}/../../inc/wiiuse/build/src -lwiiuse
 
