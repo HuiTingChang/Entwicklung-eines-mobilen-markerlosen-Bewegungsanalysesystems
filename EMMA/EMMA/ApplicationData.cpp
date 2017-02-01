@@ -1,5 +1,7 @@
+#include <QDebug>
+
 #include "ApplicationData.h"
-#include "cpp/INIReader.h"
+#include "INIReader.h"
 
 #define INI_PATH "emma.ini"
 

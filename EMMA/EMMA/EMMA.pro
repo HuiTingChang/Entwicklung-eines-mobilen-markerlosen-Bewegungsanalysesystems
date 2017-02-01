@@ -29,7 +29,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
-SOURCES += ../../inc/inih/cpp/INIReader.cpp \
+SOURCES += ../../inc/inih/ini.c \
+        ../../inc/inih/cpp/INIReader.cpp \
         main.cpp \
         BalanceBoard.cpp \
         ApplicationData.cpp \
@@ -61,7 +62,7 @@ win32 {
 FORMS    += emma.ui
 
 INCLUDEPATH += ../../inc/wiiuse/src \
-    ../../inc/inih \
+    ../../inc/inih/cpp \
     body
 
 config_files.path = $${DESTDIR}
