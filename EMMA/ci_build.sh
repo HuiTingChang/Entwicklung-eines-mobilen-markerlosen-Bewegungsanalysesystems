@@ -13,3 +13,4 @@ popd
 cd EMMA/EMMA
 qmake
 make
+make install
