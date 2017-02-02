@@ -3,8 +3,8 @@
 
 #include <thread>
 #include <chrono>
-#include <QtConcurrent>
 //#include <cmath>
+#include <ppl.h>
 
 // Constructor
 Kinect::Kinect()
@@ -111,7 +111,7 @@ inline void Kinect::initializeBody()
     ERROR_CHECK( bodyFrameSource->OpenReader( &bodyFrameReader ) );
 
     // Initialize Body Buffer
-	QtConcurrent::map(bodies.begin(), bodies.end(), []( IBody*& body ){
+    Concurrency::parallel_for_each( bodies.begin(), bodies.end(), []( IBody*& body ){
         SafeRelease( body );
     } );
 
@@ -130,7 +130,7 @@ void Kinect::finalize()
     cv::destroyAllWindows();
 
     // Release Body Buffer
-	QtConcurrent::map( bodies.begin(), bodies.end(), []( IBody*& body ){
+    Concurrency::parallel_for_each( bodies.begin(), bodies.end(), []( IBody*& body ){
         SafeRelease( body );
     } );
 
@@ -175,7 +175,7 @@ inline void Kinect::updateBody()
     }
 
     // Release Previous Bodies
-	QtConcurrent::map( bodies.begin(), bodies.end(), []( IBody*& body ){
+    Concurrency::parallel_for_each( bodies.begin(), bodies.end(), []( IBody*& body ){
         SafeRelease( body );
     } );
 
@@ -203,13 +203,8 @@ inline void Kinect::drawColor()
 // Draw Body
 inline void Kinect::drawBody()
 {
-	std::array<int,BODY_COUNT> bodyrange;
-	for (int i = 0; i < BODY_COUNT; i++)
-	{
-		bodyrange[i] = i;
-	}
-	// Draw Body Data to Color Data
-	QtConcurrent::map( bodyrange.begin(), bodyrange.end(), [&]( const int count ){
+    // Draw Body Data to Color Data
+    Concurrency::parallel_for( 0, BODY_COUNT, [&]( const int count ){
         const ComPtr<IBody> body = bodies[count];
         if( body == nullptr ){
             return;
@@ -226,7 +221,7 @@ inline void Kinect::drawBody()
         std::array<Joint, JointType::JointType_Count> joints;
         ERROR_CHECK( body->GetJoints( static_cast<UINT>( joints.size() ), &joints[0] ) );
 
-		QtConcurrent::map( joints.begin(), joints.end(), [&]( const Joint& joint ){
+        Concurrency::parallel_for_each( joints.begin(), joints.end(), [&]( const Joint& joint ){
             // Check Joint Tracked
             if( joint.TrackingState == TrackingState::TrackingState_NotTracked ){
                 return;
