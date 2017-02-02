@@ -16,6 +16,10 @@ Yushin’s QtConcurrent use (as a replacement of ppl.h) seems to have introduced
 
 The color image from kinect is striped on Yushin’s machine, while it’s ok on Nuno’s. No explanation found.
 
+### emma.ini for ApplicationData
+
+Yushin has started using the [inih](/inc/inih) library for handling a configuration file of the INI format. The [emma.ini](/EMMA/EMMA/emma.ini) file is read and used in [ApplicationData.cpp](/EMMA/EMMA/ApplicationData.cpp). It should also be used for initial GUI configuration as discussed on the [12th January](minute-2017-01-12.md).
+
 ### GUI
 
 Plotting could be done with [QWT](http://qwt.sourceforge.net/index.html), as some HIA employee has experience with it, or [QCustomPlot](http://www.qcustomplot.com/documentation/), if that turns out to be better/easier.
