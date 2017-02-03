@@ -19,7 +19,7 @@ Body_Widget::Body_Widget(QWidget *parent)
 
 	data = new ApplicationData();
 //	BalanceBoard board(data, parent);
- 
+
 	// Objekt Erstellung
 	capture = new Capture();
 	converter = new Converter();
@@ -35,7 +35,7 @@ Body_Widget::Body_Widget(QWidget *parent)
 	button4 = new QPushButton("One");
 	button5 = new QPushButton("One");
 	menuBar = new QMenuBar(this);
-	
+
 	QMenu *fileMenu = new QMenu(tr("&File"), this);
 	fileMenu->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,stop:0 lightgray, stop:1 darkgray)");
 	QMenu *editMenu = new QMenu(tr("&Edit"), this);
@@ -46,7 +46,7 @@ Body_Widget::Body_Widget(QWidget *parent)
 	QSizePolicy spLeft(QSizePolicy::Preferred, QSizePolicy::Preferred);
 	spLeft.setHorizontalStretch(3);
 	image_label->setSizePolicy(spLeft);
-	
+
 	QSizePolicy spRight(QSizePolicy::Preferred, QSizePolicy::Preferred);
 	spRight.setHorizontalStretch(1);
 	load_button->setSizePolicy(spRight);
@@ -61,7 +61,7 @@ Body_Widget::Body_Widget(QWidget *parent)
 	menuBar->setFixedHeight(20);
 	menuBar->setStyleSheet("color: red;");
 
-	
+
 	vertical_layout->addWidget(load_button);
 	vertical_layout->addWidget(button1);
 	vertical_layout->addWidget(button2);
@@ -76,7 +76,7 @@ Body_Widget::Body_Widget(QWidget *parent)
 	setWindowTitle(tr("Software Ready"));
 	adjustSize();
 	setMinimumSize(800, 600);
-	
+
 
 	// Everything runs at the same priority as the gui, so it won't supply useless frames.
 	converter->setProcessAll(false);
@@ -85,10 +85,10 @@ Body_Widget::Body_Widget(QWidget *parent)
 	captureThread = new QThread();
 	captureThread->start();
 	captureThread->setPriority(QThread::HighPriority);
-	
+
 	converterThread = new QThread();
 	converterThread->start();
-	
+
 	capture->moveToThread(captureThread);
 	converter->moveToThread(converterThread);
 
@@ -104,7 +104,7 @@ Body_Widget::Body_Widget(QWidget *parent)
 
 
 	b = new BalanceBoardThread(data);
-	connect(b, SIGNAL(valueChanged(int,int, int )), this, SLOT(boardDataUpdate(int,int, int )));
+	connect(b, SIGNAL(valueChanged(board_display_data)), this, SLOT(boardDataUpdate(board_display_data)));
 	connect(b, SIGNAL(boardConnected()), this, SLOT(boardConnectedInfo()));
 	b->start();
 
@@ -113,7 +113,6 @@ Body_Widget::Body_Widget(QWidget *parent)
 
 Body_Widget::~Body_Widget()
 {
-	
 }
 
 void Body_Widget::load_button_clicked()
@@ -123,7 +122,7 @@ void Body_Widget::load_button_clicked()
 		QMessageBox::warning(this, "Warning", "Already grabbing!");
 		return;
 	}
-	
+
 	QMetaObject::invokeMethod(capture, "start");
 }
 
@@ -141,7 +140,7 @@ void Body_Widget::closeEvent(QCloseEvent * ev)
 {
 	setWindowTitle("Closing Software");
 	QMetaObject::invokeMethod(capture, "stop");
-    captureThread->wait(1000);
+	captureThread->wait(1000);
 
 
 	/*  converterThread->terminate();
@@ -154,16 +153,18 @@ void Body_Widget::closeEvent(QCloseEvent * ev)
 	return;
 }
 
-void Body_Widget::on_actionExit_triggered() 
+void Body_Widget::on_actionExit_triggered()
 {
 	setWindowTitle("Closing Software");
 	QMetaObject::invokeMethod(capture, "stop");
-    captureThread->wait(1000);
+	captureThread->wait(1000);
 	QApplication::quit();
 }
 
-void Body_Widget::boardDataUpdate(int x, int y, int weight )
+void Body_Widget::boardDataUpdate(board_display_data data)
 {
+	auto x = data.center_of_pressure.x();
+	auto y = data.center_of_pressure.y();
 
 	if (x < - 270 || y < -270 ){
 		ui.label_center_pr_x->setText("  ");
@@ -173,12 +174,12 @@ void Body_Widget::boardDataUpdate(int x, int y, int weight )
 		ui.label_center_pr_x->setText(QString::number(x));
 		ui.label_center_pr_y->setText(QString::number(y));
 	}
-	ui.l_weight->setText(QString::number(weight));
+	ui.l_weight->setText(QString::number(data.total_weight));
 }
 
 void Body_Widget::boardConnectedInfo()
 {
-	// Board things 
+	// Board things
 	if (data->boardConnected){
 		ui.l_board_on->setText("The Balance Board is connected");
 

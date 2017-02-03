@@ -53,7 +53,7 @@ private slots:
 
 	void on_actionExit_triggered();
 	void load_button_clicked();
-	void boardDataUpdate(int x, int y, int weight);
+	void boardDataUpdate(board_display_data data);
 	void boardConnectedInfo();
 
 };
