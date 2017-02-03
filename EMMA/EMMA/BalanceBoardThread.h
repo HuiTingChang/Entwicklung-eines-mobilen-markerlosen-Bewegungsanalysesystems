@@ -28,7 +28,6 @@ public:
 	struct wiimote_t** wimotez;
 
 signals:
-	void process();
 	void finished();
 	void valueChanged(int x, int y, int weight);
 	void boardConnected();

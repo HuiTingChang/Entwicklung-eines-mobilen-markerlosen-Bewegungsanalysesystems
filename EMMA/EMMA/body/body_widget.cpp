@@ -104,7 +104,6 @@ Body_Widget::Body_Widget(QWidget *parent)
 
 
 	b = new BalanceBoardThread(data);
-	connect(b, SIGNAL(process()), this, SLOT(onProgressChanged()));
 	connect(b, SIGNAL(valueChanged(int,int, int )), this, SLOT(boardDataUpdate(int,int, int )));
 	connect(b, SIGNAL(boardConnected()), this, SLOT(boardConnectedInfo()));
 	b->start();

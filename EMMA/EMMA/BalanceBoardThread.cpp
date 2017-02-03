@@ -52,7 +52,6 @@ void BalanceBoardThread::run()
 		 
 
 
-		emit process();
 		while (gl_data->widgetWork)  
 			work(wiimotes); 
 		emit finished();
