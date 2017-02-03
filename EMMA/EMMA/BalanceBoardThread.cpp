@@ -2,9 +2,10 @@
 #include "wiiuse.h"
 #include "qdebug.h"
 
-BalanceBoardThread::BalanceBoardThread(ApplicationData *data) : QThread()
+BalanceBoardThread::BalanceBoardThread(ApplicationData *data ) : QThread()
 {
 	gl_data = data;
+
 }
 
 
@@ -22,13 +23,19 @@ bool BalanceBoardThread::initializeBoard()
 	int found = wiiuse_find(wiimotes, 1, 60);
 	if (found != 1){
 		qDebug() << "Wii Board is not found";
+		gl_data->boardConnected = false; 
+
 		return false;
 	}
 	int connected = wiiuse_connect(wiimotes, 1);
 	if (connected != 1){
 		qDebug() << "Wii Board is not connected";
+		gl_data->boardConnected = false;
+
 		return false;
 	}
+	gl_data->boardConnected = true;
+	emit boardConnected(); 
 	return true;
 }
 
@@ -112,19 +119,20 @@ void BalanceBoardThread::handle_event(struct wiimote_t* wm)
 		struct wii_board_t* wb = (wii_board_t*)&wm->exp.wb;
 		float total = wb->tl + wb->tr + wb->bl + wb->br; //gewicht
 		float x = ((wb->tr + wb->br) / total) * 2 - 1;
-
 		float y = ((wb->tl + wb->tr) / total) * 2 - 1;
 
-		QPoint centrOfMass = centerOfPressure(wb->tl, wb->tr, wb->bl, wb->br);
-		qDebug() << "Center of pressure: " << " X : " << centrOfMass.x() << " Y : " << centrOfMass.y();
+
+		 QPoint centOfPr  =  centerOfPressure(wb->tl, wb->tr, wb->bl, wb->br);
+	 
+	//	qDebug() << "Center of pressure: " << " X : " << centrOfMass.x() << " Y : " << centrOfMass.y();
 
 
-		/*
+		emit valueChanged((int)centOfPr.x(), (int)centOfPr.y(), std::round(total));
 		qDebug() << "Weight: " << total;
 		
 		qDebug() << "Interpolated weight:: " << wb->tl << "  " << wb->tr << "  " << wb->bl << "  " << wb->br;
 
 		qDebug() << "Raw: " << total << "  " << wb->rtl << "  " << wb->rtr << "  " << wb->rbl << "  " << wb->rbr;
-		*/
+		
 	}
 }

@@ -1,5 +1,5 @@
 #include <QDebug>
-
+#include <QPoint>
 #include "ApplicationData.h"
 #include "INIReader.h"
 
@@ -8,8 +8,17 @@
 // Klasse fuer die globalen Variablen
 ApplicationData::ApplicationData()
 {
-	// default values
+	// default values	
+
+
+
+	// Test Things 
+	weight = 0; 
+	centOfPr = QPoint(0, 0);
 	widgetWork = true;
+	boardConnected = false;  
+
+
 
 	INIReader reader(INI_PATH);
 	if(reader.ParseError() < 0)

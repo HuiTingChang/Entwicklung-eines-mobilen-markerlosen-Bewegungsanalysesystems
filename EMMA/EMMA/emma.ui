@@ -16,10 +16,10 @@
   <widget class="QFrame" name="cent_pres_frame">
    <property name="geometry">
     <rect>
-     <x>570</x>
-     <y>180</y>
-     <width>251</width>
-     <height>111</height>
+     <x>660</x>
+     <y>160</y>
+     <width>311</width>
+     <height>151</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -67,7 +67,7 @@
      <string>y:</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_ztext">
+   <widget class="QLabel" name="label_weight">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -77,7 +77,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>z:</string>
+     <string>Weight: </string>
     </property>
    </widget>
    <widget class="QLabel" name="label_center_pr_x">
@@ -106,7 +106,7 @@
      <string>TextLabel</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_center_pr_z">
+   <widget class="QLabel" name="l_weight">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -135,6 +135,35 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
+  </widget>
+  <widget class="QFrame" name="boad_frame">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>30</y>
+     <width>381</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="l_board_on">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>331</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

@@ -16,9 +16,9 @@ Body_Widget::Body_Widget(QWidget *parent)
 
 
 
-	ApplicationData* data;
+
 	data = new ApplicationData();
-	BalanceBoard board(data, parent);
+//	BalanceBoard board(data, parent);
  
 	// Objekt Erstellung
 	capture = new Capture();
@@ -81,6 +81,7 @@ Body_Widget::Body_Widget(QWidget *parent)
 	// Everything runs at the same priority as the gui, so it won't supply useless frames.
 	converter->setProcessAll(false);
 
+
 	captureThread = new QThread();
 	captureThread->start();
 	captureThread->setPriority(QThread::HighPriority);
@@ -97,7 +98,18 @@ Body_Widget::Body_Widget(QWidget *parent)
 	connect(load_button, SIGNAL(clicked()), this, SLOT(load_button_clicked()));
 	connect(converter, SIGNAL(imageReady(QImage)), SLOT(setImage(QImage)));
 	connect(exitAction, SIGNAL(triggered()), this, SLOT(on_actionExit_triggered()));
-	
+
+
+
+
+
+	b = new BalanceBoardThread(data);
+	connect(b, SIGNAL(process()), this, SLOT(onProgressChanged()));
+	connect(b, SIGNAL(valueChanged(int,int, int )), this, SLOT(boardDataUpdate(int,int, int )));
+	connect(b, SIGNAL(boardConnected()), this, SLOT(boardConnectedInfo()));
+	b->start();
+
+
 }
 
 Body_Widget::~Body_Widget()
@@ -149,4 +161,31 @@ void Body_Widget::on_actionExit_triggered()
 	QMetaObject::invokeMethod(capture, "stop");
     captureThread->wait(1000);
 	QApplication::quit();
+}
+
+void Body_Widget::boardDataUpdate(int x, int y, int weight )
+{
+
+	if (x < - 270 || y < -270 ){
+		ui.label_center_pr_x->setText("  ");
+		ui.label_center_pr_y->setText("  ");
+	}
+	else{
+		ui.label_center_pr_x->setText(QString::number(x));
+		ui.label_center_pr_y->setText(QString::number(y));
+	}
+	ui.l_weight->setText(QString::number(weight));
+}
+
+void Body_Widget::boardConnectedInfo()
+{
+	// Board things 
+	if (data->boardConnected){
+		ui.l_board_on->setText("The Balance Board is connected");
+
+	}
+	else{
+		ui.l_board_on->setText("The Balance Board is not connected");
+	}
+
 }

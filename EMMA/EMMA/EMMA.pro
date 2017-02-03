@@ -32,7 +32,6 @@ CONFIG += c++11
 SOURCES += ../../inc/inih/ini.c \
         ../../inc/inih/cpp/INIReader.cpp \
         main.cpp \
-        BalanceBoard.cpp \
         ApplicationData.cpp \
         BalanceBoardThread.cpp \
         body/body_widget.cpp \
@@ -42,7 +41,6 @@ SOURCES += ../../inc/inih/ini.c \
 
 HEADERS  += ../../inc/inih/ini.h \
         ../../inc/inih/cpp/INIReader.h \
-        BalanceBoard.h \
         ApplicationData.h \
         BalanceBoardThread.h \
         body/body_widget.h \

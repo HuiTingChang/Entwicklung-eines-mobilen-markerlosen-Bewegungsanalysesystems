@@ -13,6 +13,7 @@
 #include "cvCapture.h"
 #include "cvConverter.h"
 #include "qimagelabel.h"
+#include "BalanceBoardThread.h"
 #include "ui_emma.h"
 
 class Body_Widget : public QWidget
@@ -28,7 +29,8 @@ public:
 
 private:
 	Ui::Body_WidgetClass ui;
-
+	ApplicationData* data;
+	BalanceBoardThread* b;
 	Capture *capture;
 	Converter *converter;
 	QThread *captureThread, *converterThread;
@@ -52,6 +54,8 @@ private slots:
 
 	void on_actionExit_triggered();
 	void load_button_clicked();
+	void boardDataUpdate(int x, int y, int weight);
+	void boardConnectedInfo();
 
 };
 

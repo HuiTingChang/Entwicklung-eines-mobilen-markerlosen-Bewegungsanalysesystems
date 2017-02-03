@@ -1,20 +1,20 @@
 
 #ifndef BALANCEBOARDTHREAD_H
-#define BALANCEBOARDTHREAD_H
-
+#define BALANCEBOARDTHREAD_H 
 #include "ApplicationData.h"
 #include <QThread>
 #include <QMutex>
+#include "ui_emma.h"
+
 #include <QPoint>
-class BalanceBoardThread : public QThread
+class BalanceBoardThread : public QThread 
 {
 	Q_OBJECT
 
 public:
-	BalanceBoardThread(ApplicationData *data);
+	BalanceBoardThread(ApplicationData *data );
 	~BalanceBoardThread();
-
-
+	//Ui::BalanceBoardThread ui;
 	ApplicationData* gl_data;
 
 	bool initializeBoard();
@@ -30,6 +30,8 @@ public:
 signals:
 	void process();
 	void finished();
+	void valueChanged(int x, int y, int weight);
+	void boardConnected();
 };
 
 #endif
