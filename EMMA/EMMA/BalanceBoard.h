@@ -25,6 +25,9 @@ struct board_tuple
 	T bottom_right;
 };
 
+template struct board_tuple<float>;
+template struct board_tuple<uint16_t>;
+
 struct board_specs
 {
 	board_specs(int width, int length):
@@ -53,9 +56,9 @@ public:
 	 * @return whether actually updated the value
 	 */
 	bool poll();
-	board_tuple<float> get_weights();
-	board_tuple<uint16_t> get_raw_weights();
-	board_tuple<uint16_t> get_calibration();
+	board_tuple<float> get_weights() const;
+	board_tuple<uint16_t> get_raw_weights() const;
+	board_tuple<uint16_t> get_calibration() const;
 private:
 	std::unique_ptr<wiimote_wrapper> device;
 	std::unique_ptr<wiiboard_wrapper> latest_value;
@@ -63,7 +66,7 @@ private:
 
 //Q_DECLARE_METATYPE(BalanceBoard)
 
-class balance_board_not_found_error: public std::runtime_error
+class balance_board_not_found_error: public std::exception
 {
 public:
 	virtual const char* what() const throw()
@@ -72,7 +75,7 @@ public:
 	}
 };
 
-class balance_board_not_connected_error: public std::runtime_error
+class balance_board_not_connected_error: public std::exception
 {
 public:
 	virtual const char* what() const throw()
