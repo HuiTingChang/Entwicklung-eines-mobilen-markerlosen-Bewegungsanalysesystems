@@ -17,6 +17,8 @@ ApplicationData::ApplicationData()
 	centOfPr = QPoint(0, 0);
 	widgetWork = true;
 	boardConnected = false;  
+	balanceDataUpdated = false;
+	cameraDataUpdated = false;
 
 
 

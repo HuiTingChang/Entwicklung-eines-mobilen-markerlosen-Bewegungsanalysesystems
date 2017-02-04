@@ -13,6 +13,8 @@ public :
 	bool widgetWork;
 	bool boardConnected;
 	double weight;
+	bool balanceDataUpdated;
+	bool cameraDataUpdated;
 
 };
 
