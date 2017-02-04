@@ -34,9 +34,6 @@ private:
 	Converter *converter;
 	QThread *captureThread, *converterThread;
 
-	QVBoxLayout *main_layout;
-	QVBoxLayout *vertical_layout;
-	QHBoxLayout *sub_layout;
 	QImageLabel *image_label;
 	QMenuBar *menuBar;
 	QPushButton *load_button;

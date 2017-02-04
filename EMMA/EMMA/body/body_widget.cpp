@@ -22,10 +22,10 @@ Body_Widget::Body_Widget(QWidget *parent)
 
 	// Objekt Erstellung
 	capture = new Capture();
-	converter = new Converter();
-	main_layout = new QVBoxLayout(this);
-	vertical_layout = new QVBoxLayout(this);
-	sub_layout = new QHBoxLayout(this);
+    converter = new Converter();
+    auto& mainVLayout = ui.mainVLayout;
+    auto& sideVLayout = ui.sideVLayout;
+    auto& subHLayout = ui.subHLayout;
 	image_label = new QImageLabel(this);
 
 	load_button = new QPushButton(this);
@@ -62,17 +62,14 @@ Body_Widget::Body_Widget(QWidget *parent)
 	menuBar->setStyleSheet("color: red;");
 
 
-	vertical_layout->addWidget(load_button);
-	vertical_layout->addWidget(button1);
-	vertical_layout->addWidget(button2);
-	vertical_layout->addWidget(button3);
-	vertical_layout->addWidget(button4);
-	vertical_layout->addWidget(button5);
-	sub_layout->addWidget(image_label);
-	sub_layout->addLayout(vertical_layout);
-	main_layout->addLayout(sub_layout);
-	main_layout->setMenuBar(menuBar);
-	setLayout(main_layout);
+    sideVLayout->addWidget(load_button);
+    sideVLayout->addWidget(button1);
+    sideVLayout->addWidget(button2);
+    sideVLayout->addWidget(button3);
+    sideVLayout->addWidget(button4);
+    sideVLayout->addWidget(button5);
+    subHLayout->insertWidget(0,image_label);
+    mainVLayout->setMenuBar(menuBar);
 	setWindowTitle(tr("Software Ready"));
 	adjustSize();
 	setMinimumSize(800, 600);
