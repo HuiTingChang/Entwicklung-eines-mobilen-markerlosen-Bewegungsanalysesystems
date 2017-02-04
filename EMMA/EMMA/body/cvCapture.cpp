@@ -43,40 +43,18 @@ void Capture::timerEvent(QTimerEvent * ev) {
 	
 	if (ev->timerId() != m_timer.timerId()) return;
 
-	//Mat frame =cv::imread("C:/SWE 16_17/Gruppe-13/Kinect_Body_Code/Body_Widget/penguin2.jpg");
 	double angle = 0;
-	Mat frame = kinect.run(&angle);
+	QMap<uint, CameraSpacePoint> jointPos;
+	Mat frame = kinect.run(jointPos);
 
 	if (frame.empty())
 	{
 		qDebug() << "read frame failed";
-		//m_timer.stop();
-		// return;
 	}
 	else
 	{
 		qDebug() << "read frame suceeded!!!";
-		//         namedWindow("Loaded Image from DLL", CV_WINDOW_AUTOSIZE);
-		//         imshow("Loaded Image from DLL", frame);
-		//         waitKey(0);
 	}
 
-
-	///// ALTE VERSION //////////
-
-	//    if (!m_videoCapture->read(frame)) { // Blocks until a new frame is ready
-	//        m_timer.stop();
-	//        return;
-	//    }
-	//    if (m_stopNow)
-	//    {
-	//        if (m_videoCapture->isOpened())
-	//            m_videoCapture->release();
-	//        m_videoCapture.reset();
-	//        m_timer.stop();
-
-	//    }
-
-
-	emit matReady(frame);
+	emit matReady(frame, jointPos);
 }

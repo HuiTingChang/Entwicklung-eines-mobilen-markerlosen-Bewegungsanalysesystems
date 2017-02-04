@@ -16,7 +16,7 @@ Body_Widget::Body_Widget(QWidget *parent)
 
 
 
-
+	newState = new CurrentState();
 	data = new ApplicationData();
 //	BalanceBoard board(data, parent);
 
@@ -89,19 +89,21 @@ Body_Widget::Body_Widget(QWidget *parent)
 	capture->moveToThread(captureThread);
 	converter->moveToThread(converterThread);
 
-	converter->connect(capture, SIGNAL(matReady(cv::Mat)), SLOT(processFrame(cv::Mat)));
+	converter->connect(capture, SIGNAL(matReady(cv::Mat, QMap<uint, CameraSpacePoint>)), SLOT(processFrame(cv::Mat)));
 	//converter->connect(image_label, SIGNAL(resize(QSize)), SLOT(setSize(QSize))); // Ich habe das auskommentiert , damit man noch andere labels sieht
 
 	connect(load_button, SIGNAL(clicked()), this, SLOT(load_button_clicked()));
+	connect(capture, SIGNAL(matReady(cv::Mat, QMap<uint, CameraSpacePoint>)), this, SLOT(currentStateUpdate(QMap<uint, CameraSpacePoint> jointPos)));
 	connect(converter, SIGNAL(imageReady(QImage)), SLOT(setImage(QImage)));
 	connect(exitAction, SIGNAL(triggered()), this, SLOT(on_actionExit_triggered()));
-
+	connect(this, SIGNAL(dataReady()), this, SLOT(saveData()));
 
 
 
 
 	b = new BalanceBoardThread(data);
 	connect(b, SIGNAL(valueChanged(board_display_data)), this, SLOT(boardDataUpdate(board_display_data)));
+	connect(b, SIGNAL(valueChanged(board_display_data)), this, SLOT(currentStateUpdate(board_display_data)));
 	connect(b, SIGNAL(boardConnected()), this, SLOT(boardConnectedInfo()));
 	b->start();
 
@@ -184,5 +186,52 @@ void Body_Widget::boardConnectedInfo()
 	else{
 		ui.l_board_on->setText("The Balance Board is not connected");
 	}
+}
 
+void Body_Widget::currentStateUpdate(board_display_data data)
+{
+	newState->set_centOfPr(data.center_of_pressure);
+	newState->set_gewicht(data.total_weight);
+	newState->set_centOfGv();
+	if (!this->data->balanceDataUpdated)
+		this->data->balanceDataUpdated = true;
+	
+	checkSaveDate();
+}
+
+void Body_Widget::currentStateUpdate(QMap<uint, CameraSpacePoint> jointPos)
+{
+	QMap<uint, SpacePoint> j;
+	QMap<uint, CameraSpacePoint>::const_iterator i= jointPos.constBegin();
+	
+	while (i != jointPos.constEnd())
+	{
+		SpacePoint sp = { i.value().X, i.value().Y, i.value().Z };
+		j[i.key()] = sp;
+		i++;
+	}
+	
+	newState->set_jointPositions(j);
+	newState->set_angles();
+	
+	if (!data->cameraDataUpdated)
+		data->cameraDataUpdated = true;
+	
+	checkSaveDate();
+}
+
+void Body_Widget::checkSaveDate()
+{
+	if (!data->balanceDataUpdated || !data->cameraDataUpdated)
+		return;
+
+	emit(dataReady());
+}
+
+void Body_Widget::saveData()
+{
+	data->balanceDataUpdated = false;
+	data->cameraDataUpdated = false;
+	
+	//TODO Save data
 }

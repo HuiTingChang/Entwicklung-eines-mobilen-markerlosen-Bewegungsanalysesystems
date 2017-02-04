@@ -1,13 +1,11 @@
 #ifndef __CAMERA__
 #define __CAMERA__
 
-//#include <Windows.h>
 #include <Kinect.h>
 #include <opencv2/opencv.hpp>
-//#include <QVector3D>
 #include <vector>
 #include <array>
-
+#include <QMap>
 #include <wrl/client.h>
 using namespace Microsoft::WRL;
 using namespace cv;
@@ -37,7 +35,7 @@ private:
     std::array<cv::Vec3b, BODY_COUNT> colors;
 
 	// Joint Positions
-	std::map<UINT, CameraSpacePoint> jposition;
+	QMap<uint, CameraSpacePoint> jposition;
 
 	
 public:
@@ -48,7 +46,7 @@ public:
     ~Kinect();
 
     // Processing
-    Mat run(double* angle);
+    Mat run(QMap<uint, CameraSpacePoint>& j);
 
 private:
     // Initialize
@@ -94,8 +92,8 @@ private:
 	// Draw lines between circles
 	inline void Kinect::drawLine(cv::Mat& image, const Joint& joint1, const Joint& joint2, const cv::Vec3b& color, const int thickness=-1);
     
-	// Show Data
-    Mat show();
+	// Retrieve Data
+	Mat retrieveFrame();
 
     // Show Body
     inline Mat showBody();

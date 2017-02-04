@@ -22,11 +22,8 @@ Kinect::~Kinect()
 }
 
 // Processing
-Mat Kinect::run(double* angle)
+Mat Kinect::run(QMap<uint, CameraSpacePoint>& j)
 {
-    // Main Loop
-//    while( true )
-//	{
         // Update Data
         update();
 
@@ -40,8 +37,9 @@ Mat Kinect::run(double* angle)
 		// Angle calc
 	//	calcAngle(j1, j2, j3, angle);
 
+		j = QMap<uint, CameraSpacePoint>(jposition);
         // Send Data
-        return show();
+		return retrieveFrame();
 
  //   }
 }
@@ -393,7 +391,7 @@ inline void Kinect::drawLine(cv::Mat& image, const Joint& joint1, const Joint& j
 
 // 
 // Show Data
-Mat Kinect::show()
+Mat Kinect::retrieveFrame()
 {
     // Show Body
     return showBody();
@@ -402,21 +400,12 @@ Mat Kinect::show()
 // Show Body
 inline Mat Kinect::showBody()
 {
- /*   if( colorMat.empty() ){
-        return;
-    }*/
-
     // Resize Image
-	//Mat frame = cv::imread("C:/SWE 16_17/Gruppe-13/Kinect_Body_Code/Body_Widget/penguin2.jpg");
     cv::Mat resizeMat;
     const double scale = 0.5;
-    //cv::resize( frame, resizeMat, cv::Size(), scale, scale );
-	cv::resize(colorMat, resizeMat, cv::Size(), scale, scale);
+    cv::resize(colorMat, resizeMat, cv::Size(), scale, scale);
 
-    // Show Image
-    //cv::imshow( "Body", resizeMat );
-
-	// Return image
+ 	// Return image
 	return resizeMat;
 }
 

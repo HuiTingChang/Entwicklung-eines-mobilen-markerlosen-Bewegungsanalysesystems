@@ -9,26 +9,34 @@
 #include <QWidget>
 #include <QDebug>
 #include <QResizeEvent>
+
 #include "cvCapture.h"
 #include "cvConverter.h"
 #include "qimagelabel.h"
 #include "BalanceBoardThread.h"
+#include "CurrentState.h"
 #include "ui_emma.h"
 
 class Body_Widget : public QWidget
 {
 	Q_OBJECT
 
-
 public:
 	Body_Widget(QWidget *parent = 0);
 	~Body_Widget();
 
+	void checkSaveDate();
+
 	Q_SLOT void setImage(const QImage & img);
+	Q_SLOT void saveData();
+
+signals:
+	void dataReady();
 
 private:
 	Ui::Body_WidgetClass ui;
 	ApplicationData* data;
+	CurrentState* newState;
 	BalanceBoardThread* b;
 	Capture *capture;
 	Converter *converter;
@@ -44,6 +52,7 @@ private:
 	QPushButton *button4;
 	QPushButton *button5;
 
+	
 
 private slots:
 	virtual void closeEvent(QCloseEvent * ev);
@@ -52,6 +61,9 @@ private slots:
 	void load_button_clicked();
 	void boardDataUpdate(board_display_data data);
 	void boardConnectedInfo();
+	void currentStateUpdate(board_display_data data);
+	void currentStateUpdate(QMap<uint, CameraSpacePoint> jointPos);
+	//void saveDados();
 
 };
 
