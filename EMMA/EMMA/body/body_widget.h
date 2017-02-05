@@ -62,7 +62,7 @@ private slots:
 	void boardDataUpdate(board_display_data data);
 	void boardConnectedInfo();
 	void currentStateUpdate(board_display_data data);
-	void currentStateUpdate(QMap<uint, CameraSpacePoint> jointPos);
+	void currentStateUpdate(JointPositions jointPos);
 	//void saveDados();
 
 };

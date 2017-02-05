@@ -22,7 +22,7 @@ CGSpacePoint CurrentState::get_centOfGv() const
 	return centOfGv;
 }
 
-QMap<uint, SpacePoint> CurrentState::get_joints() const
+JointPositions CurrentState::get_joints() const
 {
 	return joints;
 }
@@ -47,7 +47,7 @@ void CurrentState::set_gewicht(float g)
 	gewicht = g;
 }
 
-void CurrentState::set_jointPositions(QMap<uint, SpacePoint> j)
+void CurrentState::set_jointPositions(JointPositions j)
 {
 	joints = j;
 }

@@ -44,7 +44,7 @@ void Capture::timerEvent(QTimerEvent * ev) {
 	if (ev->timerId() != m_timer.timerId()) return;
 
 	double angle = 0;
-	QMap<uint, CameraSpacePoint> jointPos;
+	JointPositions jointPos;
 	Mat frame = kinect.run(jointPos);
 
 	if (frame.empty())

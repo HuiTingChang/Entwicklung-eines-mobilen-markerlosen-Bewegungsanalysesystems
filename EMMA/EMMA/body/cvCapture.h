@@ -27,7 +27,7 @@ public:
 	Q_SIGNAL void started();
 	Q_SLOT void start();
 	Q_SLOT void stop();
-	Q_SIGNAL void matReady(const cv::Mat &, const QMap<uint, CameraSpacePoint> &);
+	Q_SIGNAL void matReady(const cv::Mat &, const JointPositions&);
 
 	bool getIsStopped();
 

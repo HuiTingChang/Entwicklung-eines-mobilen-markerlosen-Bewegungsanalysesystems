@@ -3,11 +3,13 @@
 
 #include <opencv2/opencv.hpp>
 
+#include "CurrentState.h"
+
 class MockCamera
 {
 public:
     MockCamera();
-    cv::Mat run(double* angle);
+    cv::Mat run(JointPositions& j);
 private:
     cv::Mat colorMat;
 };

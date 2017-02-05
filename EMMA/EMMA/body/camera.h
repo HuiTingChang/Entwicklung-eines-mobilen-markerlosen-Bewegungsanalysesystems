@@ -5,8 +5,10 @@
 #include <opencv2/opencv.hpp>
 #include <vector>
 #include <array>
-#include <QMap>
 #include <wrl/client.h>
+
+#include "CurrentState.h"
+
 using namespace Microsoft::WRL;
 using namespace cv;
 
@@ -35,7 +37,7 @@ private:
     std::array<cv::Vec3b, BODY_COUNT> colors;
 
 	// Joint Positions
-	QMap<uint, CameraSpacePoint> jposition;
+	JointPositions jposition;
 
 	
 public:
@@ -46,7 +48,7 @@ public:
     ~Kinect();
 
     // Processing
-    Mat run(QMap<uint, CameraSpacePoint>& j);
+    Mat run(JointPositions& j);
 
 private:
     // Initialize

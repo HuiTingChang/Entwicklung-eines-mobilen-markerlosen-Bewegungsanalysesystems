@@ -89,11 +89,11 @@ Body_Widget::Body_Widget(QWidget *parent)
 	capture->moveToThread(captureThread);
 	converter->moveToThread(converterThread);
 
-	converter->connect(capture, SIGNAL(matReady(cv::Mat, QMap<uint, CameraSpacePoint>)), SLOT(processFrame(cv::Mat)));
+	converter->connect(capture, SIGNAL(matReady(cv::Mat, JointPositions)), SLOT(processFrame(cv::Mat)));
 	//converter->connect(image_label, SIGNAL(resize(QSize)), SLOT(setSize(QSize))); // Ich habe das auskommentiert , damit man noch andere labels sieht
 
 	connect(load_button, SIGNAL(clicked()), this, SLOT(load_button_clicked()));
-	connect(capture, SIGNAL(matReady(cv::Mat, QMap<uint, CameraSpacePoint>)), this, SLOT(currentStateUpdate(QMap<uint, CameraSpacePoint> jointPos)));
+	connect(capture, SIGNAL(matReady(cv::Mat, JointPositions)), this, SLOT(currentStateUpdate(JointPositions jointPos)));
 	connect(converter, SIGNAL(imageReady(QImage)), SLOT(setImage(QImage)));
 	connect(exitAction, SIGNAL(triggered()), this, SLOT(on_actionExit_triggered()));
 	connect(this, SIGNAL(dataReady()), this, SLOT(saveData()));
@@ -199,10 +199,11 @@ void Body_Widget::currentStateUpdate(board_display_data data)
 	checkSaveDate();
 }
 
-void Body_Widget::currentStateUpdate(QMap<uint, CameraSpacePoint> jointPos)
+void Body_Widget::currentStateUpdate(JointPositions jointPos)
 {
-	QMap<uint, SpacePoint> j;
-	QMap<uint, CameraSpacePoint>::const_iterator i= jointPos.constBegin();
+	/*
+	JointPositions j;
+	JointPositions::const_iterator i= jointPos.constBegin();
 	
 	while (i != jointPos.constEnd())
 	{
@@ -210,8 +211,8 @@ void Body_Widget::currentStateUpdate(QMap<uint, CameraSpacePoint> jointPos)
 		j[i.key()] = sp;
 		i++;
 	}
-	
-	newState->set_jointPositions(j);
+	*/
+	newState->set_jointPositions(jointPos);
 	newState->set_angles();
 	
 	if (!data->cameraDataUpdated)

@@ -22,7 +22,7 @@ Kinect::~Kinect()
 }
 
 // Processing
-Mat Kinect::run(QMap<uint, CameraSpacePoint>& j)
+Mat Kinect::run(JointPositions& j)
 {
         // Update Data
         update();
@@ -226,9 +226,14 @@ inline void Kinect::drawBody()
             }
 
 			// Save Joint Position
-			jposition[joint.JointType] = joint.Position;
+			QVector3D j(
+					joint.Position.X,
+					joint.Position.Y,
+					joint.Position.Z
+					);
+			jposition[joint.JointType] = j;
 
-            // Draw Joint Position	
+            // Draw Joint Position
             drawEllipse( colorMat, joint, 5, colors[count] );
 
             // Draw Left Hand State
@@ -258,16 +263,16 @@ inline void Kinect::drawBody()
         ERROR_CHECK( body->GetJointOrientations( JointType::JointType_Count, &orientations[0] ) );
         */
 
-        
+
         // Retrieve Amount of Body Lean
         /*PointF amount;
         ERROR_CHECK( body->get_Lean( &amount ) );*/
-        
+
 		// Draw Skeleton
 		drawSkeleton(colorMat, body, colors[count]);
     } );
 
-	
+
 
 }
 
@@ -359,7 +364,7 @@ inline void Kinect::drawSkeleton(cv::Mat& image, const ComPtr<IBody> body, const
 	drawLine(image, joints[17], joints[18], color);
 	drawLine(image, joints[14], joints[15], color);
 	drawLine(image, joints[18], joints[19], color);
-	
+
 }
 
 inline void Kinect::drawLine(cv::Mat& image, const Joint& joint1, const Joint& joint2, const cv::Vec3b& color, const int thickness)

@@ -1,10 +1,14 @@
 // non-standard but widely supported preprocessor directive designed to cause 
 // the current source file to be included only once in a single compilation
-//#pragma once
+#pragma once
 
 #include <QPoint>
 #include <QMap>
+#include <QVector3D>
 
+#define JOINTS_COUNT 25
+
+/*
 struct SpacePoint
 {
 	SpacePoint() : X(0.0), Y(0.0), Z(0.0)
@@ -16,6 +20,8 @@ struct SpacePoint
 	float Y;
 	float Z;
 };
+*/
+typedef QVector3D SpacePoint;
 
 // center of gravity (schwerpunkt)
 typedef struct _CGSpacePoint
@@ -27,6 +33,7 @@ typedef struct _CGSpacePoint
 	float Y;
 } 	CGSpacePoint;
 
+typedef QMap<uint,SpacePoint> JointPositions;
 
 class CurrentState
 {
@@ -38,7 +45,7 @@ private:
 	float gewicht;
 
 	// from camera
-	QMap<uint, SpacePoint> joints;
+	JointPositions joints;
 	QMap<uint, float> angles;
 
 public:
@@ -50,14 +57,14 @@ public:
 	void set_centOfPr(QPoint cop);
 	void set_centOfGv();
 	void set_gewicht(float g);
-	void set_jointPositions(QMap<uint, SpacePoint> j);
+	void set_jointPositions(JointPositions j);
 	void set_angles();
 
 	// getter Methods
 	float get_gewicht() const;
 	QPoint get_centOfPr() const;
 	CGSpacePoint get_centOfGv() const;
-	QMap<uint, SpacePoint> get_joints() const;
+	JointPositions get_joints() const;
 	QMap<uint, float> get_angles() const;
 
 private:
