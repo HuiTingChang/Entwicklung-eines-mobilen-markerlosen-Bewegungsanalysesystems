@@ -1,20 +1,17 @@
 #ifndef BODY_WIDGET_H
 #define BODY_WIDGET_H
 
-#include <QVBoxLayout>
-#include <QHBoxLayout>
 #include <QLabel>
 #include <QMenuBar>
 #include <QPushButton>
 #include <QWidget>
-#include <QDebug>
-#include <QResizeEvent>
 
 #include "cvCapture.h"
 #include "cvConverter.h"
 #include "qimagelabel.h"
 #include "BalanceBoardThread.h"
 #include "CurrentState.h"
+#include "StreamIO.h"
 #include "ui_emma.h"
 
 class Body_Widget : public QWidget
@@ -25,32 +22,34 @@ public:
 	Body_Widget(QWidget *parent = 0);
 	~Body_Widget();
 
-	void checkSaveDate();
+	void checkSaveData();
 
 	Q_SLOT void setImage(const QImage & img);
-	Q_SLOT void saveData();
+	Q_SLOT void afterSaveData();
 
 signals:
 	void dataReady();
 
 private:
 	Ui::Body_WidgetClass ui;
-	ApplicationData* data;
-	CurrentState* newState;
-	BalanceBoardThread* b;
-	Capture *capture;
-	Converter *converter;
-	QThread *captureThread, *converterThread;
+	ApplicationData app_data;
+	CurrentState newState;
+	BalanceBoardThread boardThread;
+	StreamIO streamIOThread;
+	Capture capture;
+	Converter converter;
+	QThread captureThread, converterThread;
 
-	QImageLabel *image_label;
-	QMenuBar *menuBar;
-	QPushButton *load_button;
+	QImageLabel image_label;
+	QPushButton load_button;
 
-	QPushButton *button1;
-	QPushButton *button2;
-	QPushButton *button3;
-	QPushButton *button4;
-	QPushButton *button5;
+	QPushButton button1;
+	QPushButton button2;
+	QPushButton button3;
+	QPushButton button4;
+	QPushButton button5;
+
+	QMenuBar menuBar;
 
 	
 

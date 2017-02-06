@@ -1,7 +1,9 @@
 #include "CurrentState.h"
 
-CurrentState::CurrentState() : 
-centOfPr(QPoint(0, 0)), centOfGv(CGSpacePoint(0.0, 0.0)), gewicht(0.0)
+CurrentState::CurrentState():
+	centOfGv(SpacePoint(0.0, 0.0, 0.0)),
+	centOfPr(BoardPoint(0, 0)),
+	gewicht(0.0)
 {}
 
 CurrentState::~CurrentState()
@@ -12,12 +14,12 @@ float CurrentState::get_gewicht() const
 	return gewicht;
 }
 
-QPoint CurrentState::get_centOfPr() const
+BoardPoint CurrentState::get_centOfPr() const
 {
 	return centOfPr;
 }
 
-CGSpacePoint CurrentState::get_centOfGv() const
+SpacePoint CurrentState::get_centOfGv() const
 {
 	return centOfGv;
 }
@@ -32,7 +34,7 @@ QMap<uint, float> CurrentState::get_angles() const
 	return angles;
 }
 
-void CurrentState::set_centOfPr(QPoint cop)
+void CurrentState::set_centOfPr(BoardPoint cop)
 {
 	centOfPr = cop;
 }
@@ -66,11 +68,24 @@ QMap<uint, float> CurrentState::angleMeasurement()
 	return angles;
 }
 
-CGSpacePoint CurrentState::centerOfGravityMeasurement()
+SpacePoint CurrentState::centerOfGravityMeasurement()
 {
-	CGSpacePoint cog(0.0,0.0);
+	SpacePoint cog(0.0,0.0,0.0);
 
 	// TODO Hui-Ting Code
 
 	return cog;
+}
+
+QDataStream& CurrentState::__outStreamOperator(QDataStream& out) const
+{
+	// see http://doc.qt.io/qt-5/datastreamformat.html for what
+	// types are supported out of the box
+	out << joints;
+	return out;
+}
+
+QDataStream& operator<<(QDataStream& out, const CurrentState& state)
+{
+	return state.__outStreamOperator(out);
 }

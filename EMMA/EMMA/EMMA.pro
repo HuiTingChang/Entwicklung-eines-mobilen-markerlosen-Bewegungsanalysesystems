@@ -36,6 +36,7 @@ SOURCES += ../../inc/inih/ini.c \
         ApplicationData.cpp \
         BalanceBoardThread.cpp \
 	CurrentState.cpp \
+	StreamIO.cpp \
         body/body_widget.cpp \
         body/cvCapture.cpp \
         body/cvConverter.cpp \
@@ -47,6 +48,7 @@ HEADERS  += ../../inc/inih/ini.h \
         ApplicationData.h \
         BalanceBoardThread.h \
 	CurrentState.h \
+	StreamIO.h \
         body/body_widget.h \
         body/cvCapture.h \
         body/cvConverter.h \
