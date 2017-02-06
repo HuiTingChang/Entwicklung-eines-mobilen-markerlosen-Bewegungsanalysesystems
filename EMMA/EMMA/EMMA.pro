@@ -6,7 +6,8 @@
 
 QT       += core gui concurrent
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets \
+        printsupport # for QCustomPlot
 
 TARGET = EMMA
 TEMPLATE = app
@@ -31,11 +32,12 @@ CONFIG += c++11
 
 SOURCES += ../../inc/inih/ini.c \
         ../../inc/inih/cpp/INIReader.cpp \
+        ../../inc/QCustomPlot/src/qcustomplot.cpp \
+        ApplicationData.cpp \
+        CurrentState.cpp \
         main.cpp \
         BalanceBoard.cpp \
-        ApplicationData.cpp \
         BalanceBoardThread.cpp \
-	CurrentState.cpp \
 	StreamIO.cpp \
         body/body_widget.cpp \
         body/cvCapture.cpp \
@@ -44,10 +46,11 @@ SOURCES += ../../inc/inih/ini.c \
 
 HEADERS  += ../../inc/inih/ini.h \
         ../../inc/inih/cpp/INIReader.h \
-        BalanceBoard.h \
+        ../../inc/QCustomPlot/src/qcustomplot.h \
         ApplicationData.h \
+        CurrentState.h \
+        BalanceBoard.h \
         BalanceBoardThread.h \
-	CurrentState.h \
 	StreamIO.h \
         body/body_widget.h \
         body/cvCapture.h \
@@ -67,6 +70,7 @@ FORMS    += emma.ui
 
 INCLUDEPATH += ../../inc/wiiuse/src \
     ../../inc/inih/cpp \
+    ../../inc/QCustomPlot/src \
     body
 
 config_files.path = $${DESTDIR}
