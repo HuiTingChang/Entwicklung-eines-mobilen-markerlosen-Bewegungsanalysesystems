@@ -8,7 +8,6 @@
 
 #include "cvCapture.h"
 #include "cvConverter.h"
-#include "qimagelabel.h"
 #include "BalanceBoardThread.h"
 #include "CurrentState.h"
 #include "StreamIO.h"
@@ -40,7 +39,6 @@ private:
 	Converter converter;
 	QThread captureThread, converterThread;
 
-	QImageLabel image_label;
 	QPushButton load_button;
 
 	QPushButton button1;

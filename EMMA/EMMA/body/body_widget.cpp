@@ -14,7 +14,6 @@ Body_Widget::Body_Widget(QWidget *parent):
 	QWidget(parent),
 	boardThread(&app_data),
 	streamIOThread(&newState),
-	image_label(this),
 	load_button(this),
 	button1("One"),
 	button2("One"),
@@ -46,7 +45,7 @@ Body_Widget::Body_Widget(QWidget *parent):
 	// Einstellungen festsetzen
 	QSizePolicy spLeft(QSizePolicy::Preferred, QSizePolicy::Preferred);
 	spLeft.setHorizontalStretch(3);
-	image_label.setSizePolicy(spLeft);
+	ui.kinect_image_label->setSizePolicy(spLeft);
 
 	QSizePolicy spRight(QSizePolicy::Preferred, QSizePolicy::Preferred);
 	spRight.setHorizontalStretch(1);
@@ -69,7 +68,7 @@ Body_Widget::Body_Widget(QWidget *parent):
     sideVLayout->addWidget(&button3);
     sideVLayout->addWidget(&button4);
     sideVLayout->addWidget(&button5);
-    subHLayout->insertWidget(0,&image_label);
+    subHLayout->insertWidget(0,ui.kinect_image_label);
     mainVLayout->setMenuBar(&menuBar);
 	setWindowTitle(tr("Software Ready"));
 	adjustSize();
@@ -130,8 +129,8 @@ void Body_Widget::setImage(const QImage & img)
 	if (img.isNull() || img.width() <= 0 || img.height() <= 0)
 		return;
 
-	image_label.setPixmap(QPixmap::fromImage(img));
-	image_label.show();
+	ui.kinect_image_label->setPixmap(QPixmap::fromImage(img));
+	ui.kinect_image_label->show();
 }
 
 // Close the program

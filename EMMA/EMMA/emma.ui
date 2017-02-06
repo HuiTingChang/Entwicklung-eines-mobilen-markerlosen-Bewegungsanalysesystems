@@ -17,14 +17,7 @@
    <item>
     <layout class="QHBoxLayout" name="subHLayout">
      <item>
-      <widget class="QFrame" name="Kinect_frame">
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-      </widget>
+      <widget class="QImageLabel" name="kinect_image_label" native="true"/>
      </item>
      <item>
       <layout class="QVBoxLayout" name="sideVLayout">
@@ -150,14 +143,6 @@
            <string>TextLabel</string>
           </property>
          </widget>
-         <zorder>label_center_pressure</zorder>
-         <zorder>label_x_text</zorder>
-         <zorder>label_y_text</zorder>
-         <zorder>label_weight</zorder>
-         <zorder>label_center_pr_x</zorder>
-         <zorder>label_center_pr_y</zorder>
-         <zorder>l_weight</zorder>
-         <zorder>horizontalLayoutWidget</zorder>
         </widget>
        </item>
       </layout>
@@ -167,6 +152,13 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QImageLabel</class>
+   <extends>QWidget</extends>
+   <header>qimagelabel.h</header>
+   <container>1</container>
+  </customwidget>
  <resources/>
  <connections/>
 </ui>
