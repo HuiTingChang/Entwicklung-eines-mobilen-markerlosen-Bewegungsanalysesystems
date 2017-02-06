@@ -1,0 +1,9 @@
+Anwesenheit : Yushin, Nuno Gilbert; Die anderen haben Urlaub
+Hui-Ting macht HomeOffice und geht mit der Winkelberechnung weiter.
+Gilbert hat sich mit QCustomPlot beschäftigt und hat beispielsweise einen gestalten Plot mit Darstellung von belibigen Werten vorgestellt.
+Yushin fängt an, das von Gilbert CustomPlot im Projekt einzubinden und anzuwenden. QDataStream angefangen einzusetzen, um Stream von CurrrentState zu speichern.
+Nuno hat eine neue Klasse namens CurrentState hinzugefügt, so dass die aktuellen Werte gespeichert werden und weiterhin zur Verfügung stehen, um in einer Datei gespeichert zu werden.
+
+Nächster Treff wird am 09.02 stattfinden.
+
+Das Protokol wurde von Nuno geführt 
