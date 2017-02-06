@@ -11,6 +11,16 @@
 #include "BalanceBoardThread.h"
 #include "CurrentState.h"
 #include "StreamIO.h"
+
+// before including qcustomplot.h:
+// because windows.h breaks std::numeric_limits<T>::max
+// as http://stackoverflow.com/questions/2561368/illegal-token-on-right-side-of/2561377#2561377
+#ifdef WIN32
+#define NOMINMAX
+#undef max
+#undef min
+#endif
+
 #include "ui_emma.h"
 
 class Body_Widget : public QWidget

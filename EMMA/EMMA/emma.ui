@@ -22,6 +22,9 @@
      <item>
       <layout class="QVBoxLayout" name="sideVLayout">
        <item>
+        <widget class="QCustomPlot" name="exampleCustomPlot" native="true"/>
+       </item>
+       <item>
         <widget class="QFrame" name="boad_frame">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -159,6 +162,13 @@
    <header>qimagelabel.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
