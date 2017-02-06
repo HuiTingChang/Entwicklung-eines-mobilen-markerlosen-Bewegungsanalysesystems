@@ -37,7 +37,7 @@ Mat Kinect::run(JointPositions& j)
 		// Angle calc
 	//	calcAngle(j1, j2, j3, angle);
 
-		j = QMap<uint, CameraSpacePoint>(jposition);
+		j = JointPositions(jposition);
         // Send Data
 		return retrieveFrame();
 
