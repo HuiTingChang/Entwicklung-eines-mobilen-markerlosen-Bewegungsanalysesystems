@@ -4,7 +4,8 @@
 #include "mockcamera.h"
 using namespace std;
 
-MockCamera::MockCamera()
+MockCamera::MockCamera():
+	colorMat(colorHeight, colorWidth, cvChannelType)
 {
 
 }

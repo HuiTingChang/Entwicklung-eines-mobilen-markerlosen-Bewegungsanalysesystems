@@ -11,6 +11,9 @@ public:
     MockCamera();
     cv::Mat run(JointPositions& j);
 private:
+    int cvChannelType = CV_8UC4;
+    int colorWidth = 1920;
+    int colorHeight = 1080;
     cv::Mat colorMat;
 };
 
