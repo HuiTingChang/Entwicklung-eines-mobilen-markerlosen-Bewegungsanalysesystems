@@ -20,7 +20,7 @@ cv::Mat MockCamera::run(JointPositions& j)
     // Save Joint Position
     JointPositions j_tmp;
     std::vector<bool> jointsrange(JOINTS_COUNT);
-    QtConcurrent::map(jointsrange.begin(), jointsrange.end(), [&]( const int i ){
+    QtConcurrent::blockingMap(jointsrange.begin(), jointsrange.end(), [&j_tmp]( const bool i ){
             // meaningless
             QVector3D jp_i(
                     13, // x
