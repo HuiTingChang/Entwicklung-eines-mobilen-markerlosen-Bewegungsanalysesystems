@@ -27,7 +27,12 @@ Body_Widget::Body_Widget(QWidget *parent):
 	// For the slot SLOT(processFrame(cv::Mat))
 	qRegisterMetaType<cv::Mat>();
 
-
+	// For typedef'ed QMap's
+	qRegisterMetaType<SpacePoint>("SpacePoint");
+	//qRegisterMetaType<CanvasPoint>("CanvasPoint");
+	qRegisterMetaType<BoardPoint>("BoardPoint");
+	qRegisterMetaType<JointPositions>("JointPositions");
+	//qRegisterMetaType<JointCanvasPositions>("JointCanvasPositions");
 
 //	BalanceBoard board(app_data, parent);
 
