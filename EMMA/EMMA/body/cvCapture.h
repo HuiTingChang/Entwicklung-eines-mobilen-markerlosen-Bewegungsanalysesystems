@@ -27,7 +27,8 @@ public:
 	Q_SIGNAL void started();
 	Q_SLOT void start();
 	Q_SLOT void stop();
-	Q_SIGNAL void matReady(const cv::Mat &, const JointPositions&);
+	Q_SIGNAL void matReady(const cv::Mat &);
+	Q_SIGNAL void jointReady(const JointPositions&);
 
 	bool getIsStopped();
 

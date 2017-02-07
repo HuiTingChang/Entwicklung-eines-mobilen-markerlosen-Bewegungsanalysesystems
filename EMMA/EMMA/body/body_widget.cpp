@@ -89,11 +89,11 @@ Body_Widget::Body_Widget(QWidget *parent):
 
 	streamIOThread.start();
 
-	converter.connect(&capture, SIGNAL(matReady(cv::Mat, JointPositions)), SLOT(processFrame(cv::Mat)));
 	//converter.connect(image_label, SIGNAL(resize(QSize)), SLOT(setSize(QSize))); // Ich habe das auskommentiert , damit man noch andere labels sieht
 
 	connect(&load_button, SIGNAL(clicked()), this, SLOT(load_button_clicked()));
-	connect(&capture, SIGNAL(matReady(cv::Mat, JointPositions)), this, SLOT(currentStateUpdate(JointPositions jointPos)));
+	connect(&capture, SIGNAL(matReady(cv::Mat)), this, SLOT(processFrame(cv::Mat)));
+	connect(&capture, SIGNAL(jointReady(JointPositions)), this, SLOT(currentStateUpdate(JointPositions)));
 	connect(&converter, SIGNAL(imageReady(QImage)), SLOT(setImage(QImage)));
 	connect(exitAction, SIGNAL(triggered()), this, SLOT(on_actionExit_triggered()));
 	connect(this, SIGNAL(dataReady()), &streamIOThread, SLOT(write()));

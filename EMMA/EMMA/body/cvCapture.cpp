@@ -45,6 +45,8 @@ void Capture::timerEvent(QTimerEvent * ev) {
 
 	double angle = 0;
 	JointPositions jointPos;
+	emit jointReady(jointPos);
+
 	Mat frame = kinect.run(jointPos);
 
 	if (frame.empty())
@@ -54,7 +56,6 @@ void Capture::timerEvent(QTimerEvent * ev) {
 	else
 	{
 		qDebug() << "read frame suceeded!!!";
+		emit matReady(frame);
 	}
-
-	emit matReady(frame, jointPos);
 }
