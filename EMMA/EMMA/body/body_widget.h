@@ -69,7 +69,7 @@ private slots:
 	void boardDataUpdate(board_display_data data);
 	void boardConnectedInfo();
 	void currentStateUpdate(board_display_data data);
-	void currentStateUpdate(JointPositions jointPos);
+	void currentStateUpdate(const JointPositions& jointPos);
 	//void saveDados();
 
 };

@@ -93,7 +93,7 @@ Body_Widget::Body_Widget(QWidget *parent):
 
 	connect(&load_button, SIGNAL(clicked()), this, SLOT(load_button_clicked()));
 	connect(&capture, SIGNAL(matReady(cv::Mat)), &converter, SLOT(processFrame(cv::Mat)));
-	connect(&capture, SIGNAL(jointReady(JointPositions)), this, SLOT(currentStateUpdate(JointPositions)));
+	connect(&capture, SIGNAL(jointReady(const JointPositions&)), this, SLOT(currentStateUpdate(const JointPositions&)));
 	connect(&converter, SIGNAL(imageReady(QImage)), SLOT(setImage(QImage)));
 	connect(exitAction, SIGNAL(triggered()), this, SLOT(on_actionExit_triggered()));
 	connect(this, SIGNAL(dataReady()), &streamIOThread, SLOT(write()));
@@ -198,7 +198,7 @@ void Body_Widget::currentStateUpdate(board_display_data data)
 	checkSaveData();
 }
 
-void Body_Widget::currentStateUpdate(JointPositions jointPos)
+void Body_Widget::currentStateUpdate(const JointPositions& jointPos)
 {
 	/*
 	JointPositions j;
