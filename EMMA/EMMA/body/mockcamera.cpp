@@ -1,4 +1,4 @@
-#include <vector>
+#include <array>
 #include <QtConcurrent>
 
 #include "mockcamera.h"
@@ -20,15 +20,18 @@ cv::Mat MockCamera::run(JointPositions& j)
 
     // Save Joint Position
     JointPositions j_tmp;
-    std::vector<bool> jointsrange(JOINTS_COUNT);
-    QtConcurrent::blockingMap(jointsrange.begin(), jointsrange.end(), [&j_tmp]( const bool i ){
-            // meaningless
-            QVector3D jp_i(
-                    13, // x
-                    14, // y
-                    15  // z
-                    );
-            j_tmp[i] = jp_i;
+    QVector3D meaningless_joint(
+            13, // x
+            14, // y
+            15  // z
+            );
+    std::array<uint,JOINTS_COUNT> jointsrange;
+    for(int i=0; i<jointsrange.size(); ++i)
+    {
+        jointsrange[i] = i;
+    }
+    QtConcurrent::blockingMap(jointsrange.begin(), jointsrange.end(), [&j_tmp,meaningless_joint](const int i){
+        j_tmp[i] = meaningless_joint;
     });
     j = j_tmp;
 
