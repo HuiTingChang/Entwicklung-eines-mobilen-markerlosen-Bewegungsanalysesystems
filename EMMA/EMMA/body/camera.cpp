@@ -109,7 +109,7 @@ inline void Kinect::initializeBody()
     ERROR_CHECK( bodyFrameSource->OpenReader( &bodyFrameReader ) );
 
     // Initialize Body Buffer
-	QtConcurrent::map(bodies.begin(), bodies.end(), []( IBody*& body ){
+    QtConcurrent::blockingMap(bodies.begin(), bodies.end(), []( IBody*& body ){
         SafeRelease( body );
     } );
 
@@ -128,7 +128,7 @@ void Kinect::finalize()
     cv::destroyAllWindows();
 
     // Release Body Buffer
-	QtConcurrent::map( bodies.begin(), bodies.end(), []( IBody*& body ){
+    QtConcurrent::blockingMap( bodies.begin(), bodies.end(), []( IBody*& body ){
         SafeRelease( body );
     } );
 
@@ -173,7 +173,7 @@ inline void Kinect::updateBody()
     }
 
     // Release Previous Bodies
-	QtConcurrent::map( bodies.begin(), bodies.end(), []( IBody*& body ){
+    QtConcurrent::blockingMap( bodies.begin(), bodies.end(), []( IBody*& body ){
         SafeRelease( body );
     } );
 
@@ -207,7 +207,7 @@ inline void Kinect::drawBody()
 		bodyrange[i] = i;
 	}
 	// Draw Body Data to Color Data
-	QtConcurrent::map( bodyrange.begin(), bodyrange.end(), [&]( const int count ){
+    QtConcurrent::blockingMap( bodyrange.begin(), bodyrange.end(), [&]( const int count ){
         const ComPtr<IBody> body = bodies[count];
         if( body == nullptr ){
             return;
@@ -224,7 +224,7 @@ inline void Kinect::drawBody()
         std::array<Joint, JointType::JointType_Count> joints;
         ERROR_CHECK( body->GetJoints( static_cast<UINT>( joints.size() ), &joints[0] ) );
 
-		QtConcurrent::map( joints.begin(), joints.end(), [&]( const Joint& joint ){
+        QtConcurrent::blockingMap( joints.begin(), joints.end(), [&]( const Joint& joint ){
             // Check Joint Tracked
             if( joint.TrackingState == TrackingState::TrackingState_NotTracked ){
                 return;
