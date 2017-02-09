@@ -5,12 +5,15 @@
 #include <QMenuBar>
 #include <QPushButton>
 #include <QWidget>
+#include <QTimer>
 
 #include "cvCapture.h"
 #include "cvConverter.h"
 #include "BalanceBoardThread.h"
 #include "CurrentState.h"
 #include "StreamIO.h"
+
+#define THREAD_WAIT_TIME_MS 10
 
 // before including qcustomplot.h:
 // because windows.h breaks std::numeric_limits<T>::max
@@ -22,6 +25,8 @@
 #endif
 
 #include "ui_emma.h"
+
+#define THREAD_WAIT_TIME_MS 10
 
 class Body_Widget : public QWidget
 {
@@ -43,6 +48,7 @@ private:
 	Ui::Body_WidgetClass ui;
 	ApplicationData app_data;
 	CurrentState newState;
+	QTimer main_timer;
 	BalanceBoardThread boardThread;
 	StreamIO streamIOThread;
 	Capture captureThread;

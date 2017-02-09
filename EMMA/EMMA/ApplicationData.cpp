@@ -14,7 +14,8 @@ ApplicationData::ApplicationData():
 	boardConnected(false),
 	weight(0),
 	balanceDataUpdated(false),
-	cameraDataUpdated(false)
+	cameraDataUpdated(false),
+	main_timer_interval_ms(10)
 {
 	// for available methods see here
 	// https://github.com/benhoyt/inih/blob/master/cpp/INIReader.h

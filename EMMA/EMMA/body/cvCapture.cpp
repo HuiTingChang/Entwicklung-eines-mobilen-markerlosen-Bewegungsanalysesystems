@@ -15,37 +15,18 @@ using namespace std;
 using namespace cv;
 
 Capture::Capture(QObject* parent):
-	QThread(parent),
-	m_stopNow(false),
-	isStopped(true)
+	QThread(parent)
 {
 }
 
 void Capture::run()
 {
-	isStopped = false;
-    // Ruft die timerEvent Funktion von QObject (this) auf, die entsprechend ueberschrieben wird.
-	m_timer.start(10, this); 
+	// routine for thread start...
 	exec();
-	emit started();
 }
 
-void Capture::stop()
-{
-	isStopped = true;
-	m_timer.stop();
-}
-
-// check if the grabbing is stopped
-bool Capture::getIsStopped()
-{
-	return isStopped;
-}
-
-void Capture::timerEvent(QTimerEvent * ev) {
+void Capture::update() {
 	
-	if (ev->timerId() != m_timer.timerId()) return;
-
 	double angle = 0;
 	JointPositions jointPos;
 	emit jointReady(jointPos);
@@ -58,7 +39,7 @@ void Capture::timerEvent(QTimerEvent * ev) {
 	}
 	else
 	{
-		qDebug() << "read frame suceeded!!!";
+		qDebug() << "read frame succeeded!!!";
 		emit matReady(frame);
 	}
 }

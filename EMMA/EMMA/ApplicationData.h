@@ -17,6 +17,7 @@ public :
 	double weight;
 	bool balanceDataUpdated;
 	bool cameraDataUpdated;
+	int main_timer_interval_ms;
 
 };
 

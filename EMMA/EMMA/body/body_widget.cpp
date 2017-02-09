@@ -12,6 +12,7 @@ Q_DECLARE_METATYPE(cv::Mat)
 
 Body_Widget::Body_Widget(QWidget *parent):
 	QWidget(parent),
+	main_timer(this),
 	boardThread(&app_data),
 	streamIOThread(&newState),
 	converterThread(this, app_data.bodyRenderSize),
@@ -86,9 +87,7 @@ Body_Widget::Body_Widget(QWidget *parent):
 	converterThread.setProcessAll(false);
 
 
-	captureThread.start(QThread::HighPriority);
-	converterThread.start();
-	streamIOThread.start();
+	connect(&main_timer, SIGNAL(timeout()), &captureThread, SLOT(update()));
 
 	//converterThread.connect(image_label, SIGNAL(resize(QSize)), SLOT(setSize(QSize))); // Ich habe das auskommentiert , damit man noch andere labels sieht
 
@@ -96,6 +95,7 @@ Body_Widget::Body_Widget(QWidget *parent):
 	connect(&captureThread, SIGNAL(matReady(cv::Mat)), &converterThread, SLOT(processFrame(cv::Mat)));
 	connect(&captureThread, SIGNAL(jointReady(const JointPositions&)), this, SLOT(currentStateUpdate(const JointPositions&)));
 	connect(&converterThread, SIGNAL(imageReady(QImage)), SLOT(setImage(QImage)));
+	connect(exitAction, SIGNAL(triggered()), &main_timer, SLOT(stop()));
 	connect(exitAction, SIGNAL(triggered()), this, SLOT(on_actionExit_triggered()));
 	connect(this, SIGNAL(dataReady()), &streamIOThread, SLOT(write()));
 	connect(&streamIOThread, SIGNAL(dataSaveFinished()), this, SLOT(afterSaveData()));
@@ -116,13 +116,16 @@ Body_Widget::~Body_Widget()
 
 void Body_Widget::load_button_clicked()
 {
-	if (!captureThread.getIsStopped()) // && (ui.actionStop->isEnabled()) )
+	if (main_timer.isActive()) // && (ui.actionStop->isEnabled()) )
 	{
 		QMessageBox::warning(this, "Warning", "Already grabbing!");
 		return;
 	}
 
-	QMetaObject::invokeMethod(&captureThread, "start");
+	main_timer.start(app_data.main_timer_interval_ms);
+	captureThread.start(QThread::HighPriority);
+	converterThread.start();
+	streamIOThread.start();
 }
 
 void Body_Widget::setImage(const QImage & img)
@@ -138,8 +141,9 @@ void Body_Widget::setImage(const QImage & img)
 void Body_Widget::closeEvent(QCloseEvent * ev)
 {
 	setWindowTitle("Closing Software");
-	QMetaObject::invokeMethod(&captureThread, "stop");
-	captureThread.wait(1000);
+	captureThread.wait(THREAD_WAIT_TIME_MS);
+	streamIOThread.wait(THREAD_WAIT_TIME_MS);
+	converterThread.wait(THREAD_WAIT_TIME_MS);
 
 
 	/*  converterThread.terminate();

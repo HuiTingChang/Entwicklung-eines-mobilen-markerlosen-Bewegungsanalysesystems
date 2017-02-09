@@ -1,5 +1,4 @@
 #include <QThread>
-#include <QBasicTimer>
 
 // OpenCv
 #include <opencv2/opencv.hpp>
@@ -19,27 +18,16 @@
 
 class Capture : public QThread {
 	Q_OBJECT
-	QBasicTimer m_timer;
-	QScopedPointer<cv::VideoCapture> m_videoCapture;
+	//QScopedPointer<cv::VideoCapture> m_videoCapture;
 
 public:
 	Capture(QObject * parent = 0);
-	Q_SIGNAL void started();
 	void run();
-	Q_SLOT void stop();
+	Q_SLOT void update();
 	Q_SIGNAL void matReady(const cv::Mat &);
 	Q_SIGNAL void jointReady(const JointPositions&);
 
-	bool getIsStopped();
-
 private:
-	void timerEvent(QTimerEvent * ev);
-	bool m_stopNow;
-	bool isStopped;
-	
 	// Constructor Initialisation wird aufgerufen
 	Kinect kinect;
-
-
-
 };
