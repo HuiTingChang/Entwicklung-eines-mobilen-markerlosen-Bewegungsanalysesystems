@@ -10,22 +10,21 @@
 #include <iostream>                         // cout, endl
 #include <cstdint>                         // uint32_t
 
-Converter::Converter(QObject * parent): QThread(parent), m_processAll(true), Widget(QSize(0, 0))
+Converter::Converter(QObject* parent, QSize widget_size):
+	QThread(parent),
+	m_processAll(true),
+	widget_size(widget_size)
 {
-	Widget.setWidth(420);
-	Widget.setHeight(315);
-
 }
 
 void Converter::setSize(QSize s)
 {
-	Widget = s;
-	//qDebug() << s;
+	widget_size = s;
 }
 
-QSize Converter::getWidget()
+QSize Converter::get_widget_size()
 {
-	return Widget;
+	return widget_size;
 }
 
 void Converter::setProcessAll(bool all)
@@ -84,33 +83,20 @@ void Converter::process(Mat frame) {
 	if (frame.empty())
 		return;
 
-	double breite, hoehe;
-	double Bildformat = (double)frame.cols / frame.rows;
-	double Widgetformat = (double)Widget.width() / Widget.height();
-	if (Bildformat<Widgetformat){
-		breite = Widget.width();
-		if (breite / Bildformat <= (Widget.height()))
-			hoehe = breite / Bildformat;
-		else
-		{
-			hoehe = Widget.height();
-			breite = hoehe * Bildformat;
-		}
+	cv::Size size(widget_size.width(), widget_size.height());
+	bool fit_longer_side = true;
+	int compare_wideness_widget_to_frame = frame.rows*widget_size.width() - frame.cols*widget_size.height();
+	if (0 < compare_wideness_widget_to_frame && fit_longer_side)
+	{
+		size.width = size.height * frame.cols / frame.rows;
 	}
-	else {
-		hoehe = Widget.height();
-		if (hoehe*Bildformat <= (Widget.width()))
-			breite = hoehe * Bildformat;
-		else
-		{
-			breite = Widget.width();
-			hoehe = breite / Bildformat;
-		}
-
+	else if (0 > compare_wideness_widget_to_frame) // if it's equal, nothing to do
+	{
+		size.height = size.width * frame.rows / frame.cols;
 	}
 	
 	// vom cv
-	resize(frame, frame, cv::Size(breite, hoehe));
+	resize(frame, frame, size);
 	if (!(frame.type() == CV_8UC1 || frame.type() == CV_8U))
 		cv::cvtColor(frame, frame, CV_BGR2RGB);
 

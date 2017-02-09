@@ -6,22 +6,18 @@
 #define INI_PATH "emma.ini"
 
 // Klasse fuer die globalen Variablen
-ApplicationData::ApplicationData()
-{
+ApplicationData::ApplicationData():
 	// default values	
-
-
-
-	// Test Things 
-	weight = 0; 
-	centOfPr = QPoint(0, 0);
-	widgetWork = true;
-	boardConnected = false;  
-	balanceDataUpdated = false;
-	cameraDataUpdated = false;
-
-
-
+	centOfPr(0, 0),
+	bodyRenderSize(420,315),
+	widgetWork(true),
+	boardConnected(false),
+	weight(0),
+	balanceDataUpdated(false),
+	cameraDataUpdated(false)
+{
+	// for available methods see here
+	// https://github.com/benhoyt/inih/blob/master/cpp/INIReader.h
 	INIReader reader(INI_PATH);
 	if(reader.ParseError() < 0)
 	{

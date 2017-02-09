@@ -14,6 +14,7 @@ Body_Widget::Body_Widget(QWidget *parent):
 	QWidget(parent),
 	boardThread(&app_data),
 	streamIOThread(&newState),
+	converterThread(this, app_data.bodyRenderSize),
 	load_button(this),
 	button1("One"),
 	button2("One"),

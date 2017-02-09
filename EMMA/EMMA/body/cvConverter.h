@@ -19,12 +19,12 @@ class Converter : public QThread {
 	static void matDeleter(void* mat);
 	void queue(const Mat & frame);
 	void process(Mat frame); 
-	void timerEvent(QTimerEvent * ev); 
+	void timerEvent(QTimerEvent * ev);
 	QImage convertMatToQImage(Mat const& input_img, bool bgr2rgb); 
 public:
-	explicit Converter(QObject * parent = 0);
+	Converter(QObject* parent, QSize widget_size);
 	void setProcessAll(bool all);
-	QSize getWidget(); 
+	QSize get_widget_size(); 
 
 	Q_SIGNAL void imageReady(const QImage &);
 	Q_SLOT void processFrame(const cv::Mat & frame);
@@ -33,7 +33,5 @@ public:
 
 
 private:
-	int breite;
-	int hoehe;
-	QSize Widget;
+	QSize widget_size;
 };
