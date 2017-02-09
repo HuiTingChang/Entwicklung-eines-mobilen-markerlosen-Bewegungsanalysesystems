@@ -10,7 +10,7 @@
 #include <iostream>                         // cout, endl
 #include <cstdint>                         // uint32_t
 
-Converter::Converter(QObject * parent) : QObject(parent), m_processAll(true), Widget(QSize(0, 0))
+Converter::Converter(QObject * parent): QThread(parent), m_processAll(true), Widget(QSize(0, 0))
 {
 	Widget.setWidth(420);
 	Widget.setHeight(315);

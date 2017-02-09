@@ -1,4 +1,4 @@
-#include <QObject>
+#include <QThread>
 #include <QBasicTimer>
 #include <QWidget>
 
@@ -11,7 +11,7 @@ using namespace std;
 using namespace cv;
 
 
-class Converter : public QObject {
+class Converter : public QThread {
 	Q_OBJECT
 	QBasicTimer m_timer;
 	Mat m_frame;

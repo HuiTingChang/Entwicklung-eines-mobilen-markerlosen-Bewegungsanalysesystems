@@ -15,6 +15,7 @@ StreamIO::~StreamIO()
 void StreamIO::run()
 {
 	output.open(QIODevice::WriteOnly);
+	exec();
 }
 
 void StreamIO::write()

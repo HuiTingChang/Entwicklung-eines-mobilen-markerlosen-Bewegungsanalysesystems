@@ -1,4 +1,4 @@
-#include <QObject>
+#include <QThread>
 #include <QBasicTimer>
 
 // OpenCv
@@ -17,7 +17,7 @@
 #define Kinect MockCamera
 #endif
 
-class Capture : public QObject {
+class Capture : public QThread {
 	Q_OBJECT
 	QBasicTimer m_timer;
 	QScopedPointer<cv::VideoCapture> m_videoCapture;
@@ -25,7 +25,7 @@ class Capture : public QObject {
 public:
 	Capture(QObject * parent = 0);
 	Q_SIGNAL void started();
-	Q_SLOT void start();
+	void run();
 	Q_SLOT void stop();
 	Q_SIGNAL void matReady(const cv::Mat &);
 	Q_SIGNAL void jointReady(const JointPositions&);

@@ -45,9 +45,8 @@ private:
 	CurrentState newState;
 	BalanceBoardThread boardThread;
 	StreamIO streamIOThread;
-	Capture capture;
-	Converter converter;
-	QThread captureThread, converterThread;
+	Capture captureThread;
+	Converter converterThread;
 
 	QPushButton load_button;
 

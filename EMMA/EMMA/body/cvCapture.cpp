@@ -14,16 +14,19 @@
 using namespace std;
 using namespace cv;
 
-Capture::Capture(QObject * parent) : QObject(parent), m_stopNow(false), isStopped(true)
+Capture::Capture(QObject* parent):
+	QThread(parent),
+	m_stopNow(false),
+	isStopped(true)
 {
-
 }
 
-void Capture::start() 
+void Capture::run()
 {
 	isStopped = false;
     // Ruft die timerEvent Funktion von QObject (this) auf, die entsprechend ueberschrieben wird.
 	m_timer.start(10, this); 
+	exec();
 	emit started();
 }
 

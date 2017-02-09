@@ -82,25 +82,19 @@ Body_Widget::Body_Widget(QWidget *parent):
 
 
 	// Everything runs at the same priority as the gui, so it won't supply useless frames.
-	converter.setProcessAll(false);
+	converterThread.setProcessAll(false);
 
 
-	captureThread.start();
-	captureThread.setPriority(QThread::HighPriority);
-
+	captureThread.start(QThread::HighPriority);
 	converterThread.start();
-
-	capture.moveToThread(&captureThread);
-	converter.moveToThread(&converterThread);
-
 	streamIOThread.start();
 
-	//converter.connect(image_label, SIGNAL(resize(QSize)), SLOT(setSize(QSize))); // Ich habe das auskommentiert , damit man noch andere labels sieht
+	//converterThread.connect(image_label, SIGNAL(resize(QSize)), SLOT(setSize(QSize))); // Ich habe das auskommentiert , damit man noch andere labels sieht
 
 	connect(&load_button, SIGNAL(clicked()), this, SLOT(load_button_clicked()));
-	connect(&capture, SIGNAL(matReady(cv::Mat)), &converter, SLOT(processFrame(cv::Mat)));
-	connect(&capture, SIGNAL(jointReady(const JointPositions&)), this, SLOT(currentStateUpdate(const JointPositions&)));
-	connect(&converter, SIGNAL(imageReady(QImage)), SLOT(setImage(QImage)));
+	connect(&captureThread, SIGNAL(matReady(cv::Mat)), &converterThread, SLOT(processFrame(cv::Mat)));
+	connect(&captureThread, SIGNAL(jointReady(const JointPositions&)), this, SLOT(currentStateUpdate(const JointPositions&)));
+	connect(&converterThread, SIGNAL(imageReady(QImage)), SLOT(setImage(QImage)));
 	connect(exitAction, SIGNAL(triggered()), this, SLOT(on_actionExit_triggered()));
 	connect(this, SIGNAL(dataReady()), &streamIOThread, SLOT(write()));
 	connect(&streamIOThread, SIGNAL(dataSaveFinished()), this, SLOT(afterSaveData()));
@@ -121,13 +115,13 @@ Body_Widget::~Body_Widget()
 
 void Body_Widget::load_button_clicked()
 {
-	if (!capture.getIsStopped()) // && (ui.actionStop->isEnabled()) )
+	if (!captureThread.getIsStopped()) // && (ui.actionStop->isEnabled()) )
 	{
 		QMessageBox::warning(this, "Warning", "Already grabbing!");
 		return;
 	}
 
-	QMetaObject::invokeMethod(&capture, "start");
+	QMetaObject::invokeMethod(&captureThread, "start");
 }
 
 void Body_Widget::setImage(const QImage & img)
@@ -143,7 +137,7 @@ void Body_Widget::setImage(const QImage & img)
 void Body_Widget::closeEvent(QCloseEvent * ev)
 {
 	setWindowTitle("Closing Software");
-	QMetaObject::invokeMethod(&capture, "stop");
+	QMetaObject::invokeMethod(&captureThread, "stop");
 	captureThread.wait(1000);
 
 
@@ -160,7 +154,7 @@ void Body_Widget::closeEvent(QCloseEvent * ev)
 void Body_Widget::on_actionExit_triggered()
 {
 	setWindowTitle("Closing Software");
-	QMetaObject::invokeMethod(&capture, "stop");
+	QMetaObject::invokeMethod(&captureThread, "stop");
 	captureThread.wait(1000);
 	QApplication::quit();
 }
