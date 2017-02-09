@@ -1,0 +1,8 @@
+Anwesenheit : Yushin, Nuno, Inna, Gilbert; Die anderen haben Urlaub
+Hui-Ting beschäftigt weiterhin mit der Berechnung von Winkeln.
+Gilbert hat die Erweiterung und die Anbindung von den Plots gezeigt und angesprochen. Funktionen/Klasse sollen vorbereitet werden mit den geeigneten Datenstrukturen.  
+Yushin + Nuno : Bug Probleme mit Signal and Slots gelöst. Haben sich mit QT Designer beschäftigt und eine Vorlage für die GUI entwickelt. 
+Inna: OpenCv Installation, Mit-Überlegung bei Datenauswertung (vom Board)
+Nächster Treff wird am 13.02 stattfinden. Yushin versucht den Raum zu organisieren. 
+
+Das Protokol wurde von Gilbert geführt 
