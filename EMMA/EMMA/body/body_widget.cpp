@@ -33,6 +33,7 @@ Body_Widget::Body_Widget(QWidget *parent):
 	qRegisterMetaType<BoardPoint>("BoardPoint");
 	qRegisterMetaType<JointPositions>("JointPositions");
 	//qRegisterMetaType<JointCanvasPositions>("JointCanvasPositions");
+	qRegisterMetaType<board_display_data>("board_display_data");
 
 //	BalanceBoard board(app_data, parent);
 

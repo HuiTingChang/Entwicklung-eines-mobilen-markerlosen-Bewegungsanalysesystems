@@ -19,11 +19,17 @@ struct board_display_data
 	{
 	}
 
+	board_display_data() :
+		total_weight(0),
+		center_of_pressure()
+	{
+	}
+
 	float total_weight;
 	QPoint center_of_pressure;
 };
 
-//Q_DECLARE_METATYPE(board_display_data)
+Q_DECLARE_METATYPE(board_display_data)
 
 class BalanceBoardThread : public QThread
 {
