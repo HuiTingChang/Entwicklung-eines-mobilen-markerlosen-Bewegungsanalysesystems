@@ -54,8 +54,8 @@ public:
     // Initialize
     void initialize();
 
-	// Processing
-	Mat run(JointPositions& j, JointOrientations& o);
+    // Processing
+    virtual CameraData run();
 
 private:
     
@@ -113,39 +113,6 @@ private:
 	
 	// Calculates the lenth of a 3-D vector
 //	double calcVectorLength(const QVector3D v);
-};
-
-class camera_error: public std::exception
-{
-public:
-	virtual const char* what() const throw()=0;
-}
-
-class camera_inactive_error: public camera_error
-{
-public:
-	virtual const char* what() const throw()
-	{
-		return "Camera does not have any open stream";
-	}
-};
-
-class camera_not_available_error: public camera_error
-{
-public:
-	virtual const char* what() const throw()
-	{
-		return "Camera is inactive";
-	}
-};
-
-class camera_not_found_error: public camera_error
-{
-public:
-	virtual const char* what() const throw()
-	{
-		return "Camera can not be found";
-	}
 };
 
 #endif // __CAMERA__

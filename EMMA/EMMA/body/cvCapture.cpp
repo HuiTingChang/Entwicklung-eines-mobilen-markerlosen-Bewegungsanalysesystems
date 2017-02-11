@@ -37,22 +37,17 @@ void Capture::run()
 }
 
 void Capture::update() {
-	
-	//double angle = 0;
-	JointPositions jointPos;
-	JointOrientations jointOrient;
+	CameraData data = kinect.run();
 
-	Mat frame = kinect.run(jointPos, jointOrient);
+	emit jointReady(data.jpositions, data.jorientations);
 
-	emit jointReady(jointPos, jointOrient);
-
-	if (frame.empty())
+	if (data.frame.empty())
 	{
 		qDebug() << "read frame failed";
 	}
 	else
 	{
 		qDebug() << "read frame succeeded!!!";
-		emit matReady(frame);
+		emit matReady(data.frame);
 	}
 }

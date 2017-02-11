@@ -24,7 +24,7 @@ KinectCamera::~KinectCamera()
 }
 
 // Processing
-Mat KinectCamera::run(JointPositions& j, JointOrientations& o)
+CameraData KinectCamera::run()
 {
         // Update Data
         update();
@@ -40,11 +40,12 @@ Mat KinectCamera::run(JointPositions& j, JointOrientations& o)
 		//	calcAngle(j1, j2, j3, angle);
 
 		// Send Data
-		j = JointPositions(jposition);
-		o = JointOrientations(jorientation);
+	CameraData result;
+	result.joints = JointPositions(jposition);
+	result.jorientations = JointOrientations(jorientation);
+	result.frame = retrieveFrame();
 
-		return retrieveFrame();
-
+	return result;
 }
 
 /** Initialize
