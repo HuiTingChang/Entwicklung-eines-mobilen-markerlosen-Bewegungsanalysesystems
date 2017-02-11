@@ -41,7 +41,7 @@ CameraData KinectCamera::run()
 
 		// Send Data
 	CameraData result;
-	result.joints = JointPositions(jposition);
+	result.jpositions = JointPositions(jposition);
 	result.jorientations = JointOrientations(jorientation);
 	result.frame = retrieveFrame();
 
@@ -51,13 +51,13 @@ CameraData KinectCamera::run()
 /** Initialize
  *  @throws camera_not_found_error (see initializeSensor)
  */
-int KinectCamera::initialize()
+void KinectCamera::initialize()
 {
     cv::setUseOptimized( true );
 	
 
     // Initialize Sensor
-    initializeSensor()
+    initializeSensor();
 
     // Initialize Color
     initializeColor();
@@ -67,8 +67,6 @@ int KinectCamera::initialize()
    
     // Wait a Few Seconds until begins to Retrieve Data from Sensor ( about 2000-[ms] )
     std::this_thread::sleep_for( std::chrono::seconds( 2 ) );
-	
-	return 0;
 }
 
 // Initialize Sensor
