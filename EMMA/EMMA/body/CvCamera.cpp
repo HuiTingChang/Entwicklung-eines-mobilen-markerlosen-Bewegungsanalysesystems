@@ -9,13 +9,19 @@ CvCamera::CvCamera():
 
 }
 
-cv::Mat CvCamera::run(JointPositions& j)
+shared_ptr<cv::Mat> CvCamera::get_blank_mat()
 {
+    return shared_ptr<cv::Mat>(new cv::Mat(colorHeight, colorWidth, cvChannelType));
+}
+
+virtual CameraData CvCamera::run()
+{
+    CameraData result;
     // Resize Image
     //Mat frame = cv::imread("C:/SWE 16_17/Gruppe-13/Kinect_Body_Code/Body_Widget/penguin2.jpg");
-    cv::Mat resizeMat;
+    shared_ptr<cv::Mat> colorMat = get_blank_mat();
     const double scale = 0.5;
-    cv::resize(colorMat, resizeMat, cv::Size(), scale, scale);
+    cv::resize(*colorMat, result.frame, cv::Size(), scale, scale);
 
     // Save Joint Position
     JointPositions j_tmp;
@@ -32,8 +38,7 @@ cv::Mat CvCamera::run(JointPositions& j)
     QtConcurrent::blockingMap(j_tmp.begin(), j_tmp.end(), [meaningless_joint](QVector3D& item){
         item += meaningless_joint;
     });
-    j = j_tmp;
+    result.joints = j_tmp;
 
-    // Return image
-    return resizeMat;
+    return result;
 }
