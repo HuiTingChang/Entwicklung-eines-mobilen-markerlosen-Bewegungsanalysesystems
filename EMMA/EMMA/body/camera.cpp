@@ -242,6 +242,7 @@ inline void Kinect::drawBody()
 					joint.Position.Y,
 					joint.Position.Z
 					);
+			
 			jposition[joint.JointType] = j;
 
             // Draw Joint Position
@@ -351,30 +352,30 @@ inline void Kinect::drawSkeleton(cv::Mat& image, const ComPtr<IBody> body, const
 	std::array<Joint, JointType::JointType_Count> joints;
 	ERROR_CHECK(body->GetJoints(static_cast<UINT>(joints.size()), &joints[0]));
 
-	drawLine(image, joints[3], joints[2], color);
-	drawLine(image, joints[2], joints[20], color);
-	drawLine(image, joints[20], joints[4], color);
-	drawLine(image, joints[20], joints[8], color);
-	drawLine(image, joints[20], joints[1], color);
-	drawLine(image, joints[4], joints[5], color);
-	drawLine(image, joints[8], joints[9], color);
-	drawLine(image, joints[5], joints[6], color);
-	drawLine(image, joints[9], joints[10], color);
-	drawLine(image, joints[6], joints[7], color);
-	drawLine(image, joints[10], joints[11], color);
-	drawLine(image, joints[7], joints[21], color);
-	drawLine(image, joints[11], joints[23], color);
-	drawLine(image, joints[21], joints[22], color);
-	drawLine(image, joints[23], joints[24], color);
-	drawLine(image, joints[1], joints[0], color);
-	drawLine(image, joints[0], joints[12], color);
-	drawLine(image, joints[0], joints[16], color);
-	drawLine(image, joints[12], joints[13], color);
-	drawLine(image, joints[16], joints[17], color);
-	drawLine(image, joints[13], joints[14], color);
-	drawLine(image, joints[17], joints[18], color);
-	drawLine(image, joints[14], joints[15], color);
-	drawLine(image, joints[18], joints[19], color);
+	drawLine(image, joints[JointType_Head], joints[JointType_Neck], color);
+	drawLine(image, joints[JointType_Neck], joints[JointType_SpineShoulder], color);
+	drawLine(image, joints[JointType_SpineShoulder], joints[JointType_ShoulderLeft], color);
+	drawLine(image, joints[JointType_SpineShoulder], joints[JointType_ShoulderRight], color);
+	drawLine(image, joints[JointType_SpineShoulder], joints[JointType_SpineMid], color);
+	drawLine(image, joints[JointType_ShoulderLeft], joints[JointType_ElbowLeft], color);
+	drawLine(image, joints[JointType_ShoulderRight], joints[JointType_ElbowRight], color);
+	drawLine(image, joints[JointType_ElbowLeft], joints[JointType_WristLeft], color);
+	drawLine(image, joints[JointType_ElbowRight], joints[JointType_WristRight], color);
+	drawLine(image, joints[JointType_WristLeft], joints[JointType_HandLeft], color);
+	drawLine(image, joints[JointType_WristRight], joints[JointType_HandRight], color);
+	drawLine(image, joints[JointType_HandLeft], joints[JointType_HandTipLeft], color);
+	drawLine(image, joints[JointType_HandRight], joints[JointType_HandTipRight], color);
+	drawLine(image, joints[JointType_HandTipLeft], joints[JointType_ThumbLeft], color);
+	drawLine(image, joints[JointType_HandTipRight], joints[JointType_ThumbRight], color);
+	drawLine(image, joints[JointType_SpineMid], joints[JointType_SpineBase], color);
+	drawLine(image, joints[JointType_SpineBase], joints[JointType_HipLeft], color);
+	drawLine(image, joints[JointType_SpineBase], joints[JointType_HipRight], color);
+	drawLine(image, joints[JointType_HipLeft], joints[JointType_KneeLeft], color);
+	drawLine(image, joints[JointType_HipRight], joints[JointType_KneeRight], color);
+	drawLine(image, joints[JointType_KneeLeft], joints[JointType_AnkleLeft], color);
+	drawLine(image, joints[JointType_KneeRight], joints[JointType_AnkleRight], color);
+	drawLine(image, joints[JointType_AnkleLeft], joints[JointType_FootLeft], color);
+	drawLine(image, joints[JointType_AnkleRight], joints[JointType_FootRight], color);
 
 }
 
