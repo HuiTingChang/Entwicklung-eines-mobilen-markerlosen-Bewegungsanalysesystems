@@ -21,13 +21,16 @@ QThread(parent), gl_data(data)
 
 void Capture::run()
 {
-	if (kinect.initialize() == 0)
+	try
 	{
+		kinect.initialize();
 		gl_data->cameraConnected = true;
 		emit cameraConnected(QString("Connected"));
 	}
-	else
+	catch(const camera_error& e)
+	{
 		emit cameraConnected(QString("Not connected"));
+	}
 	
 	// routine for thread start...
 	exec();
@@ -35,7 +38,7 @@ void Capture::run()
 
 void Capture::update() {
 	
-	double angle = 0;
+	//double angle = 0;
 	JointPositions jointPos;
 	JointOrientations jointOrient;
 

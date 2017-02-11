@@ -47,15 +47,16 @@ Mat KinectCamera::run(JointPositions& j, JointOrientations& o)
 
 }
 
-// Initialize
+/** Initialize
+ *  @throws camera_not_found_error (see initializeSensor)
+ */
 int KinectCamera::initialize()
 {
     cv::setUseOptimized( true );
 	
 
     // Initialize Sensor
-	if(initializeSensor()!=0)
-		return -1;
+    initializeSensor()
 
     // Initialize Color
     initializeColor();
@@ -70,24 +71,34 @@ int KinectCamera::initialize()
 }
 
 // Initialize Sensor
-inline int KinectCamera::initializeSensor()
+inline void KinectCamera::initializeSensor()
 {
     // Open Sensor
-    ERROR_CHECK( GetDefaultKinectSensor( &kinect ) );
+    if( GetDefaultKinectSensor( &kinect ) != S_OK )
+    {
+        throw camera_not_found_error();
+    }
 
-    ERROR_CHECK( kinect->Open() );
-
-    // Check Open
-    BOOLEAN isOpen = FALSE;
-    ERROR_CHECK( kinect->get_IsOpen( &isOpen ) );
-    if( !isOpen ){
-        //throw std::runtime_error( "failed IKinectSensor::get_IsOpen( &isOpen )" );
-		return -1;
+    if(kinect->Open() != S_OK)
+    {
+        // Check Availability
+        BOOLEAN isAvailable = FALSE;
+        ERROR_CHECK(body->get_IsTracked( &isAvailable ) );
+        if( !isAvailable )
+        {
+            throw camera_not_available_error();
+        }
+	// Check Existence of an open stream
+	BOOLEAN isOpen = FALSE;
+	ERROR_CHECK( kinect->get_IsOpen( &isOpen ) );
+	if( !isOpen )
+        {
+	    throw camera_inactive_error();
+	}
     }
 
     // Retrieve Coordinate Mapper
     ERROR_CHECK( kinect->get_CoordinateMapper( &coordinateMapper ) );
-	return 0;
 }
 
 // Initialize Color

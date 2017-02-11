@@ -15,8 +15,8 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	main_timer(this),
 	boardThread(&app_data),
 	streamIOThread(&newState),
-	converterThread(this, app_data.bodyRenderSize),
-	captureThread(this, &app_data)
+	captureThread(this, &app_data),
+	converterThread(this, app_data.bodyRenderSize)
 {
 	ui.setupUi(this);
 
