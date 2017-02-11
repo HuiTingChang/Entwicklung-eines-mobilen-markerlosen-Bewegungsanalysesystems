@@ -56,6 +56,7 @@ public:
 	JointOrientations get_angles() const;
 
 	QDataStream& __outStreamOperator(QDataStream& out) const;
+	static CurrentState read_next_from_stream(QDataStream& input);
 
 private:
 

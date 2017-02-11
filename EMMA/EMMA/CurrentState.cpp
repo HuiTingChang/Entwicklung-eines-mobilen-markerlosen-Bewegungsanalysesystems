@@ -89,3 +89,10 @@ QDataStream& operator<<(QDataStream& out, const CurrentState& state)
 {
 	return state.__outStreamOperator(out);
 }
+
+CurrentState CurrentState::read_next_from_stream(QDataStream& input)
+{
+	CurrentState result;
+	input >> result.joints;
+	return result;
+}
