@@ -5,7 +5,7 @@
 #include <QPoint>
 #include <QMap>
 #include <QVector3D>
-#include <qvector4D>
+#include <QVector4D>
 #include <QDataStream>
 
 #define JOINTS_COUNT 25
