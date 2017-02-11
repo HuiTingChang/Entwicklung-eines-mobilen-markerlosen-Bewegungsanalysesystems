@@ -37,9 +37,11 @@ void Capture::update() {
 	
 	double angle = 0;
 	JointPositions jointPos;
-	emit jointReady(jointPos);
+	JointOrientations jointOrient;
 
-	Mat frame = kinect.run(jointPos);
+	Mat frame = kinect.run(jointPos, jointOrient);
+
+	emit jointReady(jointPos, jointOrient);
 
 	if (frame.empty())
 	{

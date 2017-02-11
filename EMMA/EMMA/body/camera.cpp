@@ -4,7 +4,8 @@
 #include <thread>
 #include <chrono>
 #include <QtConcurrent>
-//#include <cmath>
+
+
 
 // Constructor
 Kinect::Kinect()
@@ -22,7 +23,7 @@ Kinect::~Kinect()
 }
 
 // Processing
-Mat Kinect::run(JointPositions& j)
+Mat Kinect::run(JointPositions& j, JointOrientations& o)
 {
         // Update Data
         update();
@@ -39,7 +40,8 @@ Mat Kinect::run(JointPositions& j)
 
 		// Send Data
 		j = JointPositions(jposition);
-        
+		o = JointOrientations(jorientation);
+
 		return retrieveFrame();
 
 }
@@ -208,6 +210,8 @@ inline void Kinect::drawColor()
 inline void Kinect::drawBody()
 {
 	std::array<int,BODY_COUNT> bodyrange;
+	std::list<uint> jointNotTracked;
+	
 	for (int i = 0; i < BODY_COUNT; i++)
 	{
 		bodyrange[i] = i;
@@ -233,6 +237,7 @@ inline void Kinect::drawBody()
         QtConcurrent::blockingMap( joints.begin(), joints.end(), [&]( const Joint& joint ){
             // Check Joint Tracked
             if( joint.TrackingState == TrackingState::TrackingState_NotTracked ){
+				jointNotTracked.push_back(joint.JointType);
                 return;
             }
 
@@ -274,7 +279,24 @@ inline void Kinect::drawBody()
         std::array<JointOrientation, JointType::JointType_Count> orientations;
         ERROR_CHECK( body->GetJointOrientations( JointType::JointType_Count, &orientations[0] ) );
         
-		
+		QtConcurrent::blockingMap(orientations.begin(), orientations.end(), [&](const JointOrientation& orientation){
+			
+			// Check Joint Tracked
+			for (std::list<uint>::iterator it = jointNotTracked.begin(); it != jointNotTracked.end(); ++it)
+			{
+				if (*it == orientation.JointType)
+					return;
+			}
+			
+			QVector4D orient(
+				orientation.Orientation.x,
+				orientation.Orientation.y,
+				orientation.Orientation.z,
+				orientation.Orientation.w
+			);
+
+			jorientation[orientation.JointType] = orient;
+		});
 
         // Retrieve Amount of Body Lean
         /*PointF amount;

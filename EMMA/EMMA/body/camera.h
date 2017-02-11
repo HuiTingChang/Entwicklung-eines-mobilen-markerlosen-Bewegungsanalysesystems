@@ -6,7 +6,7 @@
 #include <vector>
 #include <array>
 #include <wrl/client.h>
-
+#include <QVector4D>
 
 #include "CurrentState.h"
 
@@ -40,6 +40,8 @@ private:
 	// Joint Positions
 	JointPositions jposition;
 
+	// Joint Orientations
+	JointOrientations jorientation;
 	
 public:
     // Constructor
@@ -52,7 +54,7 @@ public:
 	int initialize();
 
 	// Processing
-    Mat run(JointPositions& j);
+	Mat run(JointPositions& j, JointOrientations& o);
 
 private:
     

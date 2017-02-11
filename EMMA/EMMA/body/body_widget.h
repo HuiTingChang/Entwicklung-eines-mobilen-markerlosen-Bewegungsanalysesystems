@@ -68,7 +68,7 @@ private slots:
 	void boardConnectedInfo();
 	void cameraConnectedInfo(const QString &msg);
 	void currentStateUpdate(board_display_data data);
-	void currentStateUpdate(const JointPositions& jointPos);
+	void currentStateUpdate(const JointPositions& jointPos, const JointOrientations& jointOrient);
 	void drawPlot();
 
 };

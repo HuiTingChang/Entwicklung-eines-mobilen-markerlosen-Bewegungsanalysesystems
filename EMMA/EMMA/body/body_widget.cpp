@@ -26,7 +26,9 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	// For typedef'ed QMap's
 	qRegisterMetaType<SpacePoint>("SpacePoint");
 	qRegisterMetaType<BoardPoint>("BoardPoint");
+	qRegisterMetaType<Quaternion>("Quaternion");
 	qRegisterMetaType<JointPositions>("JointPositions");
+	qRegisterMetaType<JointOrientations>("JointOrientations");
 	qRegisterMetaType<board_display_data>("board_display_data");
 
 	setWindowTitle(tr("EMMA"));
@@ -46,7 +48,7 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	connect(&captureThread, SIGNAL(cameraConnected(QString)), this, SLOT(cameraConnectedInfo(QString)));
 	connect(ui.load_button, SIGNAL(clicked()), this, SLOT(load_button_clicked()));
 	connect(&captureThread, SIGNAL(matReady(cv::Mat)), &converterThread, SLOT(processFrame(cv::Mat)));
-	connect(&captureThread, SIGNAL(jointReady(const JointPositions&)), this, SLOT(currentStateUpdate(const JointPositions&)));
+	connect(&captureThread, SIGNAL(jointReady(const JointPositions&, const JointOrientations&)), this, SLOT(currentStateUpdate(const JointPositions&, const JointOrientations&)));
 	connect(&converterThread, SIGNAL(imageReady(QImage)), SLOT(setImage(QImage)));
 	connect(ui.exit_button, SIGNAL(clicked()), &main_timer, SLOT(stop()));
 	connect(ui.exit_button, SIGNAL(clicked()), this, SLOT(exit_button_clicked()));
@@ -160,10 +162,10 @@ void Body_Widget::currentStateUpdate(board_display_data data)
 	checkSaveData();
 }
 
-void Body_Widget::currentStateUpdate(const JointPositions& jointPos)
+void Body_Widget::currentStateUpdate(const JointPositions& jointPos, const JointOrientations& jointOrient)
 {
 	newState.set_jointPositions(jointPos);
-	newState.set_angles();
+	newState.set_angles(jointOrient);
 
 	if (!app_data.cameraDataUpdated)
 		app_data.cameraDataUpdated = true;

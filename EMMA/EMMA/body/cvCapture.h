@@ -26,7 +26,7 @@ public:
 	void run();
 	Q_SLOT void update();
 	Q_SIGNAL void matReady(const cv::Mat &);
-	Q_SIGNAL void jointReady(const JointPositions&);
+	Q_SIGNAL void jointReady(const JointPositions&, const JointOrientations&);
 	Q_SIGNAL void cameraConnected(QString);
 
 private:

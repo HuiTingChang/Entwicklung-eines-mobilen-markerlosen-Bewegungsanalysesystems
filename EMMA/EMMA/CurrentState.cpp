@@ -29,7 +29,7 @@ JointPositions CurrentState::get_joints() const
 	return joints;
 }
 
-QMap<uint, float> CurrentState::get_angles() const
+JointOrientations CurrentState::get_angles() const
 {
 	return angles;
 }
@@ -54,16 +54,16 @@ void CurrentState::set_jointPositions(JointPositions j)
 	joints = j;
 }
 
-void CurrentState::set_angles()
+void CurrentState::set_angles(JointOrientations o)
 {
-	angles = angleMeasurement();
+	angles = o; // angleMeasurement();
 }
 
-QMap<uint, float> CurrentState::angleMeasurement()
+JointOrientations CurrentState::angleMeasurement()
 {
-	QMap<uint, float> angles;
+	JointOrientations angles;
 
-	// TODO Hui-Ting Code
+	// TODO Hui-Ting Code, if necessary
 
 	return angles;
 }
