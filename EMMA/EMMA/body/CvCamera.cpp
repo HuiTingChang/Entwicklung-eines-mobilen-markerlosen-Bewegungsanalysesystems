@@ -1,15 +1,15 @@
 #include <QtConcurrent>
 
-#include "mockcamera.h"
+#include "CvCamera.h"
 using namespace std;
 
-MockCamera::MockCamera():
+CvCamera::CvCamera():
 	colorMat(colorHeight, colorWidth, cvChannelType)
 {
 
 }
 
-cv::Mat MockCamera::run(JointPositions& j)
+cv::Mat CvCamera::run(JointPositions& j)
 {
     // Resize Image
     //Mat frame = cv::imread("C:/SWE 16_17/Gruppe-13/Kinect_Body_Code/Body_Widget/penguin2.jpg");

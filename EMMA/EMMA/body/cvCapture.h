@@ -9,12 +9,12 @@
 
 // Eigene Dateien
 #ifdef WIN32
-#include "camera.h"
+#include "KinectCamera.h"
 #endif
 
 #ifndef __CAMERA__
-#include "mockcamera.h"
-#define Kinect MockCamera
+#include "CvCamera.h"
+#define KinectCamera CvCamera
 #endif
 
 class Capture : public QThread {
@@ -31,6 +31,6 @@ public:
 
 private:
 	// Constructor Initialisation wird aufgerufen
-	Kinect kinect;
+	KinectCamera kinect;
 	ApplicationData* gl_data;
 };

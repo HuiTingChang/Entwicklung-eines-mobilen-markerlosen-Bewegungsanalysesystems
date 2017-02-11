@@ -9,11 +9,12 @@
 #include <QVector4D>
 
 #include "CurrentState.h"
+#include "CvCamera.h"
 
 using namespace Microsoft::WRL;
 using namespace cv;
 
-class Kinect
+class KinectCamera: public CvCamera
 {
 private:
     // Sensor
@@ -45,10 +46,10 @@ private:
 	
 public:
     // Constructor
-    Kinect();
+    KinectCamera();
 
     // Destructor
-    ~Kinect();
+    ~KinectCamera();
 
 	// Initialize
 	int initialize();
@@ -95,11 +96,11 @@ private:
     // Draw Hand State
     inline void drawHandState( cv::Mat& image, const Joint& joint, HandState handState, TrackingConfidence handConfidence );
 
-	// Draw lines between circles
-	inline void Kinect::drawLine(cv::Mat& image, const Joint& joint1, const Joint& joint2, const cv::Vec3b& color, const int thickness=-1);
-    
-	// Retrieve Data
-	Mat retrieveFrame();
+    // Draw lines between circles
+    inline void drawLine(cv::Mat& image, const Joint& joint1, const Joint& joint2, const cv::Vec3b& color, const int thickness=-1);
+
+    // Retrieve Data
+    Mat retrieveFrame();
 
     // Show Body
     inline Mat showBody();

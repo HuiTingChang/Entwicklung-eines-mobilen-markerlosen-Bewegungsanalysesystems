@@ -5,10 +5,10 @@
 
 #include "CurrentState.h"
 
-class MockCamera
+class CvCamera
 {
 public:
-    MockCamera();
+    CvCamera();
     cv::Mat run(JointPositions& j);
 private:
     int cvChannelType = CV_8UC4;

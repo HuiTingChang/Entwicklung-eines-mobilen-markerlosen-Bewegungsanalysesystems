@@ -1,4 +1,4 @@
-#include "camera.h"
+#include "KinectCamera.h"
 #include "util.h"
 
 #include <thread>
@@ -8,7 +8,8 @@
 
 
 // Constructor
-Kinect::Kinect()
+KinectCamera::KinectCamera():
+    CvCamera()
 {
 	bodies = { { nullptr } };
 	// Initialize
@@ -16,14 +17,14 @@ Kinect::Kinect()
 }
 
 // Destructor
-Kinect::~Kinect()
+KinectCamera::~KinectCamera()
 {
     // Finalize
     finalize();
 }
 
 // Processing
-Mat Kinect::run(JointPositions& j, JointOrientations& o)
+Mat KinectCamera::run(JointPositions& j, JointOrientations& o)
 {
         // Update Data
         update();
@@ -47,7 +48,7 @@ Mat Kinect::run(JointPositions& j, JointOrientations& o)
 }
 
 // Initialize
-int Kinect::initialize()
+int KinectCamera::initialize()
 {
     cv::setUseOptimized( true );
 	
@@ -69,7 +70,7 @@ int Kinect::initialize()
 }
 
 // Initialize Sensor
-inline int Kinect::initializeSensor()
+inline int KinectCamera::initializeSensor()
 {
     // Open Sensor
     ERROR_CHECK( GetDefaultKinectSensor( &kinect ) );
@@ -90,7 +91,7 @@ inline int Kinect::initializeSensor()
 }
 
 // Initialize Color
-inline void Kinect::initializeColor()
+inline void KinectCamera::initializeColor()
 {
     // Open Color Reader
     ComPtr<IColorFrameSource> colorFrameSource;
@@ -109,7 +110,7 @@ inline void Kinect::initializeColor()
 }
 
 // Initialize Body
-inline void Kinect::initializeBody()
+inline void KinectCamera::initializeBody()
 {
     // Open Body Reader
     ComPtr<IBodyFrameSource> bodyFrameSource;
@@ -131,7 +132,7 @@ inline void Kinect::initializeBody()
 }
 
 // Finalize
-void Kinect::finalize()
+void KinectCamera::finalize()
 {
     cv::destroyAllWindows();
 
@@ -147,7 +148,7 @@ void Kinect::finalize()
 }
 
 // Update Data
-void Kinect::update()
+void KinectCamera::update()
 {
     // Update Color
     updateColor();
@@ -157,7 +158,7 @@ void Kinect::update()
 }
 
 // Update Color
-inline void Kinect::updateColor()
+inline void KinectCamera::updateColor()
 {
     // Retrieve Color Frame
     ComPtr<IColorFrame> colorFrame;
@@ -171,7 +172,7 @@ inline void Kinect::updateColor()
 }
 
 // Update Body
-inline void Kinect::updateBody()
+inline void KinectCamera::updateBody()
 {
     // Retrieve Body Frame
     ComPtr<IBodyFrame> bodyFrame;
@@ -190,7 +191,7 @@ inline void Kinect::updateBody()
 }
 
 // Draw Data
-void Kinect::draw()
+void KinectCamera::draw()
 {
     // Draw Color
     drawColor();
@@ -200,14 +201,14 @@ void Kinect::draw()
 }
 
 // Draw Color
-inline void Kinect::drawColor()
+inline void KinectCamera::drawColor()
 {
     // Create cv::Mat from Color Buffer
     colorMat = cv::Mat( colorHeight, colorWidth, CV_8UC4, &colorBuffer[0] );
 }
 
 // Draw Body
-inline void Kinect::drawBody()
+inline void KinectCamera::drawBody()
 {
 	std::array<int,BODY_COUNT> bodyrange;
 	std::list<uint> jointNotTracked;
@@ -311,7 +312,7 @@ inline void Kinect::drawBody()
 }
 
 // Draw Ellipse
-inline void Kinect::drawEllipse( cv::Mat& image, const Joint& joint, const int radius, const cv::Vec3b& color, const int thickness )
+inline void KinectCamera::drawEllipse( cv::Mat& image, const Joint& joint, const int radius, const cv::Vec3b& color, const int thickness )
 {
     if( image.empty() ){
         return;
@@ -328,7 +329,7 @@ inline void Kinect::drawEllipse( cv::Mat& image, const Joint& joint, const int r
 }
 
 // Draw Hand State
-inline void Kinect::drawHandState( cv::Mat& image, const Joint& joint, HandState handState, TrackingConfidence handConfidence )
+inline void KinectCamera::drawHandState( cv::Mat& image, const Joint& joint, HandState handState, TrackingConfidence handConfidence )
 {
     if( image.empty() ){
         return;
@@ -361,7 +362,7 @@ inline void Kinect::drawHandState( cv::Mat& image, const Joint& joint, HandState
 }
 
 // Draw Skeleton
-inline void Kinect::drawSkeleton(cv::Mat& image, const ComPtr<IBody> body, const cv::Vec3b& color, const int thickness)
+inline void KinectCamera::drawSkeleton(cv::Mat& image, const ComPtr<IBody> body, const cv::Vec3b& color, const int thickness)
 {
 	// Check Body Tracked
 	BOOLEAN tracked = FALSE;
@@ -401,7 +402,7 @@ inline void Kinect::drawSkeleton(cv::Mat& image, const ComPtr<IBody> body, const
 
 }
 
-inline void Kinect::drawLine(cv::Mat& image, const Joint& joint1, const Joint& joint2, const cv::Vec3b& color, const int thickness)
+inline void KinectCamera::drawLine(cv::Mat& image, const Joint& joint1, const Joint& joint2, const cv::Vec3b& color, const int thickness)
 {
 	// Convert Coordinate System and Draw Joint
 	ColorSpacePoint colorSpacePoint;
@@ -430,14 +431,14 @@ inline void Kinect::drawLine(cv::Mat& image, const Joint& joint1, const Joint& j
 
 // 
 // Show Data
-Mat Kinect::retrieveFrame()
+Mat KinectCamera::retrieveFrame()
 {
     // Show Body
     return showBody();
 }
 
 // Show Body
-inline Mat Kinect::showBody()
+inline Mat KinectCamera::showBody()
 {
     // Resize Image
     cv::Mat resizeMat;
@@ -449,7 +450,7 @@ inline Mat Kinect::showBody()
 }
 
 
-//void Kinect::calcAngle( JointType j1,  JointType j2,  JointType j3, double* angle)
+//void KinectCamera::calcAngle( JointType j1,  JointType j2,  JointType j3, double* angle)
 //{
 	//QVector3D v1_XYZ ( (jposition[j1].X - jposition[j2].X), (jposition[j1].Y - jposition[j2].Y), (jposition[j1].Z - jposition[j2].Z)) ;
 	//QVector3D v2_XYZ ( (jposition[j3].X - jposition[j2].X), (jposition[j3].Y - jposition[j2].Y), (jposition[j3].Z - jposition[j2].Z) );

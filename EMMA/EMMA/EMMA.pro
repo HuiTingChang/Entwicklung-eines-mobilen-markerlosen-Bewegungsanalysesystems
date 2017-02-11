@@ -40,6 +40,7 @@ SOURCES += ../../inc/inih/ini.c \
         BalanceBoardThread.cpp \
 	StreamIO.cpp \
         body/body_widget.cpp \
+        body/CvCamera.cpp \
         body/cvCapture.cpp \
         body/cvConverter.cpp \
         body/qimagelabel.cpp
@@ -53,17 +54,15 @@ HEADERS  += ../../inc/inih/ini.h \
         BalanceBoardThread.h \
 	StreamIO.h \
         body/body_widget.h \
+        body/CvCamera.h \
         body/cvCapture.h \
         body/cvConverter.h \
         body/qimagelabel.h \
         body/util.h
 
 win32 {
-    SOURCES += body/camera.cpp
-    HEADERS += body/camera.h
-} else {
-    SOURCES += body/mockcamera.cpp
-    HEADERS += body/mockcamera.h
+    SOURCES += body/KinectCamera.cpp
+    HEADERS += body/KinectCamera.h
 }
 
 FORMS    += emma.ui
