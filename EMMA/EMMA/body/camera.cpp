@@ -262,12 +262,12 @@ inline void Kinect::drawBody()
             }
         } );
 
-        /*
+        
         // Retrieve Joint Orientations
         std::array<JointOrientation, JointType::JointType_Count> orientations;
         ERROR_CHECK( body->GetJointOrientations( JointType::JointType_Count, &orientations[0] ) );
-        */
-
+        
+		
 
         // Retrieve Amount of Body Lean
         /*PointF amount;

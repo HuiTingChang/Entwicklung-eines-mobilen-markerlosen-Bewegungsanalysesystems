@@ -7,6 +7,7 @@
 #include <array>
 #include <wrl/client.h>
 
+
 #include "CurrentState.h"
 
 using namespace Microsoft::WRL;

@@ -14,15 +14,9 @@ Body_Widget::Body_Widget(QWidget *parent):
 	QWidget(parent),
 	main_timer(this),
 	boardThread(&app_data),
-	streamIOThread(&newState),
-	converterThread(this, app_data.bodyRenderSize),
-	load_button(this),
-	button1("One"),
-	button2("One"),
-	button3("One"),
-	button4("One"),
-	button5("One"),
-	menuBar(this)
+	streamIOThread(&newState)
+	//load_button(this),
+	//menuBar(this)
 {
 	ui.setupUi(this);
 
@@ -31,72 +25,30 @@ Body_Widget::Body_Widget(QWidget *parent):
 
 	// For typedef'ed QMap's
 	qRegisterMetaType<SpacePoint>("SpacePoint");
-	//qRegisterMetaType<CanvasPoint>("CanvasPoint");
 	qRegisterMetaType<BoardPoint>("BoardPoint");
 	qRegisterMetaType<JointPositions>("JointPositions");
-	//qRegisterMetaType<JointCanvasPositions>("JointCanvasPositions");
 	qRegisterMetaType<board_display_data>("board_display_data");
 
-//	BalanceBoard board(app_data, parent);
-
-	// Objekt Erstellung
-	auto& mainVLayout = ui.mainVLayout;
-	auto& sideVLayout = ui.sideVLayout;
-	auto& subHLayout = ui.subHLayout;
-
-	QMenu *fileMenu = new QMenu(tr("&File"), this);
-	fileMenu->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,stop:0 lightgray, stop:1 darkgray)");
-	QMenu *editMenu = new QMenu(tr("&Edit"), this);
-	editMenu->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,stop:0 lightgray, stop:1 darkgray)");
-	QAction *exitAction = fileMenu->addAction(tr("E&xit"));
-
-	// Einstellungen festsetzen
-	QSizePolicy spLeft(QSizePolicy::Preferred, QSizePolicy::Preferred);
-	spLeft.setHorizontalStretch(3);
-	ui.kinect_image_label->setSizePolicy(spLeft);
-
-	QSizePolicy spRight(QSizePolicy::Preferred, QSizePolicy::Preferred);
-	spRight.setHorizontalStretch(1);
-	load_button.setSizePolicy(spRight);
-
-	load_button.setText(tr("Load Image"));
-	load_button.setMaximumWidth(100);
-	//load_button.setMaximumHeight(30);
-
-
-	menuBar.addMenu(fileMenu);
-	menuBar.addMenu(editMenu);
-	menuBar.setFixedHeight(20);
-	menuBar.setStyleSheet("color: red;");
-
-
-    sideVLayout->addWidget(&load_button);
-    sideVLayout->addWidget(&button1);
-    sideVLayout->addWidget(&button2);
-    sideVLayout->addWidget(&button3);
-    sideVLayout->addWidget(&button4);
-    sideVLayout->addWidget(&button5);
-    subHLayout->insertWidget(0,ui.kinect_image_label);
-    mainVLayout->setMenuBar(&menuBar);
-	setWindowTitle(tr("Software Ready"));
-	adjustSize();
-	setMinimumSize(800, 600);
+	setWindowTitle(tr("EMMA"));
+	setMinimumSize(1000, 683);
 
 
 	// Everything runs at the same priority as the gui, so it won't supply useless frames.
 	converterThread.setProcessAll(false);
 
-
-	connect(&main_timer, SIGNAL(timeout()), &captureThread, SLOT(update()));
+	captureThread.start();
+	captureThread.setPriority(QThread::HighPriority);
 
 	//converterThread.connect(image_label, SIGNAL(resize(QSize)), SLOT(setSize(QSize))); // Ich habe das auskommentiert , damit man noch andere labels sieht
 
-	connect(&load_button, SIGNAL(clicked()), this, SLOT(load_button_clicked()));
-	connect(&captureThread, SIGNAL(matReady(cv::Mat)), &converterThread, SLOT(processFrame(cv::Mat)));
-	connect(&captureThread, SIGNAL(jointReady(const JointPositions&)), this, SLOT(currentStateUpdate(const JointPositions&)));
-	connect(&converterThread, SIGNAL(imageReady(QImage)), SLOT(setImage(QImage)));
-	connect(exitAction, SIGNAL(triggered()), &main_timer, SLOT(stop()));
-	connect(exitAction, SIGNAL(triggered()), this, SLOT(on_actionExit_triggered()));
+	capture.moveToThread(&captureThread);
+	converter.moveToThread(&converterThread);
+
+	streamIOThread.start();
+
+	connect(&capture, SIGNAL(matReady(cv::Mat)), &converter, SLOT(processFrame(cv::Mat)));
+	connect(&capture, SIGNAL(jointReady(const JointPositions&)), this, SLOT(currentStateUpdate(const JointPositions&)));
+	connect(&converter, SIGNAL(imageReady(QImage)), SLOT(setImage(QImage)));
 	connect(this, SIGNAL(dataReady()), &streamIOThread, SLOT(write()));
 	connect(&streamIOThread, SIGNAL(dataSaveFinished()), this, SLOT(afterSaveData()));
 
@@ -107,25 +59,12 @@ Body_Widget::Body_Widget(QWidget *parent):
 	connect(&boardThread, SIGNAL(valueChanged(board_display_data)), this, SLOT(currentStateUpdate(board_display_data)));
 	connect(&boardThread, SIGNAL(boardConnected()), this, SLOT(boardConnectedInfo()));
 
-
+	QMetaObject::invokeMethod(&capture, "start");
+	Body_Widget::drawPlot();
 }
 
 Body_Widget::~Body_Widget()
 {
-}
-
-void Body_Widget::load_button_clicked()
-{
-	if (main_timer.isActive()) // && (ui.actionStop->isEnabled()) )
-	{
-		QMessageBox::warning(this, "Warning", "Already grabbing!");
-		return;
-	}
-
-	main_timer.start(app_data.main_timer_interval_ms);
-	captureThread.start(QThread::HighPriority);
-	converterThread.start();
-	streamIOThread.start();
 }
 
 void Body_Widget::setImage(const QImage & img)
@@ -133,8 +72,8 @@ void Body_Widget::setImage(const QImage & img)
 	if (img.isNull() || img.width() <= 0 || img.height() <= 0)
 		return;
 
-	ui.kinect_image_label->setPixmap(QPixmap::fromImage(img));
-	ui.kinect_image_label->show();
+	ui.image_label->setPixmap(QPixmap::fromImage(img));
+	ui.image_label->show();
 }
 
 // Close the program
@@ -144,13 +83,6 @@ void Body_Widget::closeEvent(QCloseEvent * ev)
 	captureThread.wait(THREAD_WAIT_TIME_MS);
 	streamIOThread.wait(THREAD_WAIT_TIME_MS);
 	converterThread.wait(THREAD_WAIT_TIME_MS);
-
-
-	/*  converterThread.terminate();
-	captureThread.terminate();
-	QThread::msleep(500);
-	delete(converterThread);
-	delete(captureThread);*/
 
 	ev->accept();
 	return;
@@ -169,26 +101,28 @@ void Body_Widget::boardDataUpdate(board_display_data data)
 	auto x = data.center_of_pressure.x();
 	auto y = data.center_of_pressure.y();
 
-	if (x < - 270 || y < -270 ){
-		ui.label_center_pr_x->setText("  ");
-		ui.label_center_pr_y->setText("  ");
+	if (x < - 270 || y < -270 )
+	{
+		ui.centre_pressure_X->setText("");
+		ui.centre_pressure_Y->setText("");
 	}
 	else{
-		ui.label_center_pr_x->setText(QString::number(x));
-		ui.label_center_pr_y->setText(QString::number(y));
+		ui.centre_pressure_X->setText(QString::number(x));
+		ui.centre_pressure_Y->setText(QString::number(y));
 	}
-	ui.l_weight->setText(QString::number(data.total_weight));
+	
+	ui.weight->setText(QString::number(data.total_weight));
 }
 
 void Body_Widget::boardConnectedInfo()
 {
 	// Board things
 	if (app_data.boardConnected){
-		ui.l_board_on->setText("The Balance Board is connected");
+		ui.board_conn->setText("The Balance Board is connected");
 
 	}
 	else{
-		ui.l_board_on->setText("The Balance Board is not connected");
+		ui.board_conn->setText("The Balance Board is not connected");
 	}
 }
 
@@ -205,17 +139,6 @@ void Body_Widget::currentStateUpdate(board_display_data data)
 
 void Body_Widget::currentStateUpdate(const JointPositions& jointPos)
 {
-	/*
-	JointPositions j;
-	JointPositions::const_iterator i= jointPos.constBegin();
-
-	while (i != jointPos.constEnd())
-	{
-		SpacePoint sp = { i.value().X, i.value().Y, i.value().Z };
-		j[i.key()] = sp;
-		i++;
-	}
-	*/
 	newState.set_jointPositions(jointPos);
 	newState.set_angles();
 
@@ -237,4 +160,26 @@ void Body_Widget::afterSaveData()
 {
 	app_data.balanceDataUpdated = false;
 	app_data.cameraDataUpdated = false;
+}
+
+void Body_Widget::drawPlot()
+{
+	// generate some data:
+	QVector<double> x(101), y(101); // initialize with entries 0..100
+	for (int i = 0; i<101; ++i)
+	{
+		x[i] = i / 50.0 - 1; // x goes from -1 to 1
+		y[i] = x[i] * x[i]; // let's plot a quadratic function
+	}
+	// create graph and assign data to it:
+	
+	ui.customPlot->addGraph();
+	ui.customPlot->graph(0)->setData(x, y);
+	// give the axes some labels:
+	ui.customPlot->xAxis->setLabel("x");
+	ui.customPlot->yAxis->setLabel("y");
+	// set axes ranges, so we see all data:
+	ui.customPlot->xAxis->setRange(-1, 1);
+	ui.customPlot->yAxis->setRange(0, 1);
+	ui.customPlot->replot();
 }

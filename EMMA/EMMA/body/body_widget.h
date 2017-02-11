@@ -13,6 +13,8 @@
 #include "CurrentState.h"
 #include "StreamIO.h"
 
+#include "ui_emma.h"
+
 #define THREAD_WAIT_TIME_MS 10
 
 // before including qcustomplot.h:
@@ -23,10 +25,6 @@
 #undef max
 #undef min
 #endif
-
-#include "ui_emma.h"
-
-#define THREAD_WAIT_TIME_MS 10
 
 class Body_Widget : public QWidget
 {
@@ -54,7 +52,7 @@ private:
 	Capture captureThread;
 	Converter converterThread;
 
-	QPushButton load_button;
+	//QPushButton load_button;
 
 	QPushButton button1;
 	QPushButton button2;
@@ -62,7 +60,7 @@ private:
 	QPushButton button4;
 	QPushButton button5;
 
-	QMenuBar menuBar;
+	//QMenuBar menuBar;
 
 	
 
@@ -70,12 +68,11 @@ private slots:
 	virtual void closeEvent(QCloseEvent * ev);
 
 	void on_actionExit_triggered();
-	void load_button_clicked();
 	void boardDataUpdate(board_display_data data);
 	void boardConnectedInfo();
 	void currentStateUpdate(board_display_data data);
 	void currentStateUpdate(const JointPositions& jointPos);
-	//void saveDados();
+	void drawPlot();
 
 };
 
