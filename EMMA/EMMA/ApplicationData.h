@@ -14,6 +14,7 @@ public :
 	QSize bodyRenderSize;
 	bool widgetWork;
 	bool boardConnected;
+	bool cameraConnected;
 	double weight;
 	bool balanceDataUpdated;
 	bool cameraDataUpdated;

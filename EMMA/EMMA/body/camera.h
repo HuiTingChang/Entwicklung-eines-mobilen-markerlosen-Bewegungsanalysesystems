@@ -48,15 +48,16 @@ public:
     // Destructor
     ~Kinect();
 
-    // Processing
+	// Initialize
+	int initialize();
+
+	// Processing
     Mat run(JointPositions& j);
 
 private:
-    // Initialize
-    void initialize();
-
+    
     // Initialize Sensor
-    inline void initializeSensor();
+    inline int initializeSensor();
 
     // Initialize Color
     inline void initializeColor();

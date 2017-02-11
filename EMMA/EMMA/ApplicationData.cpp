@@ -9,13 +9,14 @@
 ApplicationData::ApplicationData():
 	// default values	
 	centOfPr(0, 0),
-	bodyRenderSize(420,315),
+	bodyRenderSize(480,367),
 	widgetWork(true),
 	boardConnected(false),
+	cameraConnected(false),
 	weight(0),
 	balanceDataUpdated(false),
 	cameraDataUpdated(false),
-	main_timer_interval_ms(10)
+	main_timer_interval_ms(50)
 {
 	// for available methods see here
 	// https://github.com/benhoyt/inih/blob/master/cpp/INIReader.h

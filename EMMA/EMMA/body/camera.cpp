@@ -11,7 +11,7 @@ Kinect::Kinect()
 {
 	bodies = { { nullptr } };
 	// Initialize
-    initialize();
+    //initialize();
 }
 
 // Destructor
@@ -31,39 +31,43 @@ Mat Kinect::run(JointPositions& j)
         draw();
 
 		// test joint points for calculating the angle of right knee
-		JointType j1 = JointType_HipRight;
-		JointType j2 = JointType_KneeRight;
-		JointType j3 = JointType_AnkleRight;
+		// JointType j1 = JointType_HipRight;
+		// JointType j2 = JointType_KneeRight;
+		// JointType j3 = JointType_AnkleRight;
 		// Angle calc
-	//	calcAngle(j1, j2, j3, angle);
+		//	calcAngle(j1, j2, j3, angle);
 
+		// Send Data
 		j = JointPositions(jposition);
-        // Send Data
+        
 		return retrieveFrame();
 
- //   }
 }
 
 // Initialize
-void Kinect::initialize()
+int Kinect::initialize()
 {
     cv::setUseOptimized( true );
+	
 
     // Initialize Sensor
-    initializeSensor();
+	if(initializeSensor()!=0)
+		return -1;
 
     // Initialize Color
     initializeColor();
-
+	
     // Initialize Body
     initializeBody();
-
+   
     // Wait a Few Seconds until begins to Retrieve Data from Sensor ( about 2000-[ms] )
     std::this_thread::sleep_for( std::chrono::seconds( 2 ) );
+	
+	return 0;
 }
 
 // Initialize Sensor
-inline void Kinect::initializeSensor()
+inline int Kinect::initializeSensor()
 {
     // Open Sensor
     ERROR_CHECK( GetDefaultKinectSensor( &kinect ) );
@@ -74,11 +78,13 @@ inline void Kinect::initializeSensor()
     BOOLEAN isOpen = FALSE;
     ERROR_CHECK( kinect->get_IsOpen( &isOpen ) );
     if( !isOpen ){
-        throw std::runtime_error( "failed IKinectSensor::get_IsOpen( &isOpen )" );
+        //throw std::runtime_error( "failed IKinectSensor::get_IsOpen( &isOpen )" );
+		return -1;
     }
 
     // Retrieve Coordinate Mapper
     ERROR_CHECK( kinect->get_CoordinateMapper( &coordinateMapper ) );
+	return 0;
 }
 
 // Initialize Color

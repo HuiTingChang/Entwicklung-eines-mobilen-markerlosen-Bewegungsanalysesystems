@@ -10,13 +10,13 @@
 // associated with qRegisterMetaType<cv::Mat>(); in body_widget.cpp
 Q_DECLARE_METATYPE(cv::Mat)
 
-Body_Widget::Body_Widget(QWidget *parent):
+Body_Widget::Body_Widget(QWidget *parent) :
 	QWidget(parent),
 	main_timer(this),
 	boardThread(&app_data),
-	streamIOThread(&newState)
-	//load_button(this),
-	//menuBar(this)
+	streamIOThread(&newState),
+	converterThread(this, app_data.bodyRenderSize),
+	captureThread(this, &app_data)
 {
 	ui.setupUi(this);
 
@@ -41,14 +41,15 @@ Body_Widget::Body_Widget(QWidget *parent):
 
 	//converterThread.connect(image_label, SIGNAL(resize(QSize)), SLOT(setSize(QSize))); // Ich habe das auskommentiert , damit man noch andere labels sieht
 
-	capture.moveToThread(&captureThread);
-	converter.moveToThread(&converterThread);
-
 	streamIOThread.start();
-
-	connect(&capture, SIGNAL(matReady(cv::Mat)), &converter, SLOT(processFrame(cv::Mat)));
-	connect(&capture, SIGNAL(jointReady(const JointPositions&)), this, SLOT(currentStateUpdate(const JointPositions&)));
-	connect(&converter, SIGNAL(imageReady(QImage)), SLOT(setImage(QImage)));
+	
+	connect(&captureThread, SIGNAL(cameraConnected(QString)), this, SLOT(cameraConnectedInfo(QString)));
+	connect(ui.load_button, SIGNAL(clicked()), this, SLOT(load_button_clicked()));
+	connect(&captureThread, SIGNAL(matReady(cv::Mat)), &converterThread, SLOT(processFrame(cv::Mat)));
+	connect(&captureThread, SIGNAL(jointReady(const JointPositions&)), this, SLOT(currentStateUpdate(const JointPositions&)));
+	connect(&converterThread, SIGNAL(imageReady(QImage)), SLOT(setImage(QImage)));
+	connect(ui.exit_button, SIGNAL(clicked()), &main_timer, SLOT(stop()));
+	connect(ui.exit_button, SIGNAL(clicked()), this, SLOT(exit_button_clicked()));
 	connect(this, SIGNAL(dataReady()), &streamIOThread, SLOT(write()));
 	connect(&streamIOThread, SIGNAL(dataSaveFinished()), this, SLOT(afterSaveData()));
 
@@ -59,12 +60,26 @@ Body_Widget::Body_Widget(QWidget *parent):
 	connect(&boardThread, SIGNAL(valueChanged(board_display_data)), this, SLOT(currentStateUpdate(board_display_data)));
 	connect(&boardThread, SIGNAL(boardConnected()), this, SLOT(boardConnectedInfo()));
 
-	QMetaObject::invokeMethod(&capture, "start");
 	Body_Widget::drawPlot();
 }
 
 Body_Widget::~Body_Widget()
 {
+}
+
+void Body_Widget::load_button_clicked()
+{
+	
+	if (main_timer.isActive()) // && (ui.actionStop->isEnabled()) )
+	{
+		QMessageBox::warning(this, "Warning", "Already grabbing!");
+		return;
+	}
+
+	main_timer.start(app_data.main_timer_interval_ms);
+	captureThread.start(QThread::HighPriority);
+	converterThread.start();
+	streamIOThread.start();
 }
 
 void Body_Widget::setImage(const QImage & img)
@@ -88,12 +103,15 @@ void Body_Widget::closeEvent(QCloseEvent * ev)
 	return;
 }
 
-void Body_Widget::on_actionExit_triggered()
+void Body_Widget::exit_button_clicked()
 {
 	setWindowTitle("Closing Software");
-	QMetaObject::invokeMethod(&captureThread, "stop");
-	captureThread.wait(1000);
+	captureThread.wait(THREAD_WAIT_TIME_MS);
+	streamIOThread.wait(THREAD_WAIT_TIME_MS);
+	converterThread.wait(THREAD_WAIT_TIME_MS);
+
 	QApplication::quit();
+
 }
 
 void Body_Widget::boardDataUpdate(board_display_data data)
@@ -112,6 +130,11 @@ void Body_Widget::boardDataUpdate(board_display_data data)
 	}
 	
 	ui.weight->setText(QString::number(data.total_weight));
+}
+
+void Body_Widget::cameraConnectedInfo(const QString & msg)
+{
+	ui.camera_conn->setText(msg);
 }
 
 void Body_Widget::boardConnectedInfo()

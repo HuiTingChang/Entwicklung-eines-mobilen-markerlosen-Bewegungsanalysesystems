@@ -38,7 +38,7 @@ public:
 
 	Q_SLOT void setImage(const QImage & img);
 	Q_SLOT void afterSaveData();
-
+	
 signals:
 	void dataReady();
 
@@ -52,24 +52,21 @@ private:
 	Capture captureThread;
 	Converter converterThread;
 
-	//QPushButton load_button;
-
 	QPushButton button1;
 	QPushButton button2;
 	QPushButton button3;
 	QPushButton button4;
-	QPushButton button5;
-
-	//QMenuBar menuBar;
-
-	
+	QPushButton button5;	
 
 private slots:
 	virtual void closeEvent(QCloseEvent * ev);
 
-	void on_actionExit_triggered();
+	//void on_actionExit_triggered();
+	void load_button_clicked();
+	void exit_button_clicked();
 	void boardDataUpdate(board_display_data data);
 	void boardConnectedInfo();
+	void cameraConnectedInfo(const QString &msg);
 	void currentStateUpdate(board_display_data data);
 	void currentStateUpdate(const JointPositions& jointPos);
 	void drawPlot();
