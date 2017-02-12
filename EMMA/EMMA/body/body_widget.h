@@ -51,7 +51,7 @@ private:
 	QTimer board_timer; 
 	BalanceBoardThread boardThread;
 	StreamIO streamIOThread;
-	CameraCapture captureThread;
+	CameraCapture capture;
 	Converter converterThread;
 
 private slots:

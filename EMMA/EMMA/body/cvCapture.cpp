@@ -1,15 +1,8 @@
 #include "cvCapture.h"
 
 #include <QtConcurrent>
-#include <QTimerEvent>
-#include <QThread>
-#include <QResizeEvent>
+#include <QMutexLocker>
 #include <QDebug>
-#include <QFile>
-
-#include <iostream>                         // cout, endl
-#include <cstdint>                         // uint32_t
-#include <QLibrary>
 
 using namespace std;
 
@@ -26,14 +19,18 @@ void kinect_initialize(CameraCapture* capture, KinectCamera* kc)
 	}
 }
 
-CameraCapture::CameraCapture(QObject* parent):
-	QThread(parent),
+CameraCapture::CameraCapture():
 	kinect_init_future(QtConcurrent::run(kinect_initialize, this, &kinect)),
 	state(CvCamera::DISCONNECTED)
 {
 }
 
-void CameraCapture::run()
+CameraCapture::~CameraCapture()
+{
+	waitAllForFinished();
+}
+
+void CameraCapture::start()
 {
 	try
 	{
@@ -44,16 +41,23 @@ void CameraCapture::run()
 	{
 		emit cameraStateChanged(CvCamera::DISCONNECTED);
 	}
-	// routine for thread start...
-	exec();
 }
 
-void CameraCapture::update()
+void CameraCapture::waitAllForFinished()
 {
-	kinect_init_future.waitForFinished();
-	CameraData data = kinect.run();
+	QMutexLocker queueLock(&updateQueueMutex);
+	for (auto i = updateQueue.begin(); i != updateQueue.end(); ++i)
+	{
+		i->waitForFinished();
+	}
+}
 
-	emit jointReady(data.jpositions, data.jorientations);
+void CameraCaptureUpdate(CameraCapture* capture, QFuture<void>* kf, KinectCamera* kc)
+{
+	kf->waitForFinished();
+	CameraData data = kc->run();
+
+	emit capture->jointReady(data.jpositions, data.jorientations);
 
 	if (data.frame.empty())
 	{
@@ -63,8 +67,24 @@ void CameraCapture::update()
 	{
 		qDebug() << "read frame succeeded!!!";
 
-		emit matReady(data.frame);
+		emit capture->matReady(data.frame);
 		
+	}
+}
+
+void CameraCapture::update()
+{
+	if (updateQueueMutex.tryLock())
+	{
+		updateQueueMutex.unlock();
+		QMutexLocker queueLock(&updateQueueMutex);
+		updateQueue.append(QtConcurrent::run(CameraCaptureUpdate, this, &kinect_init_future, &kinect));
+		for (auto i = updateQueue.begin(); i != updateQueue.end() && i->isFinished();)
+		{
+			auto j = i;
+			++i;
+			updateQueue.erase(j);
+		}
 	}
 }
 

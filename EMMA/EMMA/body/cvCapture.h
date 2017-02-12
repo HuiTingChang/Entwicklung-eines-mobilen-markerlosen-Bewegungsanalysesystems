@@ -1,5 +1,7 @@
-#include <QThread>
+#include <QObject>
 #include <QFuture>
+#include <QLinkedList>
+#include <QMutex>
 #include "ApplicationData.h"
 
 // OpenCv
@@ -16,12 +18,14 @@
 #define KinectCamera CvCamera
 #endif
 
-class CameraCapture : public QThread
+class CameraCapture: public QObject
 {
 	Q_OBJECT
 public:
-	CameraCapture(QObject * parent);
-	void run();
+	CameraCapture();
+	~CameraCapture();
+	void start();
+	void waitAllForFinished();
 	CvCamera::State get_state();
 	Q_SLOT void update();
 	Q_SIGNAL void matReady(const cv::Mat &);
@@ -29,8 +33,9 @@ public:
 	Q_SIGNAL void cameraStateChanged(CvCamera::State state);
 
 private:
-	// Constructor Initialisation wird aufgerufen
 	QFuture<void> kinect_init_future;
 	KinectCamera kinect;
 	CvCamera::State state;
+	QLinkedList<QFuture<void>> updateQueue;
+	QMutex updateQueueMutex;
 };

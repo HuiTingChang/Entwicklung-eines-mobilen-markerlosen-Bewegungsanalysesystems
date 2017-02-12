@@ -16,7 +16,6 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	main_timer(this),
 	boardThread(&app_data),
 	streamIOThread(&newState),
-	captureThread(this),
 	converterThread(this, app_data.bodyRenderSize, &app_data)
 {
 	
@@ -48,14 +47,12 @@ Body_Widget::Body_Widget(QWidget *parent) :
 
 	streamIOThread.start();
 	
-	
-
 	ui.camera_conn->setText("The Camera is not connected");
 	ui.camera_conn->setStyleSheet("QLabel { color : red; }");
-	connect(&captureThread, SIGNAL(cameraStateChanged(CvCamera::State)), this, SLOT(cameraConnectedInfo(CvCamera::State)));
+	connect(&capture, SIGNAL(cameraStateChanged(CvCamera::State)), this, SLOT(cameraConnectedInfo(CvCamera::State)));
 	connect(ui.load_button, SIGNAL(clicked()), this, SLOT(load_button_clicked()));
-	connect(&captureThread, SIGNAL(matReady(cv::Mat)), &converterThread, SLOT(processFrame(cv::Mat)));
-	connect(&captureThread, SIGNAL(jointReady(const JointPositions&, const JointOrientations&)), this, SLOT(currentStateUpdate(const JointPositions&, const JointOrientations&)));
+	connect(&capture, SIGNAL(matReady(cv::Mat)), &converterThread, SLOT(processFrame(cv::Mat)));
+	connect(&capture, SIGNAL(jointReady(const JointPositions&, const JointOrientations&)), this, SLOT(currentStateUpdate(const JointPositions&, const JointOrientations&)));
 	connect(&converterThread, SIGNAL(imageReady(QImage)), SLOT(setImage(QImage)));
 	connect(this, SIGNAL(stop()), &main_timer, SLOT(stop()));
 	connect(ui.exit_button, SIGNAL(clicked()), this, SIGNAL(stop()));
@@ -110,7 +107,7 @@ void Body_Widget::load_button_clicked()
 	}
 
 	main_timer.start(app_data.main_timer_interval_ms);
-	captureThread.start(QThread::HighPriority);
+    capture.start();
 	converterThread.start();
 	streamIOThread.start();
 }
@@ -134,11 +131,9 @@ void Body_Widget::closeEvent(QCloseEvent * ev)
 void Body_Widget::on_exit()
 {
 	setWindowTitle("Closing Software");
-	captureThread.terminate();
 	streamIOThread.terminate();
 	converterThread.terminate();
 	boardThread.terminate();
-	captureThread.wait(THREAD_WAIT_TIME_MS);
 	streamIOThread.wait(THREAD_WAIT_TIME_MS);
 	converterThread.wait(THREAD_WAIT_TIME_MS);
 	boardThread.wait(THREAD_WAIT_TIME_MS);
@@ -154,7 +149,7 @@ void Body_Widget::update()
 	captureUpdateTask.waitForFinished();
 	*/
 	newState.update();
-	captureThread.update();
+	capture.update();
 }
 
 void Body_Widget::boardDataUpdate() // GUI 
