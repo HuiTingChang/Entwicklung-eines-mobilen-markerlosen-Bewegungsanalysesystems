@@ -23,6 +23,11 @@ void StreamIO::run()
 	exec();
 }
 
+bool StreamIO::flush()
+{
+	return ioFile.flush();
+}
+
 void StreamIO::write()
 {
 	ioStream << &state;
