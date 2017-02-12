@@ -50,8 +50,9 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	connect(&captureThread, SIGNAL(matReady(cv::Mat)), &converterThread, SLOT(processFrame(cv::Mat)));
 	connect(&captureThread, SIGNAL(jointReady(const JointPositions&, const JointOrientations&)), this, SLOT(currentStateUpdate(const JointPositions&, const JointOrientations&)));
 	connect(&converterThread, SIGNAL(imageReady(QImage)), SLOT(setImage(QImage)));
-	connect(ui.exit_button, SIGNAL(clicked()), &main_timer, SLOT(stop()));
-	connect(ui.exit_button, SIGNAL(clicked()), this, SLOT(exit_button_clicked()));
+	connect(this, SIGNAL(stop()), &main_timer, SLOT(stop()));
+	connect(ui.exit_button, SIGNAL(clicked()), this, SIGNAL(stop()));
+	connect(this, SIGNAL(stop()), this, SLOT(on_exit()));
 	connect(this, SIGNAL(dataReady()), &streamIOThread, SLOT(write()));
 	connect(&streamIOThread, SIGNAL(dataSaveFinished()), this, SLOT(afterSaveData()));
 
@@ -96,24 +97,21 @@ void Body_Widget::setImage(const QImage & img)
 // Close the program
 void Body_Widget::closeEvent(QCloseEvent * ev)
 {
-	setWindowTitle("Closing Software");
-	captureThread.wait(THREAD_WAIT_TIME_MS);
-	streamIOThread.wait(THREAD_WAIT_TIME_MS);
-	converterThread.wait(THREAD_WAIT_TIME_MS);
-
+	emit stop();
 	ev->accept();
-	return;
 }
 
-void Body_Widget::exit_button_clicked()
+void Body_Widget::on_exit()
 {
 	setWindowTitle("Closing Software");
+	captureThread.terminate();
+	streamIOThread.terminate();
+	converterThread.terminate();
 	captureThread.wait(THREAD_WAIT_TIME_MS);
 	streamIOThread.wait(THREAD_WAIT_TIME_MS);
 	converterThread.wait(THREAD_WAIT_TIME_MS);
 
 	QApplication::quit();
-
 }
 
 void Body_Widget::boardDataUpdate(board_display_data data)

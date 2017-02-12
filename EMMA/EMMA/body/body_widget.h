@@ -41,6 +41,7 @@ public:
 	
 signals:
 	void dataReady();
+	void stop();
 
 private:
 	Ui::Body_WidgetClass ui;
@@ -63,7 +64,7 @@ private slots:
 
 	//void on_actionExit_triggered();
 	void load_button_clicked();
-	void exit_button_clicked();
+	void on_exit();
 	void boardDataUpdate(board_display_data data);
 	void boardConnectedInfo();
 	void cameraConnectedInfo(const QString &msg);
