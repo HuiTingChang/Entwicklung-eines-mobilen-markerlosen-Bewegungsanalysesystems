@@ -3,7 +3,7 @@
 
 // OpenCv
 #include <opencv2/opencv.hpp>
-#include <opencv2/highgui/highgui.hpp>      // Mat
+#include <opencv2/core/mat.hpp>
 
 //#include <windows.h>
 

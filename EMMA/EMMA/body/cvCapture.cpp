@@ -1,6 +1,5 @@
 #include "cvCapture.h"
 
-#include <QWidget>
 #include <QTimerEvent>
 #include <QThread>
 #include <QResizeEvent>
