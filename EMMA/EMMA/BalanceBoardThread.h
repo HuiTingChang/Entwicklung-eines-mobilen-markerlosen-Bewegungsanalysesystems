@@ -4,7 +4,6 @@
 #include <memory> //unique_ptr
 #include <QThread>
 #include <QMutex>
-#include "ui_emma.h"
 
 #include <QPoint>
 
