@@ -60,7 +60,7 @@ public:
 private:
     
     // Initialize Sensor
-    inline int initializeSensor();
+    inline void initializeSensor();
 
     // Initialize Color
     inline void initializeColor();

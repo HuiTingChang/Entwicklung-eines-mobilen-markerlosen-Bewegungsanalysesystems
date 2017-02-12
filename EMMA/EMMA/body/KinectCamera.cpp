@@ -82,7 +82,7 @@ inline void KinectCamera::initializeSensor()
     {
         // Check Availability
         BOOLEAN isAvailable = FALSE;
-        ERROR_CHECK(body->get_IsTracked( &isAvailable ) );
+        ERROR_CHECK(kinect->get_IsAvailable( &isAvailable ) );
         if( !isAvailable )
         {
             throw camera_not_available_error();
