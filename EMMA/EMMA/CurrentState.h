@@ -40,6 +40,7 @@ public:
 
 	CurrentState();
 	~CurrentState();
+	bool operator==(const CurrentState& other) const;
 
 	// setter Methods
 	void set_centOfPr(BoardPoint cop);

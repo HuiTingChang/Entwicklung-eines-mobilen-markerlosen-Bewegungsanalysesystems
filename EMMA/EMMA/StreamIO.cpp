@@ -29,6 +29,12 @@ void StreamIO::write()
 	emit(dataSaveFinished());
 }
 
+StreamReader StreamIO::get_reader()
+{
+	StreamReader r(this);
+	return r;
+}
+
 CurrentState StreamIO::read_at(qint64 pos, qint64* nextpos=nullptr)
 {
 	auto write_pos = ioFile.pos();

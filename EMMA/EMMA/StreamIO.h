@@ -36,6 +36,7 @@ public:
 	QDataStream ioStream;
 
 	void run();
+	StreamReader get_reader();
 	CurrentState read_at(qint64 pos, qint64* nextpos);
 	Q_SLOT void write();
 signals:

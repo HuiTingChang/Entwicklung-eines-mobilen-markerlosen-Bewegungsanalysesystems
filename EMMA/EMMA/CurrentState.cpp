@@ -9,6 +9,11 @@ CurrentState::CurrentState():
 CurrentState::~CurrentState()
 {}
 
+bool CurrentState::operator==(const CurrentState& other) const
+{
+	return joints == other.joints;
+}
+
 float CurrentState::get_gewicht() const
 {
 	return gewicht;
