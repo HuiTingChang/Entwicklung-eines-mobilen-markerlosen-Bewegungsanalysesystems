@@ -3,6 +3,12 @@
 #include "CvCamera.h"
 using namespace std;
 
+const QMap<CvCamera::State,QString> CvCamera::STATE_DESCRIPTION
+{
+    {State::CONNECTED, "connected"},
+    {State::DISCONNECTED, "disconnected"}
+};
+
 CvCamera::CvCamera(int destinationWidth, int destinationHeight):
     destinationSize(destinationWidth, destinationHeight)
 {

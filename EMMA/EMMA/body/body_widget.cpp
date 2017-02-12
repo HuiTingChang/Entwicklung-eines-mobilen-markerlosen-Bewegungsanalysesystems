@@ -32,6 +32,7 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	qRegisterMetaType<JointPositions>("JointPositions");
 	qRegisterMetaType<JointOrientations>("JointOrientations");
 	qRegisterMetaType<board_display_data>("board_display_data");
+	qRegisterMetaType<CvCamera::State>("CvCamera::State");
 
 	setWindowTitle(tr("EMMA"));
 	setMinimumSize(1000, 683);
@@ -51,7 +52,7 @@ Body_Widget::Body_Widget(QWidget *parent) :
 
 	ui.camera_conn->setText("The Camera is not connected");
 	ui.camera_conn->setStyleSheet("QLabel { color : red; }");
-	connect(&captureThread, SIGNAL(cameraConnected(QString)), this, SLOT(cameraConnectedInfo(QString)));
+	connect(&captureThread, SIGNAL(cameraStateChanged(CvCamera::State)), this, SLOT(cameraConnectedInfo(CvCamera::State)));
 	connect(ui.load_button, SIGNAL(clicked()), this, SLOT(load_button_clicked()));
 	connect(&captureThread, SIGNAL(matReady(cv::Mat)), &converterThread, SLOT(processFrame(cv::Mat)));
 	connect(&captureThread, SIGNAL(jointReady(const JointPositions&, const JointOrientations&)), this, SLOT(currentStateUpdate(const JointPositions&, const JointOrientations&)));
@@ -180,9 +181,10 @@ void Body_Widget::boardDataUpdate() // GUI
 	ui.centre_gravity_Z->setText(QString::number(cog[2]));
 }
 
-void Body_Widget::cameraConnectedInfo(const QString & msg)
+void Body_Widget::cameraConnectedInfo(CvCamera::State state)
 {
-	ui.camera_conn->setText(msg);
+	app_data.cameraConnected = state == CvCamera::CONNECTED;
+	ui.camera_conn->setText(CvCamera::STATE_DESCRIPTION[state]);
 }
 
 void Body_Widget::boardConnectedInfo()

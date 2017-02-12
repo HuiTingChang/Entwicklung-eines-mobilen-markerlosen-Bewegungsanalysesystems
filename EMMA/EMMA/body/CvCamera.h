@@ -3,6 +3,8 @@
 
 #include <memory>
 #include <QException>
+#include <QObject>
+#include <QMap>
 #include <opencv2/opencv.hpp>
 
 #include "CurrentState.h"
@@ -27,9 +29,18 @@ struct CameraData
     JointOrientations jorientations;
 };
 
-class CvCamera
+class CvCamera: QObject
 {
+    Q_OBJECT
 public:
+    enum State
+    {
+        CONNECTED,
+        DISCONNECTED
+    };
+    Q_ENUM(State)
+    static const QMap<State,QString> STATE_DESCRIPTION;
+
     CvCamera(int destinationWidth=960, int destinationHeight=540);
     virtual CameraData run();
     virtual void initialize();

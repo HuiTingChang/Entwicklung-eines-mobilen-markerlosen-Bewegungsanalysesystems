@@ -17,20 +17,22 @@
 #define KinectCamera CvCamera
 #endif
 
-class Capture : public QThread {
+class CameraCapture : public QThread
+{
 	Q_OBJECT
 	
 
 public:
-	Capture(QObject * parent, ApplicationData *data);
+	CameraCapture(QObject * parent);
 	void run();
+	CvCamera::State get_state();
 	Q_SLOT void update();
 	Q_SIGNAL void matReady(const cv::Mat &);
 	Q_SIGNAL void jointReady(const JointPositions&, const JointOrientations&);
-	Q_SIGNAL void cameraConnected(QString);
+	Q_SIGNAL void cameraStateChanged(CvCamera::State state);
 
 private:
 	// Constructor Initialisation wird aufgerufen
 	KinectCamera kinect;
-	ApplicationData* gl_data;
+	CvCamera::State state;
 };

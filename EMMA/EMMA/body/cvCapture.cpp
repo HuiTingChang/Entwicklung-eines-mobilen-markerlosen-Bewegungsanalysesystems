@@ -11,22 +11,28 @@
 #include <QLibrary>
 
 using namespace std;
-using namespace cv;
 
-Capture::Capture(QObject* parent, ApplicationData* data):
-QThread(parent), gl_data(data)
+void kinect_initialize(KinectCamera* kc)
 {
 	try
 	{
-		kinect.initialize();
-		gl_data->cameraConnected = true;
-		emit cameraConnected(QString("Connected"));
+		kc->initialize();
+		emit cameraStateChanged(CvCamera::CONNECTED);
 	}
 	catch (const camera_error& e)
 	{
-		emit cameraConnected(QString("Not connected"));
+		emit cameraStateChanged(CvCamera::DISCONNECTED);
 	}
+}
 
+CameraCapture::CameraCapture(QObject* parent):
+    QThread(parent),
+    state(CvCamera::DISCONNECTED)
+{
+}
+
+void CameraCapture::run()
+{
 }
 
 void Capture::run()
@@ -36,7 +42,8 @@ void Capture::run()
 	exec();
 }
 
-void Capture::update() {
+void CameraCapture::update()
+{
 	CameraData data = kinect.run();
 
 	emit jointReady(data.jpositions, data.jorientations);
@@ -52,4 +59,9 @@ void Capture::update() {
 		emit matReady(data.frame);
 		
 	}
+}
+
+CvCamera::State CameraCapture::get_state()
+{
+    return state;
 }

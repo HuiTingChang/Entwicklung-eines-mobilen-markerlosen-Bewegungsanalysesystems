@@ -51,7 +51,7 @@ private:
 	QTimer board_timer; 
 	BalanceBoardThread boardThread;
 	StreamIO streamIOThread;
-	Capture captureThread;
+	CameraCapture captureThread;
 	Converter converterThread;
 
 private slots:
@@ -63,7 +63,7 @@ private slots:
 	void update();
 	void boardDataUpdate();
 	void boardConnectedInfo();
-	void cameraConnectedInfo(const QString &msg);
+	void cameraConnectedInfo(CvCamera::State state);
 	void currentStateUpdate(board_display_data data);
 	void currentStateUpdate(const JointPositions& jointPos, const JointOrientations& jointOrient);
 	void drawPlot();
