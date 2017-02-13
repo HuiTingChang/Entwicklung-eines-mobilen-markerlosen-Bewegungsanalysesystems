@@ -2,6 +2,7 @@
 #define STREAMIO_H
 
 #include <QThread>
+#include <QFuture>
 #include <QFile>
 #include <QDataStream>
 
@@ -34,8 +35,8 @@ public:
 	const CurrentState* state;
 	QFile ioFile;
 	QDataStream ioStream;
+	QFuture<bool> file_open_ret;
 
-	void run();
 	bool flush();
 	StreamReader get_reader();
 	CurrentState read_at(qint64 pos, qint64* nextpos);
