@@ -16,20 +16,21 @@ using namespace cv;
 Capture::Capture(QObject* parent, ApplicationData* data):
 QThread(parent), gl_data(data)
 {
-}
-
-void Capture::run()
-{
 	try
 	{
 		kinect.initialize();
 		gl_data->cameraConnected = true;
 		emit cameraConnected(QString("Connected"));
 	}
-	catch(const camera_error& e)
+	catch (const camera_error& e)
 	{
 		emit cameraConnected(QString("Not connected"));
 	}
+
+}
+
+void Capture::run()
+{
 	
 	// routine for thread start...
 	exec();
