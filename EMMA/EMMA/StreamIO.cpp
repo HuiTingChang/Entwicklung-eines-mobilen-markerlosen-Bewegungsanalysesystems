@@ -32,7 +32,7 @@ bool StreamIO::flush()
 void StreamIO::write()
 {
 	file_open_ret.waitForFinished();
-	ioStream << &state;
+	ioStream << *state;
 	emit(dataSaveFinished());
 }
 
