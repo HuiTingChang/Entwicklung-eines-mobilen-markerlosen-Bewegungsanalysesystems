@@ -1,4 +1,6 @@
 #include <QtTest/QtTest>
+#include <QString>
+#include <QDebug>
 #include "CurrentState.h"
 #include "StreamIO.h"
 
@@ -11,6 +13,8 @@ signals:
     void write_now();
 private slots:
     void getters();
+    void copying();
+    void writeReadSeparately();
     void writeRead();
 };
 
@@ -29,6 +33,37 @@ void Test_CurrentState::getters()
     QCOMPARE(cs.get_joints(), get_example_jpositions());
 }
 
+void Test_CurrentState::copying()
+{
+    CurrentState cs;
+    cs.set_jointPositions(get_example_jpositions());
+    CurrentState cscopy = cs;
+    QCOMPARE(cs, cscopy);
+}
+
+void Test_CurrentState::writeReadSeparately()
+{
+    CurrentState cs;
+    cs.set_jointPositions(get_example_jpositions());
+    qDebug() << QString(((std::string) cs).c_str());
+    {
+        StreamIO sio(&cs);
+        sio.start();
+        connect(this, &Test_CurrentState::write_now, &sio, &StreamIO::write);
+        emit write_now();
+        sio.quit();
+        sio.wait();
+    }
+    CurrentState tmpcs;
+    StreamIO sio(&tmpcs);
+    sio.start();
+    auto siocs = sio.get_reader().next();
+    sio.quit();
+    sio.wait();
+    qDebug() << QString(((std::string) siocs).c_str());
+    QCOMPARE(cs, siocs);
+}
+
 void Test_CurrentState::writeRead()
 {
     CurrentState cs;
@@ -38,7 +73,10 @@ void Test_CurrentState::writeRead()
     connect(this, &Test_CurrentState::write_now, &sio, &StreamIO::write);
     emit write_now();
     sio.flush();
-    QCOMPARE(cs, sio.get_reader().next());
+    auto siocs = sio.get_reader().next();
+    sio.quit();
+    sio.wait();
+    QCOMPARE(cs, siocs);
 }
 
 QTEST_GUILESS_MAIN(Test_CurrentState)
