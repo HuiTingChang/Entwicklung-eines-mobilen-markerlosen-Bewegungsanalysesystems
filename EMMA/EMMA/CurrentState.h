@@ -2,6 +2,7 @@
 // the current source file to be included only once in a single compilation
 #pragma once
 
+#include <string>
 #include <QPoint>
 #include <QMap>
 #include <QVector3D>
@@ -58,6 +59,7 @@ public:
 
 	QDataStream& __outStreamOperator(QDataStream& out) const;
 	static CurrentState read_next_from_stream(QDataStream& input);
+	operator std::string(void) const;
 
 private:
 

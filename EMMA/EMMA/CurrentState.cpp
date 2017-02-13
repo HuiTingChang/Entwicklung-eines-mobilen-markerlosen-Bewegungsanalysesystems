@@ -86,7 +86,7 @@ QDataStream& CurrentState::__outStreamOperator(QDataStream& out) const
 {
 	// see http://doc.qt.io/qt-5/datastreamformat.html for what
 	// types are supported out of the box
-	out << joints;
+	out << joints << angles;
 	return out;
 }
 
@@ -98,6 +98,11 @@ QDataStream& operator<<(QDataStream& out, const CurrentState& state)
 CurrentState CurrentState::read_next_from_stream(QDataStream& input)
 {
 	CurrentState result;
-	input >> result.joints;
+	input >> result.joints >> result.angles;
 	return result;
+}
+
+CurrentState::operator std::string(void) const
+{
+	return "demonstrational string cast!!!: " + (joints.isEmpty()? "{}": std::to_string(joints.first().z())) + ", " + std::to_string(angles.size());
 }
