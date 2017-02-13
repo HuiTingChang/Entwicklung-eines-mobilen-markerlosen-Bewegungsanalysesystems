@@ -222,30 +222,58 @@ inline void KinectCamera::drawBody()
 {
 	std::array<int,BODY_COUNT> bodyrange;
 	std::list<uint> jointNotTracked;
-	
+
+	int count = 0;
+	ComPtr<IBody> body;
+	BOOLEAN tracked = FALSE;
 	for (int i = 0; i < BODY_COUNT; i++)
 	{
 		bodyrange[i] = i;
+		body = bodies[i];
+		
+		if (body != nullptr)
+		{
+			body->get_IsTracked(&tracked);
+			if (tracked)
+			{
+				count = i;
+				break;
+			}
+		}
 	}
+
+
 	// Draw Body Data to Color Data
-    QtConcurrent::blockingMap( bodyrange.begin(), bodyrange.end(), [&]( const int count ){
+    //QtConcurrent::blockingMap( bodyrange.begin(), bodyrange.end(), [&]( const int count ){
+	
+	//const ComPtr<IBody> body = bodies[count];
+	if (tracked)//(body != nullptr)
+	{
+		/*
         const ComPtr<IBody> body = bodies[count];
         if( body == nullptr ){
             return;
-        }
+        }*/
 
         // Check Body Tracked
-        BOOLEAN tracked = FALSE;
-        ERROR_CHECK( body->get_IsTracked( &tracked ) );
-        if( !tracked ){
+        //BOOLEAN tracked = FALSE;
+        //ERROR_CHECK( body->get_IsTracked( &tracked ) );
+        /*if( !tracked ){
             return;
-        }
+        }*/
 
         // Retrieve Joints
         std::array<Joint, JointType::JointType_Count> joints;
         ERROR_CHECK( body->GetJoints( static_cast<UINT>( joints.size() ), &joints[0] ) );
 
+		for (int i = 0; i < JointType::JointType_Count; i++){
+			QVector3D tmp;
+			jposition[i] = tmp;
+		}
+
         QtConcurrent::blockingMap( joints.begin(), joints.end(), [&]( const Joint& joint ){
+		
+			//const Joint& joint = joints[i];
             // Check Joint Tracked
             if( joint.TrackingState == TrackingState::TrackingState_NotTracked ){
 				jointNotTracked.push_back(joint.JointType);
@@ -283,13 +311,18 @@ inline void KinectCamera::drawBody()
 
                 drawHandState( colorMat, joint, handState, handConfidence );
             }
-        } );
+        });
 
         
         // Retrieve Joint Orientations
         std::array<JointOrientation, JointType::JointType_Count> orientations;
         ERROR_CHECK( body->GetJointOrientations( JointType::JointType_Count, &orientations[0] ) );
-        
+
+		for (int i = 0; i < JointType::JointType_Count; i++){
+			QVector4D tmp;
+			jorientation[i] = tmp;
+		}
+
 		QtConcurrent::blockingMap(orientations.begin(), orientations.end(), [&](const JointOrientation& orientation){
 			
 			// Check Joint Tracked
@@ -315,7 +348,7 @@ inline void KinectCamera::drawBody()
 
 		// Draw Skeleton
 		drawSkeleton(colorMat, body, colors[count]);
-    } );
+    } //);
 
 
 
