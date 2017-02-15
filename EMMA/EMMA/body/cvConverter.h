@@ -3,6 +3,7 @@
 #include <QSize>
 #include <QImage>
 
+#include "ApplicationData.h"
 // OpenCv
 #include <opencv2/opencv.hpp>
 #include <opencv2/core/mat.hpp>
@@ -14,6 +15,8 @@ using namespace cv;
 
 class Converter : public QThread {
 	Q_OBJECT
+	ApplicationData* app_data;
+
 	QBasicTimer m_timer;
 	Mat m_frame;
 	bool m_processAll;
@@ -23,7 +26,7 @@ class Converter : public QThread {
 	void timerEvent(QTimerEvent * ev);
 	QImage convertMatToQImage(Mat const& input_img, bool bgr2rgb); 
 public:
-	Converter(QObject* parent, QSize widget_size);
+	Converter(QObject* parent, QSize widget_size, ApplicationData *data);
 	void setProcessAll(bool all);
 	QSize get_widget_size(); 
 
@@ -35,4 +38,6 @@ public:
 
 private:
 	QSize widget_size;
+	void saveMat(Mat  const& image);
+	int matCount; 
 };

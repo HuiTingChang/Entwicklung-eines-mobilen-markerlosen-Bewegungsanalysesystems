@@ -16,8 +16,9 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	boardThread(&app_data),
 	streamIOThread(&newState),
 	captureThread(this, &app_data),
-	converterThread(this, app_data.bodyRenderSize)
+	converterThread(this, app_data.bodyRenderSize, &app_data)
 {
+	
 	ui.setupUi(this);
 
 	// For the slot SLOT(processFrame(cv::Mat))
@@ -61,7 +62,9 @@ Body_Widget::Body_Widget(QWidget *parent) :
 
 	connect(&boardThread, SIGNAL(valueChanged(board_display_data)), this, SLOT(boardDataUpdate(board_display_data)));
 	connect(&boardThread, SIGNAL(valueChanged(board_display_data)), this, SLOT(currentStateUpdate(board_display_data)));
+//	connect(&boardThread, SIGNAL(finished()), this, SLOT(boardStop( )));
 	connect(&boardThread, SIGNAL(boardConnected()), this, SLOT(boardConnectedInfo()));
+//	connect(this, SIGNAL(stop()), &boardThread, SLOT(disconnect()));
 
 	Body_Widget::drawPlot();
 }
@@ -70,6 +73,13 @@ Body_Widget::~Body_Widget()
 {
 }
 
+void Body_Widget::on_colibration_button_clicked(){
+//TOD0 
+	if ( app_data.cameraConnected)
+//	if ( app_data.boardConnected && app_data.cameraConnected)
+		app_data.calibrationStart = true; 
+
+}
 void Body_Widget::load_button_clicked()
 {
 	
@@ -107,10 +117,11 @@ void Body_Widget::on_exit()
 	captureThread.terminate();
 	streamIOThread.terminate();
 	converterThread.terminate();
+	boardThread.terminate();
 	captureThread.wait(THREAD_WAIT_TIME_MS);
 	streamIOThread.wait(THREAD_WAIT_TIME_MS);
 	converterThread.wait(THREAD_WAIT_TIME_MS);
-
+	boardThread.wait(THREAD_WAIT_TIME_MS);
 	QApplication::quit();
 }
 
@@ -160,6 +171,8 @@ void Body_Widget::currentStateUpdate(board_display_data data)
 	checkSaveData();
 }
 
+
+ 
 void Body_Widget::currentStateUpdate(const JointPositions& jointPos, const JointOrientations& jointOrient)
 {
 	newState.set_jointPositions(jointPos);

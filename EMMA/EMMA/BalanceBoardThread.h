@@ -52,6 +52,7 @@ signals:
 	void finished();
 	void valueChanged(board_display_data display_data);
 	void boardConnected();
+ 
 };
 
 #endif

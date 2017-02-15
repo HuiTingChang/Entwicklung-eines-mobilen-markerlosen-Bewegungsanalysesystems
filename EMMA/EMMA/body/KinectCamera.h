@@ -33,7 +33,7 @@ private:
     int colorHeight;
     unsigned int colorBytesPerPixel;
     cv::Mat colorMat;
-
+	
     // Body Buffer
 	std::array<IBody*, BODY_COUNT> bodies;
     std::array<cv::Vec3b, BODY_COUNT> colors;
@@ -104,6 +104,7 @@ private:
 
     // Show Body
     inline Mat showBody();
+
 
 	// Calculates angle using the 3 given joints: j1, j2 and j3
 //	void calcAngle( JointType j1,  JointType j2,  JointType j3, double* angle);

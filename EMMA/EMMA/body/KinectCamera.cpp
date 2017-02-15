@@ -12,6 +12,8 @@ KinectCamera::KinectCamera():
     CvCamera()
 {
 	bodies = { { nullptr } };
+
+
 	// Initialize
     //initialize();
 }
@@ -32,6 +34,9 @@ CameraData KinectCamera::run()
         // Draw Data
         draw();
 
+
+		//doScreenShot();
+
 		// test joint points for calculating the angle of right knee
 		// JointType j1 = JointType_HipRight;
 		// JointType j2 = JointType_KneeRight;
@@ -44,6 +49,7 @@ CameraData KinectCamera::run()
 	result.jpositions = JointPositions(jposition);
 	result.jorientations = JointOrientations(jorientation);
 	result.frame = retrieveFrame();
+	 
 
 	return result;
 }
@@ -67,6 +73,8 @@ void KinectCamera::initialize()
    
     // Wait a Few Seconds until begins to Retrieve Data from Sensor ( about 2000-[ms] )
     std::this_thread::sleep_for( std::chrono::seconds( 2 ) );
+
+ 
 }
 
 // Initialize Sensor
@@ -479,6 +487,8 @@ Mat KinectCamera::retrieveFrame()
     // Show Body
     return showBody();
 }
+
+
 
 // Show Body
 inline Mat KinectCamera::showBody()

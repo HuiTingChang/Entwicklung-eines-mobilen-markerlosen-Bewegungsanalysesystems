@@ -48,6 +48,8 @@ void Capture::update() {
 	else
 	{
 		qDebug() << "read frame succeeded!!!";
+
 		emit matReady(data.frame);
+		
 	}
 }

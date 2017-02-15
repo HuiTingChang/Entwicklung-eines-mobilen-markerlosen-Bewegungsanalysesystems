@@ -4,7 +4,7 @@
 #include "INIReader.h"
 
 #define INI_PATH "emma.ini"
-
+using namespace cv; 
 // Klasse fuer die globalen Variablen
 ApplicationData::ApplicationData():
 	// default values	
@@ -30,6 +30,8 @@ ApplicationData::ApplicationData():
 	{
 		widgetWork = reader.GetBoolean("wii", "widgetWork", widgetWork);
 	}
+	calibrationStart = false; 
+	mat_array->resize(30);
 }
 
 

@@ -20,19 +20,20 @@ struct wiiboard_wrapper
 {
 	wiiboard_wrapper(wii_board_t w)
 	{
-		*w_ptr = w;
+		w_ptr = make_unique<wii_board_t>(w);
+	//	*w_ptr = w;
 	}
 
 	unique_ptr<wii_board_t> w_ptr;
 };
 
-wiimote** get(int timeout);
+wiimote** initBalance(int timeout);
 wii_board_t* read(wiimote** wiimotes);
-
+  
 BalanceBoard::BalanceBoard(int timeout, const board_specs& specs)
 {
-	wiimote_wrapper d(get(timeout));
-	*device = d;
+	device = make_unique<wiimote_wrapper>(initBalance(timeout));
+	 
 	this->specs = &specs;
 }
 
@@ -98,7 +99,9 @@ bool BalanceBoard::poll()
 
 	if(w[0]->exp.type == EXP_WII_BOARD)
 	{
-		*(latest_value->w_ptr) = (wii_board_t) w[0]->exp.wb;
+		latest_value = make_unique<wiiboard_wrapper>((wii_board_t)w[0]->exp.wb);
+
+		//*(latest_value->w_ptr) = (wii_board_t) w[0]->exp.wb;
 	}
 	else
 	{
@@ -107,7 +110,7 @@ bool BalanceBoard::poll()
 	return true;
 }
 
-wiimote** get(int timeout)
+wiimote** initBalance(int timeout)
 {
 	wiimote** wiimotes = wiiuse_init(WIIMOTES_COUNT);
 	int found = wiiuse_find(wiimotes, WIIMOTES_COUNT, timeout);
@@ -120,3 +123,6 @@ wiimote** get(int timeout)
 	}
 	return wiimotes;
 }
+
+
+ 

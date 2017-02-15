@@ -56,6 +56,7 @@ public:
 	 * @return whether actually updated the value
 	 */
 	bool poll();
+ 
 	board_tuple<float> get_weights() const;
 	board_tuple<uint16_t> get_raw_weights() const;
 	board_tuple<uint16_t> get_calibration() const;

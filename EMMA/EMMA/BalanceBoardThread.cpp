@@ -14,6 +14,9 @@ BalanceBoardThread::~BalanceBoardThread()
 {
 }
 
+ 
+
+
 bool BalanceBoardThread::initializeBoard()
 {
 	try

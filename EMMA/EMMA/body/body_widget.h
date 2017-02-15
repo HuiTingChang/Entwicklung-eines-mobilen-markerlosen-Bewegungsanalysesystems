@@ -12,7 +12,7 @@
 #include "BalanceBoardThread.h"
 #include "CurrentState.h"
 #include "StreamIO.h"
-
+//#include "CameraCalibration.h"
 #include "ui_emma.h"
 
 #define THREAD_WAIT_TIME_MS 10
@@ -71,7 +71,7 @@ private slots:
 	void currentStateUpdate(board_display_data data);
 	void currentStateUpdate(const JointPositions& jointPos, const JointOrientations& jointOrient);
 	void drawPlot();
-
+	void on_colibration_button_clicked();
 };
 
 #endif // BODY_WIDGET_H
