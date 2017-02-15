@@ -37,7 +37,6 @@ SOURCES += ../../inc/inih/ini.c \
         CurrentState.cpp \
         main.cpp \
         BalanceBoard.cpp \
-		CameraCalibration.cpp \
         BalanceBoardThread.cpp \
 	StreamIO.cpp \
         body/body_widget.cpp \
@@ -52,7 +51,6 @@ HEADERS  += ../../inc/inih/ini.h \
         ApplicationData.h \
         CurrentState.h \
         BalanceBoard.h \
-		CameraCalibration.h \
         BalanceBoardThread.h \
 	StreamIO.h \
         body/body_widget.h \
