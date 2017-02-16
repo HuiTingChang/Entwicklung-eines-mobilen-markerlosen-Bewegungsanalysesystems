@@ -97,6 +97,7 @@ void BalanceBoardThread::handle_event()
 
 	QPoint centOfPr  =  centerOfPressure(tl, tr, bl, br);
 	gl_data->centOfPr = centOfPr;
+	gl_data->weight = total;
 
 
 	board_display_data display_data(total, centOfPr);

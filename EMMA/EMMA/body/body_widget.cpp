@@ -160,7 +160,7 @@ void Body_Widget::boardDataUpdate() // GUI
 		ui.centre_pressure_Y->setText(QString::number(y));
 	}
 	
-//	ui.weight->setText(QString::number(data.total_weight));
+	ui.weight->setText(QString::number(round(app_data.weight)));
 }
 
 void Body_Widget::cameraConnectedInfo(const QString & msg)
