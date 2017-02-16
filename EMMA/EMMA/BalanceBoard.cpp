@@ -54,14 +54,14 @@ board_tuple<float> BalanceBoard::get_weights() const
 board_tuple<uint16_t> BalanceBoard::get_raw_weights() const
 {
 	auto data = *latest_value;
-	board_tuple<uint16_t> result(data.tl, data.tr, data.bl, data.br);
+	board_tuple<uint16_t> result(data.rtl, data.rtr, data.rbl, data.rbr);
 	return result;
 }
 
-board_tuple<uint16_t> BalanceBoard::get_calibration() const
+board_tuple<uint16_t*> BalanceBoard::get_calibration() const
 {
 	auto data = *latest_value;
-	board_tuple<uint16_t> result(data.tl, data.tr, data.bl, data.br);
+	board_tuple<uint16_t*> result(data.ctl, data.ctr, data.cbl, data.cbr);
 	return result;
 }
 
