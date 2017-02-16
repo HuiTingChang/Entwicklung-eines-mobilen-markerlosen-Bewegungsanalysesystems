@@ -31,7 +31,7 @@ ApplicationData::ApplicationData():
 		widgetWork = reader.GetBoolean("wii", "widgetWork", widgetWork);
 	}
 	calibrationStart = false; 
-	mat_array->resize(30);
+	mat_array->resize(30		);
 }
 
 
