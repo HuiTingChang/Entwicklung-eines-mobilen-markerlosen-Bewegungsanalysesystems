@@ -4,7 +4,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/core/mat.hpp>
-using namespace cv;
+#undef ACCESS_MASK
 
 class ApplicationData // Klasse fuer die globalen Variablen
 {
@@ -24,10 +24,10 @@ public :
 	bool cameraDataUpdated;
 	int main_timer_interval_ms;
 	bool calibrationStart; 
-	vector<Mat> rvecs;
-	vector<Mat> tvecs;
+	vector<cv::Mat> rvecs;
+	vector<cv::Mat> tvecs;
 
-	Mat cameraMatrix ;
+	cv::Mat cameraMatrix ;
 
 
 };
