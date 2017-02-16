@@ -24,7 +24,10 @@ public :
 	bool cameraDataUpdated;
 	int main_timer_interval_ms;
 	bool calibrationStart; 
-	Mat mat_array[30];
+ 
+
+	Mat cameraMatrix ;
+
 
 };
 

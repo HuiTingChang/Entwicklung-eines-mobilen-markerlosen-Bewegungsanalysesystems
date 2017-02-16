@@ -46,6 +46,10 @@ Body_Widget::Body_Widget(QWidget *parent) :
 
 	streamIOThread.start();
 	
+	
+
+	ui.camera_conn->setText("The Camera is not connected");
+	ui.camera_conn->setStyleSheet("QLabel { color : red; }");
 	connect(&captureThread, SIGNAL(cameraConnected(QString)), this, SLOT(cameraConnectedInfo(QString)));
 	connect(ui.load_button, SIGNAL(clicked()), this, SLOT(load_button_clicked()));
 	connect(&captureThread, SIGNAL(matReady(cv::Mat)), &converterThread, SLOT(processFrame(cv::Mat)));
@@ -58,7 +62,12 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	connect(&streamIOThread, SIGNAL(dataSaveFinished()), this, SLOT(afterSaveData()));
 
 
+
+// Board Funktionen 
+
 	boardThread.start();
+	ui.board_conn->setText("The Balance Board is not connected");
+	ui.board_conn->setStyleSheet("QLabel { color : red; }");
 
 	connect(&boardThread, SIGNAL(valueChanged(board_display_data)), this, SLOT(boardDataUpdate(board_display_data)));
 	connect(&boardThread, SIGNAL(valueChanged(board_display_data)), this, SLOT(currentStateUpdate(board_display_data)));
@@ -130,11 +139,12 @@ void Body_Widget::boardDataUpdate(board_display_data data)
 	auto x = data.center_of_pressure.x();
 	auto y = data.center_of_pressure.y();
 
-	if (x < - 270 || y < -270 )
+	if (x <= - 144 || y < -214 )
 	{
-		ui.centre_pressure_X->setText("");
-		ui.centre_pressure_Y->setText("");
+		ui.centre_pressure_X->setText("N/A");
+		ui.centre_pressure_Y->setText("N/A");
 	}
+
 	else{
 		ui.centre_pressure_X->setText(QString::number(x));
 		ui.centre_pressure_Y->setText(QString::number(y));
@@ -153,10 +163,12 @@ void Body_Widget::boardConnectedInfo()
 	// Board things
 	if (app_data.boardConnected){
 		ui.board_conn->setText("The Balance Board is connected");
+		ui.board_conn->setStyleSheet("QLabel { color : green; }");
 
 	}
 	else{
 		ui.board_conn->setText("The Balance Board is not connected");
+		ui.board_conn->setStyleSheet("QLabel { color : red; }");
 	}
 }
 

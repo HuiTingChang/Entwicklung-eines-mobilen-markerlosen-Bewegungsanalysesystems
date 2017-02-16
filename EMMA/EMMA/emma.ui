@@ -162,24 +162,9 @@
                </spacer>
               </item>
               <item>
-               <widget class="QLineEdit" name="camera_conn">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>100</width>
-                  <height>23</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>100</width>
-                  <height>23</height>
-                 </size>
+               <widget class="QLabel" name="camera_conn">
+                <property name="text">
+                 <string> </string>
                 </property>
                </widget>
               </item>
@@ -208,24 +193,9 @@
                </spacer>
               </item>
               <item>
-               <widget class="QLineEdit" name="board_conn">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>100</width>
-                  <height>23</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>100</width>
-                  <height>23</height>
-                 </size>
+               <widget class="QLabel" name="board_conn">
+                <property name="text">
+                 <string/>
                 </property>
                </widget>
               </item>

@@ -31,7 +31,7 @@ ApplicationData::ApplicationData():
 		widgetWork = reader.GetBoolean("wii", "widgetWork", widgetWork);
 	}
 	calibrationStart = false; 
-	mat_array->resize(30		);
+	cameraMatrix = Mat::eye(3, 3, CV_32FC1);
 }
 
 
