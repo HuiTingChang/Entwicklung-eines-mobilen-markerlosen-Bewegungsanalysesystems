@@ -24,8 +24,8 @@ public :
 	bool cameraDataUpdated;
 	int main_timer_interval_ms;
 	bool calibrationStart; 
-	vector<cv::Mat> rvecs;
-	vector<cv::Mat> tvecs;
+	std::vector<cv::Mat> rvecs;
+	std::vector<cv::Mat> tvecs;
 
 	cv::Mat cameraMatrix ;
 
