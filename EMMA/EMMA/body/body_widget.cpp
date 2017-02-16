@@ -39,8 +39,7 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	// Everything runs at the same priority as the gui, so it won't supply useless frames.
 	converterThread.setProcessAll(false);
 
-	captureThread.start();
-	captureThread.setPriority(QThread::HighPriority);
+	connect(&main_timer, SIGNAL(timeout()), &captureThread, SLOT(run()));
 
 	//converterThread.connect(image_label, SIGNAL(resize(QSize)), SLOT(setSize(QSize))); // Ich habe das auskommentiert , damit man noch andere labels sieht
 
@@ -71,10 +70,13 @@ Body_Widget::Body_Widget(QWidget *parent) :
 
 	connect(&boardThread, SIGNAL(valueChanged(board_display_data)), this, SLOT(boardDataUpdate(board_display_data)));
 	connect(&boardThread, SIGNAL(valueChanged(board_display_data)), this, SLOT(currentStateUpdate(board_display_data)));
-//	connect(&boardThread, SIGNAL(finished()), this, SLOT(boardStop( )));
 	connect(&boardThread, SIGNAL(boardConnected()), this, SLOT(boardConnectedInfo()));
-//	connect(this, SIGNAL(stop()), &boardThread, SLOT(disconnect()));
+	 
+	connect(&main_timer, SIGNAL(timeout()), &boardThread, SLOT(run()));
 
+
+//	connect(this, SIGNAL(stop()), &boardThread, SLOT(disconnect()));
+//	connect(&boardThread, SIGNAL(finished()), this, SLOT(boardStop( )));
 	Body_Widget::drawPlot();
 }
 

@@ -32,6 +32,7 @@ ApplicationData::ApplicationData():
 	}
 	calibrationStart = false; 
 	cameraMatrix = Mat::eye(3, 3, CV_32FC1);
+ 
 }
 
 

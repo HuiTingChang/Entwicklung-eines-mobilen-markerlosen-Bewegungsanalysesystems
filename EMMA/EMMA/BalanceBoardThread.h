@@ -48,6 +48,9 @@ public:
 
 	void run();
 
+ 
+
+
 signals:
 	void finished();
 	void valueChanged(board_display_data display_data);

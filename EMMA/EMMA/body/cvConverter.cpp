@@ -91,27 +91,26 @@ void Converter::saveMat(Mat const& tmp){
 
 
 		Mat distCoeffs = Mat::zeros(8, 1, CV_32FC1);
-		vector<Mat> rvecs;
-		vector<Mat> tvecs;
+
 
 		app_data->cameraMatrix.ptr<float>(0)[0] = 1;
 		app_data->cameraMatrix.ptr<float>(1)[1] = 1;
 
-		double projError = calibrateCamera(arrayOfWorldCorners, arrayOfCorners, im_gray.size(), app_data->cameraMatrix, distCoeffs, rvecs, tvecs);
+		
+		// rvec - rotation vector
+		//tvec - translation vector 
+		double projError = calibrateCamera(arrayOfWorldCorners, arrayOfCorners, im_gray.size(), app_data->cameraMatrix, distCoeffs, app_data->rvecs, app_data->tvecs);
 
 		qDebug() << "YES! The chessboard is found ";
 	}
 
 	else{
-
-
-	qDebug() << "No! The chessboard is not found ";
+		qDebug() << "No! The chessboard is not found ";
 
 	}
 	
 	app_data->calibrationStart = false;
 	//tmp.copyTo(image);
-
 	/*
 	// write Mat to file
 	string name = "file";
@@ -120,11 +119,7 @@ void Converter::saveMat(Mat const& tmp){
 
 	cv::FileStorage fs(name + number + typ, cv::FileStorage::WRITE);
 	fs << "yourMat" << image;
-
-
-
 	// second type
-
 	app_data->mat_array[matCount] = tmp.clone();
 	matCount++;
 	if (matCount == 30){
