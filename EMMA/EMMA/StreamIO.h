@@ -24,6 +24,8 @@ public:
 	{
 	}
 	CurrentState next();
+	bool atEnd();  // not const because temporarily moves position
+	void reset();
 };
 
 class StreamIO : public QThread
@@ -40,6 +42,7 @@ public:
 	bool flush();
 	StreamReader get_reader();
 	CurrentState read_at(qint64 pos, qint64* nextpos);
+	bool ends_at(qint64 pos);
 	Q_SLOT void write();
 signals:
 	void dataSaveFinished();

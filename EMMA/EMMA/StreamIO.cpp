@@ -7,6 +7,16 @@ CurrentState StreamReader::next()
 	return stream_io->read_at(pos, &pos);
 }
 
+bool StreamReader::atEnd()
+{
+	return stream_io->ends_at(pos);
+}
+
+void StreamReader::reset()
+{
+	pos = 0;
+}
+
 bool qfile_open(QFile* file, QIODevice::OpenMode mode)
 {
 	return file->open(mode);
@@ -54,4 +64,13 @@ CurrentState StreamIO::read_at(qint64 pos, qint64* nextpos=nullptr)
 	}
 	ioFile.seek(write_pos);
 	return result;
+}
+
+bool StreamIO::ends_at(qint64 pos)
+{
+	auto write_pos = ioFile.pos();
+	ioFile.seek(pos);
+	bool seekable = ioFile.atEnd();
+	ioFile.seek(write_pos);
+	return seekable;
 }
