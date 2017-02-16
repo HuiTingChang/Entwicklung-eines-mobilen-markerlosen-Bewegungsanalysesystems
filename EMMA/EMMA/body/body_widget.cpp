@@ -39,7 +39,7 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	// Everything runs at the same priority as the gui, so it won't supply useless frames.
 	converterThread.setProcessAll(false);
 
-	connect(&main_timer, SIGNAL(timeout()), &captureThread, SLOT(run()));
+	connect(&main_timer, SIGNAL(timeout()), &captureThread, SLOT(update()));
 
 	//converterThread.connect(image_label, SIGNAL(resize(QSize)), SLOT(setSize(QSize))); // Ich habe das auskommentiert , damit man noch andere labels sieht
 
@@ -63,16 +63,24 @@ Body_Widget::Body_Widget(QWidget *parent) :
 
 
 // Board Funktionen 
+ 
 
-	boardThread.start();
+	board_timer.start(app_data.board_show_interval_ms);
+
+
 	ui.board_conn->setText("The Balance Board is not connected");
-	ui.board_conn->setStyleSheet("QLabel { color : red; }");
+	ui.board_conn->setStyleSheet("QLabel { color : red; }");	
+	 
+	connect(&board_timer, SIGNAL(timeout()), this, SLOT(boardDataUpdate()));
 
-	connect(&boardThread, SIGNAL(valueChanged(board_display_data)), this, SLOT(boardDataUpdate(board_display_data)));
+
+//	connect(&boardThread, SIGNAL(valueChanged(board_display_data)), this, SLOT(boardDataUpdate()));
 	connect(&boardThread, SIGNAL(valueChanged(board_display_data)), this, SLOT(currentStateUpdate(board_display_data)));
 	connect(&boardThread, SIGNAL(boardConnected()), this, SLOT(boardConnectedInfo()));
 	 
-	connect(&main_timer, SIGNAL(timeout()), &boardThread, SLOT(run()));
+	boardThread.start();
+
+
 
 
 //	connect(this, SIGNAL(stop()), &boardThread, SLOT(disconnect()));
@@ -136,12 +144,12 @@ void Body_Widget::on_exit()
 	QApplication::quit();
 }
 
-void Body_Widget::boardDataUpdate(board_display_data data)
+void Body_Widget::boardDataUpdate() // GUI 
 {
-	auto x = data.center_of_pressure.x();
-	auto y = data.center_of_pressure.y();
+	auto x = app_data.centOfPr.x();
+	auto y = app_data.centOfPr.y();
 
-	if (x <= - 144 || y < -214 )
+	if (x <= -144 || y < -214 )
 	{
 		ui.centre_pressure_X->setText("N/A");
 		ui.centre_pressure_Y->setText("N/A");
@@ -152,7 +160,7 @@ void Body_Widget::boardDataUpdate(board_display_data data)
 		ui.centre_pressure_Y->setText(QString::number(y));
 	}
 	
-	ui.weight->setText(QString::number(data.total_weight));
+//	ui.weight->setText(QString::number(data.total_weight));
 }
 
 void Body_Widget::cameraConnectedInfo(const QString & msg)

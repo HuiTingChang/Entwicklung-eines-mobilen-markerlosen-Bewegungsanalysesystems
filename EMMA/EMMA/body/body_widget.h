@@ -48,6 +48,7 @@ private:
 	ApplicationData app_data;
 	CurrentState newState;
 	QTimer main_timer;
+	QTimer board_timer; 
 	BalanceBoardThread boardThread;
 	StreamIO streamIOThread;
 	Capture captureThread;
@@ -65,7 +66,7 @@ private slots:
 	//void on_actionExit_triggered();
 	void load_button_clicked();
 	void on_exit();
-	void boardDataUpdate(board_display_data data);
+	void boardDataUpdate();
 	void boardConnectedInfo();
 	void cameraConnectedInfo(const QString &msg);
 	void currentStateUpdate(board_display_data data);
