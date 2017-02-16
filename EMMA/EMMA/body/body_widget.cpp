@@ -78,9 +78,7 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	connect(&boardThread, SIGNAL(valueChanged(board_display_data)), this, SLOT(currentStateUpdate(board_display_data)));
 	connect(&boardThread, SIGNAL(boardConnected()), this, SLOT(boardConnectedInfo()));
 	 
-	boardThread.start();
-
-
+	//connect(&main_timer, SIGNAL(timeout()), &boardThread, SLOT(run()));
 
 
 //	connect(this, SIGNAL(stop()), &boardThread, SLOT(disconnect()));
