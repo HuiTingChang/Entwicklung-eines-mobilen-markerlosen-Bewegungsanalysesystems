@@ -41,7 +41,7 @@ struct board_specs
 };
 
 struct wiimote_wrapper;
-struct wiiboard_wrapper;
+struct wii_board_t;
 
 class BalanceBoard
 {
@@ -62,7 +62,7 @@ public:
 	board_tuple<uint16_t> get_calibration() const;
 private:
 	std::unique_ptr<wiimote_wrapper> device;
-	std::unique_ptr<wiiboard_wrapper> latest_value;
+	std::unique_ptr<wii_board_t> latest_value;
 };
 
 //Q_DECLARE_METATYPE(BalanceBoard)

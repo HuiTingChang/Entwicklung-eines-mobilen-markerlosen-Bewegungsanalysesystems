@@ -6,35 +6,38 @@ using namespace std;
 const board_specs BalanceBoard::DEFAULT_SPECS(
 		DEFAULT_WII_WIDTH, DEFAULT_WII_LENGTH);
 
+/* 
+struct WiimoteDeleter {
+	WiimoteDeleter() {};
+	WiimoteDeleter(WiimoteDeleter&) {};
+	WiimoteDeleter(const WiimoteDeleter&) {};
+	WiimoteDeleter(WiimoteDeleter&&) {};
+	void operator()(wiimote*** w) const {
+		wiiuse_cleanup(*w, DEFAULT_WII_LENGTH);
+		delete w;
+	};
+};*/
+
 struct wiimote_wrapper
 {
 	wiimote_wrapper(wiimote** w):
 		w(w)
 	{
 	}
+	~wiimote_wrapper()
+	{
+		wiiuse_cleanup(w, DEFAULT_WII_LENGTH);
+	}
 
 	wiimote** w;
 };
 
-struct wiiboard_wrapper
-{
-	wiiboard_wrapper(wii_board_t w)
-	{
-		w_ptr = make_unique<wii_board_t>(w);
-	//	*w_ptr = w;
-	}
-
-	unique_ptr<wii_board_t> w_ptr;
-};
-
 wiimote** initBalance(int timeout);
-wii_board_t* read(wiimote** wiimotes);
   
-BalanceBoard::BalanceBoard(int timeout, const board_specs& specs)
+BalanceBoard::BalanceBoard(int timeout, const board_specs& specs):
+	specs(&specs),
+	device(new wiimote_wrapper(initBalance(timeout)))
 {
-	device = make_unique<wiimote_wrapper>(initBalance(timeout));
-	 
-	this->specs = &specs;
 }
 
 BalanceBoard::~BalanceBoard()
@@ -43,22 +46,21 @@ BalanceBoard::~BalanceBoard()
 
 board_tuple<float> BalanceBoard::get_weights() const
 {
-	auto data = *(latest_value->w_ptr);
-	//board_tuple<float> result(data->ctl, data->ctr, data->cbl, data->cbr);
+	auto data = *latest_value;
 	board_tuple<float> result(data.tl, data.tr, data.bl, data.br);
 	return result;
 }
 
 board_tuple<uint16_t> BalanceBoard::get_raw_weights() const
 {
-	auto data = *(latest_value->w_ptr);
+	auto data = *latest_value;
 	board_tuple<uint16_t> result(data.tl, data.tr, data.bl, data.br);
 	return result;
 }
 
 board_tuple<uint16_t> BalanceBoard::get_calibration() const
 {
-	auto data = *(latest_value->w_ptr);
+	auto data = *latest_value;
 	board_tuple<uint16_t> result(data.tl, data.tr, data.bl, data.br);
 	return result;
 }
@@ -99,9 +101,8 @@ bool BalanceBoard::poll()
 
 	if(w[0]->exp.type == EXP_WII_BOARD)
 	{
-		latest_value = make_unique<wiiboard_wrapper>((wii_board_t)w[0]->exp.wb);
-
-		//*(latest_value->w_ptr) = (wii_board_t) w[0]->exp.wb;
+		unique_ptr<wii_board_t> next(new wii_board_t{w[0]->exp.wb});
+		latest_value.swap(next);
 	}
 	else
 	{
@@ -112,7 +113,7 @@ bool BalanceBoard::poll()
 
 wiimote** initBalance(int timeout)
 {
-	wiimote** wiimotes = wiiuse_init(WIIMOTES_COUNT);
+	auto wiimotes = (wiimote**) wiiuse_init(WIIMOTES_COUNT); // cast necessary because returns struct wiimote_t** (typedef'd as wiimote)
 	int found = wiiuse_find(wiimotes, WIIMOTES_COUNT, timeout);
 	if (found != 1){
 		throw balance_board_not_found_error();
@@ -122,7 +123,4 @@ wiimote** initBalance(int timeout)
 		throw balance_board_not_connected_error();
 	}
 	return wiimotes;
-}
-
-
- 
+} 
