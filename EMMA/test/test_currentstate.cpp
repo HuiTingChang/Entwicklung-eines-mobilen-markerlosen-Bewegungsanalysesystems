@@ -104,8 +104,9 @@ void Test_CurrentState::writeReadTwice()
     qDebug() << QString(((std::string) cs).c_str());
     emit write_now();
     sio.flush();
-    sio.get_reader().next();
-    auto siocs = sio.get_reader().next();
+    auto sioreader = sio.get_reader();
+    sioreader.next();
+    auto siocs = sioreader.next();
     qDebug() << QString(((std::string) siocs).c_str());
     sio.quit();
     sio.wait();
