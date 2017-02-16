@@ -101,7 +101,8 @@ bool BalanceBoard::poll()
 
 	if(w[0]->exp.type == EXP_WII_BOARD)
 	{
-		unique_ptr<wii_board_t> next(new wii_board_t{w[0]->exp.wb});
+		unique_ptr<wii_board_t> next(new wii_board_t());
+		*next = w[0]->exp.wb;
 		latest_value.swap(next);
 	}
 	else
