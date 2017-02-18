@@ -54,12 +54,6 @@ private:
 	Capture captureThread;
 	Converter converterThread;
 
-	QPushButton button1;
-	QPushButton button2;
-	QPushButton button3;
-	QPushButton button4;
-	QPushButton button5;	
-
 private slots:
 	virtual void closeEvent(QCloseEvent * ev);
 

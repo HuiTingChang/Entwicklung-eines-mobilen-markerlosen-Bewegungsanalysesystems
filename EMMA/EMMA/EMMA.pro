@@ -42,8 +42,7 @@ SOURCES += ../../inc/inih/ini.c \
         body/body_widget.cpp \
         body/CvCamera.cpp \
         body/cvCapture.cpp \
-        body/cvConverter.cpp \
-        body/qimagelabel.cpp
+        body/cvConverter.cpp
 
 HEADERS  += ../../inc/inih/ini.h \
         ../../inc/inih/cpp/INIReader.h \
@@ -56,13 +55,12 @@ HEADERS  += ../../inc/inih/ini.h \
         body/body_widget.h \
         body/CvCamera.h \
         body/cvCapture.h \
-        body/cvConverter.h \
-        body/qimagelabel.h \
-        body/util.h
+        body/cvConverter.h
 
 win32 {
     SOURCES += body/KinectCamera.cpp
-    HEADERS += body/KinectCamera.h
+    HEADERS += body/KinectCamera.h \
+            body/util.h
 }
 
 FORMS    += emma.ui
