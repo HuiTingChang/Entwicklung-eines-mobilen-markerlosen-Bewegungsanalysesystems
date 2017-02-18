@@ -451,6 +451,7 @@ inline void KinectCamera::drawSkeleton(cv::Mat& image, const ComPtr<IBody> body,
 	drawLine(image, joints[JointType_AnkleLeft], joints[JointType_FootLeft], color);
 	drawLine(image, joints[JointType_AnkleRight], joints[JointType_FootRight], color);
 
+	drawCOG(image, colors[1]); // green
 }
 
 inline void KinectCamera::drawLine(cv::Mat& image, const Joint& joint1, const Joint& joint2, const cv::Vec3b& color, const int thickness)
@@ -480,7 +481,40 @@ inline void KinectCamera::drawLine(cv::Mat& image, const Joint& joint1, const Jo
 	}
 }
 
-// 
+// draw COG
+inline void KinectCamera::drawCOG(cv::Mat& image, const cv::Vec3b& color, const int thickness)
+{
+	CameraSpacePoint cog;
+
+
+	cog.X = TRUNK_MASS*jposition[SpineBase][0] + HAND_MASS*jposition[HandLeft][0] +
+		FOREARM_MASS*jposition[ElbowLeft][0] + UPPERARM_MASS*jposition[ShoulderLeft][0] +
+		FOOT_MASS*jposition[FootLeft][0] + LOWERLEG_MASS*jposition[KneeLeft][0] +
+		UPPERLEG_MASS*jposition[HipLeft][0] + HEAD_NECK_MASS*jposition[Neck][0];
+
+	cog.Y = TRUNK_MASS*jposition[SpineBase][1] + HAND_MASS*jposition[HandLeft][1] +
+		FOREARM_MASS*jposition[ElbowLeft][1] + UPPERARM_MASS*jposition[ShoulderLeft][1] +
+		FOOT_MASS*jposition[FootLeft][1] + LOWERLEG_MASS*jposition[KneeLeft][1] +
+		UPPERLEG_MASS*jposition[HipLeft][1] + HEAD_NECK_MASS*jposition[Neck][1];
+
+	cog.Z = TRUNK_MASS*jposition[SpineBase][2] + HAND_MASS*jposition[HandLeft][2] +
+		FOREARM_MASS*jposition[ElbowLeft][2] + UPPERARM_MASS*jposition[ShoulderLeft][2] +
+		FOOT_MASS*jposition[FootLeft][2] + LOWERLEG_MASS*jposition[KneeLeft][2] +
+		UPPERLEG_MASS*jposition[HipLeft][2] + HEAD_NECK_MASS*jposition[Neck][2];
+
+	// Convert Coordinate System and Draw Joint
+	ColorSpacePoint colorSpacePoint;
+	HRESULT hr = coordinateMapper->MapCameraPointToColorSpace(cog, &colorSpacePoint);
+	if (FAILED(hr))
+	{
+		return;
+	}
+	const int x1 = static_cast<int>(colorSpacePoint.X + 0.5f);
+	const int y1 = static_cast<int>(colorSpacePoint.Y + 0.5f);
+
+	cv::circle(image, cv::Point(x1, y1), 3, static_cast<cv::Scalar>(color), thickness, cv::LINE_AA);
+}
+
 // Show Data
 Mat KinectCamera::retrieveFrame()
 {
@@ -501,6 +535,8 @@ inline Mat KinectCamera::showBody()
  	// Return image
 	return resizeMat;
 }
+
+
 
 
 //void KinectCamera::calcAngle( JointType j1,  JointType j2,  JointType j3, double* angle)

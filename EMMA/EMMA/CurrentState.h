@@ -8,8 +8,8 @@
 #include <QVector3D>
 #include <QVector4D>
 #include <QDataStream>
+#include "Anatomy.h"
 
-#define JOINTS_COUNT 25
 
 // Point in the reference space
 typedef QVector3D SpacePoint;

@@ -159,6 +159,11 @@ void Body_Widget::boardDataUpdate() // GUI
 	}
 	
 	ui.weight->setText(QString::number(round(app_data.weight)));
+	
+	SpacePoint cog = newState.get_centOfGv();
+	ui.centre_gravity_X->setText(QString::number(cog[0]));
+	ui.centre_gravity_Y ->setText(QString::number(cog[1]));
+	ui.centre_gravity_Z->setText(QString::number(cog[2]));
 }
 
 void Body_Widget::cameraConnectedInfo(const QString & msg)
@@ -185,6 +190,7 @@ void Body_Widget::currentStateUpdate(board_display_data data)
 	newState.set_centOfPr(data.center_of_pressure);
 	newState.set_gewicht(data.total_weight);
 	newState.set_centOfGv();
+
 	if (!app_data.balanceDataUpdated)
 		app_data.balanceDataUpdated = true;
 

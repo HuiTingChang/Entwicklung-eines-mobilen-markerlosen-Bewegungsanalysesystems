@@ -164,7 +164,7 @@
               <item>
                <widget class="QLabel" name="camera_conn">
                 <property name="text">
-                 <string> </string>
+                 <string/>
                 </property>
                </widget>
               </item>
@@ -242,7 +242,7 @@
                   <item>
                    <widget class="QLabel" name="label_2">
                     <property name="text">
-                     <string>x</string>
+                     <string>X</string>
                     </property>
                    </widget>
                   </item>
@@ -256,7 +256,7 @@
                   <item>
                    <widget class="QLabel" name="label_3">
                     <property name="text">
-                     <string>y</string>
+                     <string>Y</string>
                     </property>
                    </widget>
                   </item>
@@ -279,13 +279,26 @@
                </widget>
               </item>
               <item>
+               <spacer name="horizontalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>48</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
                <layout class="QVBoxLayout" name="verticalLayout_2">
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_3">
                   <item>
                    <widget class="QLabel" name="label_5">
                     <property name="text">
-                     <string>x</string>
+                     <string>X</string>
                     </property>
                    </widget>
                   </item>
@@ -299,12 +312,33 @@
                   <item>
                    <widget class="QLabel" name="label_6">
                     <property name="text">
-                     <string>y</string>
+                     <string>Y</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="centre_pressure_Y_2"/>
+                   <widget class="QLineEdit" name="centre_gravity_Y"/>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_11">
+                  <item>
+                   <widget class="QLabel" name="label_10">
+                    <property name="text">
+                     <string>Z</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="centre_gravity_Z">
+                    <property name="maximumSize">
+                     <size>
+                      <width>95</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                   </widget>
                   </item>
                  </layout>
                 </item>
@@ -320,6 +354,19 @@
                  <string>Weight</string>
                 </property>
                </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_3">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>110</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
               </item>
               <item>
                <widget class="QLineEdit" name="weight"/>
@@ -354,7 +401,7 @@
       <string>Plot</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_7">
-      <item row="0" column="0">
+      <item row="1" column="0">
        <widget class="QCustomPlot" name="customPlot" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">

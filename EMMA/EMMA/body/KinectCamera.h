@@ -99,7 +99,10 @@ private:
     // Draw lines between circles
     inline void drawLine(cv::Mat& image, const Joint& joint1, const Joint& joint2, const cv::Vec3b& color, const int thickness=-1);
 
-    // Retrieve Data
+	// Draw COG
+	inline void drawCOG(cv::Mat& image, const cv::Vec3b& color, const int thickness = -1);
+
+	// Retrieve Data
     Mat retrieveFrame();
 
     // Show Body
