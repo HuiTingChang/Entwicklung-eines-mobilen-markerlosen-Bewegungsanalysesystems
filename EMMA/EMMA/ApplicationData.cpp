@@ -17,7 +17,9 @@ ApplicationData::ApplicationData():
 	balanceDataUpdated(false),
 	cameraDataUpdated(false),
 	main_timer_interval_ms(50),
-	board_show_interval_ms(250)
+	board_show_interval_ms(250),
+	calibrationStart(false),
+	cameraMatrix(Mat::eye(3, 3, CV_32FC1))
 {
 	// for available methods see here
 	// https://github.com/benhoyt/inih/blob/master/cpp/INIReader.h
@@ -31,9 +33,6 @@ ApplicationData::ApplicationData():
 	{
 		widgetWork = reader.GetBoolean("wii", "widgetWork", widgetWork);
 	}
-	calibrationStart = false; 
-	cameraMatrix = Mat::eye(3, 3, CV_32FC1);
- 
 }
 
 
