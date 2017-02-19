@@ -11,7 +11,6 @@ TARGET = test
 INCLUDEPATH += . \
     ../../inc/wiiuse/src \
     ../../inc/inih/cpp \
-    ../../inc/QCustomPlot/src \
     ../../inc/QtOpenCV \
     $${EMMA_DIR} \
     $${EMMA_DIR}/body
