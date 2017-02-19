@@ -4,6 +4,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QResizeEvent>
+//#include <QtConcurrent>
 
 #include "ApplicationData.h"
 
@@ -39,7 +40,8 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	// Everything runs at the same priority as the gui, so it won't supply useless frames.
 	converterThread.setProcessAll(false);
 
-	connect(&main_timer, SIGNAL(timeout()), &captureThread, SLOT(update()));
+	connect(&main_timer, SIGNAL(timeout()), this, SLOT(update()));
+	//connect(&main_timer, SIGNAL(timeout()), &captureThread, SLOT(update()));
 
 	//converterThread.connect(image_label, SIGNAL(resize(QSize)), SLOT(setSize(QSize))); // Ich habe das auskommentiert , damit man noch andere labels sieht
 
@@ -140,6 +142,18 @@ void Body_Widget::on_exit()
 	converterThread.wait(THREAD_WAIT_TIME_MS);
 	boardThread.wait(THREAD_WAIT_TIME_MS);
 	QApplication::quit();
+}
+
+void Body_Widget::update()
+{
+	/*
+	auto stateUpdateTask = QtConcurrent::run([](CurrentState& s){s.update();}, newState);
+	auto captureUpdateTask = QtConcurrent::run([](Capture& c){c.update();}, captureThread);
+	stateUpdateTask.waitForFinished();
+	captureUpdateTask.waitForFinished();
+	*/
+	newState.update();
+	captureThread.update();
 }
 
 void Body_Widget::boardDataUpdate() // GUI 

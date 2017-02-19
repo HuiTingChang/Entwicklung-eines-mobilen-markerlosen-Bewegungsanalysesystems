@@ -14,6 +14,16 @@ bool CurrentState::operator==(const CurrentState& other) const
 	return joints == other.joints;
 }
 
+void CurrentState::update()
+{
+	timestamp = QDateTime::currentDateTimeUtc().toMSecsSinceEpoch();
+}
+
+QDateTime CurrentState::get_timestamp() const
+{
+	return QDateTime::fromMSecsSinceEpoch(timestamp, Qt::UTC);
+}
+
 float CurrentState::get_gewicht() const
 {
 	return gewicht;
@@ -99,7 +109,7 @@ QDataStream& CurrentState::__outStreamOperator(QDataStream& out) const
 {
 	// see http://doc.qt.io/qt-5/datastreamformat.html for what
 	// types are supported out of the box
-	out << joints << angles;
+	out << timestamp << joints << angles;
 	return out;
 }
 
@@ -111,7 +121,7 @@ QDataStream& operator<<(QDataStream& out, const CurrentState& state)
 CurrentState CurrentState::read_next_from_stream(QDataStream& input)
 {
 	CurrentState result;
-	input >> result.joints >> result.angles;
+	input >> result.timestamp >> result.joints >> result.angles;
 	return result;
 }
 

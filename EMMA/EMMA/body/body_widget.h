@@ -60,6 +60,7 @@ private slots:
 	//void on_actionExit_triggered();
 	void load_button_clicked();
 	void on_exit();
+	void update();
 	void boardDataUpdate();
 	void boardConnectedInfo();
 	void cameraConnectedInfo(const QString &msg);

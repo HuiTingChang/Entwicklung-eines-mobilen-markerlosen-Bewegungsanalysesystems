@@ -3,6 +3,7 @@
 #pragma once
 
 #include <string>
+#include <QDateTime>
 #include <QPoint>
 #include <QMap>
 #include <QVector3D>
@@ -26,8 +27,12 @@ typedef QMap<uint, Quaternion> JointOrientations;
 
 class CurrentState
 {
-
 private:
+	/**
+	* milliseconds since Epoch (in UTC) of the last update trigger (values
+	* can be older if no update was received)
+	*/
+	qint64 timestamp;
 	// from camera
 	JointPositions joints;
 	SpacePoint centOfGv;
@@ -42,6 +47,7 @@ public:
 	CurrentState();
 	~CurrentState();
 	bool operator==(const CurrentState& other) const;
+	Q_SLOT void update();
 
 	// setter Methods
 	void set_centOfPr(BoardPoint cop);
@@ -51,6 +57,7 @@ public:
 	void set_angles(JointOrientations o);
 
 	// getter Methods
+	QDateTime get_timestamp() const;
 	float get_gewicht() const;
 	BoardPoint get_centOfPr() const;
 	SpacePoint get_centOfGv() const;
