@@ -8,6 +8,19 @@
 
 struct CameraData
 {
+    CameraData()
+    {
+    }
+    CameraData(
+            cv::Mat frame,
+            JointPositions jpositions,
+            JointOrientations jorientations):
+        frame(frame),
+        jpositions(jpositions),
+        jorientations(jorientations)
+    {
+    }
+
     cv::Mat frame;
     JointPositions jpositions;
     JointOrientations jorientations;
@@ -16,13 +29,14 @@ struct CameraData
 class CvCamera
 {
 public:
-    CvCamera();
+    CvCamera(int destinationWidth=960, int destinationHeight=540);
     virtual CameraData run();
     virtual void initialize();
 protected:
     int cvChannelType = CV_8UC4;
     int colorWidth = 1920;
     int colorHeight = 1080;
+    const cv::Size destinationSize;
     std::shared_ptr<cv::Mat> get_blank_mat();
 };
 

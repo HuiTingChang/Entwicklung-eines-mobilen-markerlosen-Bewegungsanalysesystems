@@ -528,10 +528,10 @@ Mat KinectCamera::retrieveFrame()
 // Show Body
 inline Mat KinectCamera::showBody()
 {
-    // Resize Image
-    cv::Mat resizeMat;
-    const double scale = 0.5;
-    cv::resize(colorMat, resizeMat, cv::Size(), scale, scale);
+	// Resize Image
+	cv::Mat resizeMat;
+	//const double scale = 0.5;
+	cv::resize(colorMat, resizeMat, destinationSize);
 
  	// Return image
 	return resizeMat;
