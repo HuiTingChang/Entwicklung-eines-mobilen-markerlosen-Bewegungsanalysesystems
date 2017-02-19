@@ -12,6 +12,7 @@ INCLUDEPATH += . \
     ../../inc/wiiuse/src \
     ../../inc/inih/cpp \
     ../../inc/QCustomPlot/src \
+    ../../inc/QtOpenCV \
     $${EMMA_DIR} \
     $${EMMA_DIR}/body
 
@@ -19,6 +20,7 @@ INCLUDEPATH += . \
 SOURCES += test_currentstate.cpp \
         ../../inc/inih/ini.c \
         ../../inc/inih/cpp/INIReader.cpp \
+        ../../inc/QtOpenCV/cvmatandqimage.cpp \
         $${EMMA_DIR}/ApplicationData.cpp \
         $${EMMA_DIR}/CurrentState.cpp \
         $${EMMA_DIR}/BalanceBoard.cpp \
@@ -30,6 +32,7 @@ SOURCES += test_currentstate.cpp \
 
 HEADERS  += ../../inc/inih/ini.h \
         ../../inc/inih/cpp/INIReader.h \
+        ../../inc/QtOpenCV/cvmatandqimage.h \
         $${EMMA_DIR}/ApplicationData.h \
         $${EMMA_DIR}/CurrentState.h \
         $${EMMA_DIR}/BalanceBoard.h \

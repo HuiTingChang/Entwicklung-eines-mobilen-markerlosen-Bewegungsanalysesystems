@@ -33,6 +33,7 @@ CONFIG += c++11
 SOURCES += ../../inc/inih/ini.c \
         ../../inc/inih/cpp/INIReader.cpp \
         ../../inc/QCustomPlot/src/qcustomplot.cpp \
+        ../../inc/QtOpenCV/cvmatandqimage.cpp \
         ApplicationData.cpp \
         CurrentState.cpp \
         main.cpp \
@@ -47,6 +48,7 @@ SOURCES += ../../inc/inih/ini.c \
 HEADERS  += ../../inc/inih/ini.h \
         ../../inc/inih/cpp/INIReader.h \
         ../../inc/QCustomPlot/src/qcustomplot.h \
+        ../../inc/QtOpenCV/cvmatandqimage.h \
         ApplicationData.h \
         CurrentState.h \
         BalanceBoard.h \
@@ -68,6 +70,7 @@ FORMS    += emma.ui
 INCLUDEPATH += ../../inc/wiiuse/src \
     ../../inc/inih/cpp \
     ../../inc/QCustomPlot/src \
+    ../../inc/QtOpenCV \
     body
 
 config_files.path = $${DESTDIR}
