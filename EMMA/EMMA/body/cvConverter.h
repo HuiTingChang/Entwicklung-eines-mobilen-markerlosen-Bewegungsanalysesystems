@@ -3,11 +3,11 @@
 #include <QSize>
 #include <QImage>
 
-#include "ApplicationData.h"
 // OpenCv
 #include <opencv2/opencv.hpp>
 #include <opencv2/core/mat.hpp>
-//#include <windows.h>
+
+#include "ApplicationData.h"
 
 using namespace std;
 using namespace cv;
@@ -18,13 +18,13 @@ class Converter : public QThread {
 	ApplicationData* app_data;
 
 	QBasicTimer m_timer;
+	const QImage::Format qimage_format;
 	Mat m_frame;
 	bool m_processAll;
 	static void matDeleter(void* mat);
 	void queue(const Mat & frame);
 	void process(Mat frame); 
 	void timerEvent(QTimerEvent * ev);
-	QImage convertMatToQImage(Mat const& input_img, bool bgr2rgb); 
 public:
 	Converter(QObject* parent, QSize widget_size, ApplicationData *data);
 	void setProcessAll(bool all);
@@ -40,4 +40,5 @@ private:
 	QSize widget_size;
 	void saveMat(Mat  const& image);
 	int matCount; 
+	static const int cvtColorCode;
 };

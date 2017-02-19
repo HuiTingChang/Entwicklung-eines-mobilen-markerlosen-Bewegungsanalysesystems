@@ -1,5 +1,3 @@
-#include "cvConverter.h"
-
 #include <QTimerEvent>
 #include <QThread>
 #include <QDebug>
@@ -10,8 +8,14 @@
 #include <iostream>                         // cout, endl
 #include <cstdint>                         // uint32_t
 
+#include "cvConverter.h"
+#include "cvmatandqimage.h"
+
+const int Converter::cvtColorCode = COLOR_BGRA2RGBA; // formerly BGR2RGB
+
 Converter::Converter(QObject* parent, QSize widget_size, ApplicationData* data) :
 QThread(parent),
+qimage_format(QImage::Format_RGBA8888),
 m_processAll(true),
 widget_size(widget_size)
 {
@@ -154,18 +158,6 @@ void Converter::matDeleter(void* mat)
 	delete static_cast<Mat*>(mat);
 }
 
-
-// vom process aufgerufen; To alter
-// TODO look at https://asmaloney.com/2013/11/code/converting-between-cvmat-and-qimage-or-qpixmap/
-QImage Converter::convertMatToQImage(Mat const& inMat, bool bgr2rgb)
-{
-	cv::Mat tmp = inMat;
-	QImage dest((const uchar*)tmp.data, tmp.cols, tmp.rows, tmp.step,
-		QImage::Format_Indexed8, &matDeleter, new cv::Mat(tmp)); //)
-	dest.bits(); // enforce deep copy, see documentation
-	return dest;
-}
-
 // vom processFrame und timerEvent aufgerufen
 void Converter::process(Mat frame) {
 
@@ -190,10 +182,12 @@ void Converter::process(Mat frame) {
 	}
 	// vom cv
 	resize(frame, frame, size);
-	if (!(frame.type() == CV_8UC1 || frame.type() == CV_8U))
-		cv::cvtColor(frame, frame, CV_BGR2RGB);
+	if (!(frame.type() == CV_8UC1 || frame.type() == CV_8U)) // not grayscale
+	{
+		cv::cvtColor(frame, frame, cvtColorCode);
+	}
 
-	const QImage image = convertMatToQImage(frame, false);
+	const QImage image = QtOcv::mat2Image_shared(frame, qimage_format);
 
 
 
