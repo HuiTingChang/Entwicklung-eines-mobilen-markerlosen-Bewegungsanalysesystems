@@ -1,4 +1,5 @@
 #include <QtConcurrent>
+#include <opencv2/imgproc/imgproc.hpp>
 
 #include "CvCamera.h"
 using namespace std;
@@ -20,9 +21,11 @@ CameraData CvCamera::run()
     //Mat frame = cv::imread("C:/SWE 16_17/Gruppe-13/Kinect_Body_Code/Body_Widget/penguin2.jpg");
     const cv::Scalar color(127,255,0,255);  // BGRA
     cv::Mat f_tmp(colorHeight, colorWidth, cvChannelType, color);
+#ifdef WIN32
     cv::putText(
                 f_tmp, "EMMA", cv::Point(colorWidth/6,colorHeight/2),
                 cv::FONT_HERSHEY_SIMPLEX, 13, cv::Scalar::all(255), 26);
+#endif
     cv::resize(f_tmp, frame, destinationSize);
 
     // Save Joint Position
