@@ -27,12 +27,13 @@ private:
     ComPtr<IColorFrameReader> colorFrameReader;
     ComPtr<IBodyFrameReader> bodyFrameReader;
 
-    // Color Buffer
-    std::vector<BYTE> colorBuffer;
+    // colorMat
     int colorWidth;
     int colorHeight;
+    int colorType;
     unsigned int colorBytesPerPixel;
     cv::Mat colorMat;
+    static const ColorImageFormat cvColorFormat;
 	
     // Body Buffer
 	std::array<IBody*, BODY_COUNT> bodies;

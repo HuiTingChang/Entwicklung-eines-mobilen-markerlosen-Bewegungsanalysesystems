@@ -5,11 +5,12 @@
 #include <chrono>
 #include <QtConcurrent>
 
-
+const ColorImageFormat KinectCamera::cvColorFormat = ColorImageFormat::ColorImageFormat_Bgra;
 
 // Constructor
 KinectCamera::KinectCamera():
-    CvCamera()
+    CvCamera(),
+    colorType(CV_8UC4)
 {
 	bodies = { { nullptr } };
 
@@ -122,9 +123,6 @@ inline void KinectCamera::initializeColor()
     ERROR_CHECK( colorFrameDescription->get_Width( &colorWidth ) ); // 1920
     ERROR_CHECK( colorFrameDescription->get_Height( &colorHeight ) ); // 1080
     ERROR_CHECK( colorFrameDescription->get_BytesPerPixel( &colorBytesPerPixel ) ); // 4
-
-    // Allocation Color Buffer
-    colorBuffer.resize( colorWidth * colorHeight * colorBytesPerPixel );
 }
 
 // Initialize Body
@@ -185,8 +183,15 @@ inline void KinectCamera::updateColor()
         return;
     }
 
+    // Allocation Color Buffer
+    auto colorBufferSize = static_cast<UINT>( colorWidth * colorHeight * colorBytesPerPixel );
+    std::vector<BYTE> colorBuffer(colorBufferSize);
+
     // Convert Format ( YUY2 -> BGRA )
-    ERROR_CHECK( colorFrame->CopyConvertedFrameDataToArray( static_cast<UINT>( colorBuffer.size() ), &colorBuffer[0], ColorImageFormat::ColorImageFormat_Bgra ) );
+    ERROR_CHECK( colorFrame->CopyConvertedFrameDataToArray(colorBufferSize, colorBuffer.data, cvColorFormat) );
+
+    // Create cv::Mat from Color Buffer
+    colorMat = cv::Mat(colorHeight, colorWidth, colorType, colorBuffer.data);
 }
 
 // Update Body
@@ -211,18 +216,8 @@ inline void KinectCamera::updateBody()
 // Draw Data
 void KinectCamera::draw()
 {
-    // Draw Color
-    drawColor();
-
     // Draw Body
     drawBody();
-}
-
-// Draw Color
-inline void KinectCamera::drawColor()
-{
-    // Create cv::Mat from Color Buffer
-    colorMat = cv::Mat( colorHeight, colorWidth, CV_8UC4, &colorBuffer[0] );
 }
 
 // Draw Body
