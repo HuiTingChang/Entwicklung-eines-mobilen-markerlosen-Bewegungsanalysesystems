@@ -59,4 +59,13 @@ public:
 	}
 };
 
+class camera_has_no_frame_error: public camera_error
+{
+public:
+	virtual const char* what() const throw()
+	{
+		return "Camera has no frame";
+	}
+};
+
 #endif // MOCKINECT_H

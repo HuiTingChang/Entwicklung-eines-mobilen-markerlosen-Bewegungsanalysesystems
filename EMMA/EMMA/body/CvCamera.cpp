@@ -18,8 +18,11 @@ CameraData CvCamera::run()
     // Resize Image
     //Mat frame = cv::imread("C:/SWE 16_17/Gruppe-13/Kinect_Body_Code/Body_Widget/penguin2.jpg");
     shared_ptr<cv::Mat> f_tmp = get_blank_mat();
+    /*
     const double scale = 0.5;
-    cv::resize(result.frame, *f_tmp, cv::Size(), scale, scale);
+    cv::resize(result.frame, *f_tmp, cv::Size(), scale, scale);  // XXX 3rd arg should be destination size
+    */
+    result.frame = *f_tmp;  // XXX
 
     // Save Joint Position
     JointPositions j_tmp;

@@ -29,9 +29,15 @@ KinectCamera::~KinectCamera()
 // Processing
 CameraData KinectCamera::run()
 {
+    try
+    {
         // Update Data
         update();
-
+    }
+    catch(camera_has_no_frame_error e)
+    {
+        return CvCamera::run();  // fall-back
+    }
         // Draw Data
         draw();
 
@@ -180,7 +186,7 @@ inline void KinectCamera::updateColor()
     ComPtr<IColorFrame> colorFrame;
     const HRESULT ret = colorFrameReader->AcquireLatestFrame( &colorFrame );
     if( FAILED( ret ) ){
-        return;
+        throw camera_has_no_frame_error();
     }
 
     // Allocation Color Buffer
@@ -188,10 +194,10 @@ inline void KinectCamera::updateColor()
     std::vector<BYTE> colorBuffer(colorBufferSize);
 
     // Convert Format ( YUY2 -> BGRA )
-    ERROR_CHECK( colorFrame->CopyConvertedFrameDataToArray(colorBufferSize, colorBuffer.data, cvColorFormat) );
+    ERROR_CHECK( colorFrame->CopyConvertedFrameDataToArray(colorBufferSize, colorBuffer.data(), cvColorFormat) );
 
     // Create cv::Mat from Color Buffer
-    colorMat = cv::Mat(colorHeight, colorWidth, colorType, colorBuffer.data);
+    colorMat = cv::Mat(colorHeight, colorWidth, colorType, colorBuffer.data());
 }
 
 // Update Body

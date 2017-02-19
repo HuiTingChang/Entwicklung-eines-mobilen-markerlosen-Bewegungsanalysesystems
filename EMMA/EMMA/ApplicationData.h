@@ -26,8 +26,8 @@ public :
 	int board_show_interval_ms; 
 	bool calibrationStart; 
  
-	cv::vector<cv::Mat> rvecs;
-	cv::vector<cv::Mat> tvecs;
+	std::vector<cv::Mat> rvecs;
+	std::vector<cv::Mat> tvecs;
  
 	cv::Mat cameraMatrix ;
 
