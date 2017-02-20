@@ -1,6 +1,6 @@
 #! /bin/bash
 WII_PATH=$PWD/inc/wiiuse/build/src
-if [[ -n $TEST_BUILD_EXEC ]]
+if [ -n "$TEST_BUILD_EXEC" ]
 then
 	cd EMMA/EMMA/release # emma.ini must be in the directory
 	LD_LIBRARY_PATH=$WII_PATH ./EMMA
