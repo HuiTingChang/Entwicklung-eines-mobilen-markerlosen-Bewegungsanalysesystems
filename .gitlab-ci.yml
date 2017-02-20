@@ -1,5 +1,5 @@
 # image made using the Dockerfile found in EMMA
-image: yuwash/emma
+image: yuwash/emma:alpine
 
 # submodule update currently fails due to some certificate problem
 #variables:
