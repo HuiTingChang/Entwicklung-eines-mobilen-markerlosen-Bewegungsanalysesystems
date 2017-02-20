@@ -71,6 +71,7 @@ public:
 private:
 
 	JointOrientations angleMeasurement();
+	float angleSizeCalc();
 	SpacePoint centerOfGravityMeasurement();
 };
 

@@ -85,6 +85,11 @@ JointOrientations CurrentState::angleMeasurement()
 	return angles;
 }
 
+float CurrentState::angleSizeCalc()
+{
+	// TODO
+}
+
 SpacePoint CurrentState::centerOfGravityMeasurement()
 {
 	SpacePoint cog(0.0, 0.0, 0.0);
