@@ -1,7 +1,7 @@
 #pragma once
 
-#include <stdexcept>
 #include <memory> //unique_ptr
+#include <QException>
 
 // 1 steht fuer 1 wiimote
 #define WIIMOTES_COUNT 1
@@ -68,19 +68,23 @@ private:
 
 //Q_DECLARE_METATYPE(BalanceBoard)
 
-class balance_board_not_found_error: public std::exception
+class balance_board_not_found_error: public QException
 {
 public:
-	virtual const char* what() const throw()
+	void raise() const { throw *this; }
+	balance_board_not_found_error *clone() const { return new balance_board_not_found_error(*this); }
+	virtual const char* what() const
 	{
 		return "Balance Board can not be found";
 	}
 };
 
-class balance_board_not_connected_error: public std::exception
+class balance_board_not_connected_error: public QException
 {
 public:
-	virtual const char* what() const throw()
+	void raise() const { throw *this; }
+	balance_board_not_connected_error *clone() const { return new balance_board_not_connected_error(*this); }
+	virtual const char* what() const
 	{
 		return "Balance Board is not connected";
 	}

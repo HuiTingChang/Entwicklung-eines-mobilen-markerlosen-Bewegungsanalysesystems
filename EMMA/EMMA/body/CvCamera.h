@@ -2,6 +2,7 @@
 #define MOCKINECT_H
 
 #include <memory>
+#include <QException>
 #include <opencv2/opencv.hpp>
 
 #include "CurrentState.h"
@@ -40,16 +41,18 @@ protected:
     std::shared_ptr<cv::Mat> get_blank_mat();
 };
 
-class camera_error: public std::exception
+class camera_error: public QException
 {
 public:
-	virtual const char* what() const throw()=0;
+	virtual const char* what() const=0;
 };
 
 class camera_inactive_error: public camera_error
 {
 public:
-	virtual const char* what() const throw()
+	void raise() const { throw *this; }
+	camera_inactive_error *clone() const { return new camera_inactive_error(*this); }
+	virtual const char* what() const
 	{
 		return "Camera does not have any open stream";
 	}
@@ -58,7 +61,9 @@ public:
 class camera_not_available_error: public camera_error
 {
 public:
-	virtual const char* what() const throw()
+	void raise() const { throw *this; }
+	camera_not_available_error *clone() const { return new camera_not_available_error(*this); }
+	virtual const char* what() const
 	{
 		return "Camera is inactive";
 	}
@@ -67,7 +72,9 @@ public:
 class camera_not_found_error: public camera_error
 {
 public:
-	virtual const char* what() const throw()
+	void raise() const { throw *this; }
+	camera_not_found_error *clone() const { return new camera_not_found_error(*this); }
+	virtual const char* what() const
 	{
 		return "Camera can not be found";
 	}
@@ -76,7 +83,9 @@ public:
 class camera_has_no_frame_error: public camera_error
 {
 public:
-	virtual const char* what() const throw()
+	void raise() const { throw *this; }
+	camera_has_no_frame_error *clone() const { return new camera_has_no_frame_error(*this); }
+	virtual const char* what() const
 	{
 		return "Camera has no frame";
 	}
