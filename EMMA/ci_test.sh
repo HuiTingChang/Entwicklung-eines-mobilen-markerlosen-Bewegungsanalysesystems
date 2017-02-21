@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 WII_PATH=$PWD/inc/wiiuse/build/src
 if [ -n "$TEST_BUILD_EXEC" ]
 then
