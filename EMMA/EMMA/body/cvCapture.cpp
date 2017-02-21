@@ -1,5 +1,6 @@
 #include "cvCapture.h"
 
+#include <QtConcurrent>
 #include <QTimerEvent>
 #include <QThread>
 #include <QResizeEvent>
@@ -12,38 +13,44 @@
 
 using namespace std;
 
-void kinect_initialize(KinectCamera* kc)
+void kinect_initialize(CameraCapture* capture, KinectCamera* kc)
 {
 	try
 	{
 		kc->initialize();
-		emit cameraStateChanged(CvCamera::CONNECTED);
+		emit capture->cameraStateChanged(CvCamera::CONNECTED);
 	}
 	catch (const camera_error& e)
 	{
-		emit cameraStateChanged(CvCamera::DISCONNECTED);
+		emit capture->cameraStateChanged(CvCamera::DISCONNECTED);
 	}
 }
 
 CameraCapture::CameraCapture(QObject* parent):
-    QThread(parent),
-    state(CvCamera::DISCONNECTED)
+	QThread(parent),
+	kinect_init_future(QtConcurrent::run(kinect_initialize, this, &kinect)),
+	state(CvCamera::DISCONNECTED)
 {
 }
 
 void CameraCapture::run()
 {
-}
-
-void Capture::run()
-{
-	
+	try
+	{
+		kinect_init_future.waitForFinished();
+		emit cameraStateChanged(CvCamera::CONNECTED);
+	}
+	catch(const camera_error& e)
+	{
+		emit cameraStateChanged(CvCamera::DISCONNECTED);
+	}
 	// routine for thread start...
 	exec();
 }
 
 void CameraCapture::update()
 {
+	kinect_init_future.waitForFinished();
 	CameraData data = kinect.run();
 
 	emit jointReady(data.jpositions, data.jorientations);

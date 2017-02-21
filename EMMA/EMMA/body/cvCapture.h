@@ -1,11 +1,10 @@
 #include <QThread>
+#include <QFuture>
 #include "ApplicationData.h"
 
 // OpenCv
 #include <opencv2/opencv.hpp>
 #include <opencv2/core/mat.hpp>
-
-//#include <windows.h>
 
 // Eigene Dateien
 #ifdef WIN32
@@ -20,8 +19,6 @@
 class CameraCapture : public QThread
 {
 	Q_OBJECT
-	
-
 public:
 	CameraCapture(QObject * parent);
 	void run();
@@ -33,6 +30,7 @@ public:
 
 private:
 	// Constructor Initialisation wird aufgerufen
+	QFuture<void> kinect_init_future;
 	KinectCamera kinect;
 	CvCamera::State state;
 };
