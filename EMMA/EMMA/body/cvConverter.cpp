@@ -97,13 +97,13 @@ void Converter::saveMat(Mat const& tmp){
 		Mat distCoeffs = Mat::zeros(8, 1, CV_32FC1);
 
 
-		app_data->cameraMatrix.ptr<float>(0)[0] = 1;
-		app_data->cameraMatrix.ptr<float>(1)[1] = 1;
+		app_data->cameraMatrix->ptr<float>(0)[0] = 1;
+		app_data->cameraMatrix->ptr<float>(1)[1] = 1;
 
 		
 		// rvec - rotation vector
 		//tvec - translation vector 
-		double projError = calibrateCamera(arrayOfWorldCorners, arrayOfCorners, im_gray.size(), app_data->cameraMatrix, distCoeffs, app_data->rvecs, app_data->tvecs);
+		double projError = calibrateCamera(arrayOfWorldCorners, arrayOfCorners, im_gray.size(), *(app_data->cameraMatrix), distCoeffs, app_data->rvecs, app_data->tvecs);
 
 		qDebug() << "YES! The chessboard is found ";
 	}

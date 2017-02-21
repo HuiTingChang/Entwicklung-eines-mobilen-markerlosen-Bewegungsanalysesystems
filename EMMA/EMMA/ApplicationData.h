@@ -1,10 +1,16 @@
 #pragma once
+#include <memory>
 #include <QPoint>
 #include <QSize>
-
+/*
 #include <opencv2/opencv.hpp>
 #include <opencv2/core/mat.hpp>
 #undef ACCESS_MASK
+*/
+namespace cv
+{
+	class Mat;
+};
 
 class ApplicationData // Klasse fuer die globalen Variablen
 {
@@ -29,7 +35,7 @@ public :
 	std::vector<cv::Mat> rvecs;
 	std::vector<cv::Mat> tvecs;
  
-	cv::Mat cameraMatrix ;
+	std::shared_ptr<cv::Mat> cameraMatrix ;
 
 
 };
