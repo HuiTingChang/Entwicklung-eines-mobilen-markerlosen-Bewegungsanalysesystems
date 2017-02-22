@@ -1,5 +1,7 @@
 #include "CurrentState.h"
 
+using namespace EMMA;
+
 CurrentState::CurrentState():
 	centOfGv(SpacePoint(0.0, 0.0, 0.0)),
 	centOfPr(BoardPoint(0, 0)),

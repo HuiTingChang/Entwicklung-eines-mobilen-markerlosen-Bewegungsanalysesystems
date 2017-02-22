@@ -33,7 +33,7 @@ CameraData CvCamera::run()
 
     // Save Joint Position
     JointPositions j_tmp;
-    for(unsigned int i=0; i < JOINTS_COUNT; ++i)
+    for(unsigned int i=0; i < EMMA::JOINTS_COUNT; ++i)
     {
 	// default-construct them
 	j_tmp[i];
