@@ -61,18 +61,12 @@ void Test_CurrentState::writeReadSeparately()
     qDebug() << QString(((std::string) cs).c_str());
     {
         StreamIO sio(&cs);
-        sio.start();
         connect(this, &Test_CurrentState::write_now, &sio, &StreamIO::write);
         emit write_now();
-        sio.quit();
-        sio.wait();
     }
     CurrentState tmpcs;
     StreamIO sio(&tmpcs);
-    sio.start();
     auto siocs = sio.get_reader().next();
-    sio.quit();
-    sio.wait();
     qDebug() << QString(((std::string) siocs).c_str());
     QCOMPARE(cs, siocs);
 }
@@ -82,13 +76,10 @@ void Test_CurrentState::writeRead()
     CurrentState cs;
     cs.set_jointPositions(get_example_jpositions());
     StreamIO sio(&cs);
-    sio.start();
     connect(this, &Test_CurrentState::write_now, &sio, &StreamIO::write);
     emit write_now();
     sio.flush();
     auto siocs = sio.get_reader().next();
-    sio.quit();
-    sio.wait();
     QCOMPARE(cs, siocs);
 }
 
@@ -97,7 +88,6 @@ void Test_CurrentState::writeReadTwice()
     CurrentState cs;
     cs.set_jointPositions(get_example_jpositions());
     StreamIO sio(&cs);
-    sio.start();
     connect(this, &Test_CurrentState::write_now, &sio, &StreamIO::write);
     emit write_now();
     cs.set_jointPositions(get_modified_example_jpositions(cs.get_joints()));
@@ -108,8 +98,6 @@ void Test_CurrentState::writeReadTwice()
     sioreader.next();
     auto siocs = sioreader.next();
     qDebug() << QString(((std::string) siocs).c_str());
-    sio.quit();
-    sio.wait();
     QCOMPARE(cs, siocs);
 }
 
