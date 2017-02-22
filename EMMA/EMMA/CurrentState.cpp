@@ -155,6 +155,16 @@ float CurrentState::angleSizeCalc(EMMA::Joints jointNumber)
 		j1 = joints[KneeRight];
 		j3 = joints[FootRight];
 		break;
+	case SpineBase:
+	case Head:
+	case FootLeft:
+	case FootRight:
+	case SpineShoulder:
+	case HandTipLeft:
+	case ThumbLeft:
+	case HandTipRight:
+	case ThumbRight:
+		throw invalid_mechanical_parameters_error("Planar angle calculation for leaf nodes undefined!");
 	}
 
 	return angle;

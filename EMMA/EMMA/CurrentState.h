@@ -9,6 +9,7 @@
 #include <QVector3D>
 #include <QVector4D>
 #include <QDataStream>
+#include <QException>
 #include "Anatomy.h"
 
 
@@ -76,3 +77,17 @@ private:
 };
 
 QDataStream& operator<<(QDataStream& out, const CurrentState& state); 
+
+class invalid_mechanical_parameters_error: public QException
+{
+private:
+	const char* what_cstr;
+public:
+	void raise() const { throw *this; }
+	invalid_mechanical_parameters_error *clone() const { return new invalid_mechanical_parameters_error(*this); }
+	invalid_mechanical_parameters_error(const char* what): what_cstr(what) {}
+	virtual const char* what() const throw()
+	{
+		return what_cstr? what_cstr: "Invalid parameters for mechanical calculation!";
+	}
+};
