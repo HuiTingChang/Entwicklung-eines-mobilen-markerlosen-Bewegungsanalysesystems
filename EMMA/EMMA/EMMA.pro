@@ -49,6 +49,7 @@ HEADERS  += ../../inc/inih/ini.h \
         ../../inc/inih/cpp/INIReader.h \
         ../../inc/QCustomPlot/src/qcustomplot.h \
         ../../inc/QtOpenCV/cvmatandqimage.h \
+        Anatomy.h \
         ApplicationData.h \
         CurrentState.h \
         BalanceBoard.h \
