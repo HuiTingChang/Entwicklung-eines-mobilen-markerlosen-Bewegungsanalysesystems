@@ -24,7 +24,6 @@ class CameraCapture: public QObject
 public:
 	CameraCapture();
 	~CameraCapture();
-	void start();
 	void waitAllForFinished();
 	CvCamera::State get_state();
 	Q_SLOT void update();

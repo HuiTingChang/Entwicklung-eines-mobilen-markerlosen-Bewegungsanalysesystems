@@ -15,7 +15,7 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	QWidget(parent),
 	main_timer(this),
 	boardThread(&app_data),
-	streamIOThread(&newState),
+	streamIO(&newState),
 	converterThread(this, app_data.bodyRenderSize, &app_data)
 {
 	
@@ -45,8 +45,6 @@ Body_Widget::Body_Widget(QWidget *parent) :
 
 	//converterThread.connect(image_label, SIGNAL(resize(QSize)), SLOT(setSize(QSize))); // Ich habe das auskommentiert , damit man noch andere labels sieht
 
-	streamIOThread.start();
-	
 	ui.camera_conn->setText("The Camera is not connected");
 	ui.camera_conn->setStyleSheet("QLabel { color : red; }");
 	connect(&capture, SIGNAL(cameraStateChanged(CvCamera::State)), this, SLOT(cameraConnectedInfo(CvCamera::State)));
@@ -57,8 +55,8 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	connect(this, SIGNAL(stop()), &main_timer, SLOT(stop()));
 	connect(ui.exit_button, SIGNAL(clicked()), this, SIGNAL(stop()));
 	connect(this, SIGNAL(stop()), this, SLOT(on_exit()));
-	connect(this, SIGNAL(dataReady()), &streamIOThread, SLOT(write()));
-	connect(&streamIOThread, SIGNAL(dataSaveFinished()), this, SLOT(afterSaveData()));
+	connect(this, SIGNAL(dataReady()), &streamIO, SLOT(write()));
+	connect(&streamIO, SIGNAL(dataSaveFinished()), this, SLOT(afterSaveData()));
 
 
 
@@ -107,9 +105,7 @@ void Body_Widget::load_button_clicked()
 	}
 
 	main_timer.start(app_data.main_timer_interval_ms);
-    capture.start();
 	converterThread.start();
-	streamIOThread.start();
 }
 
 void Body_Widget::setImage(const QImage & img)
@@ -131,10 +127,8 @@ void Body_Widget::closeEvent(QCloseEvent * ev)
 void Body_Widget::on_exit()
 {
 	setWindowTitle("Closing Software");
-	streamIOThread.terminate();
-	converterThread.terminate();
-	boardThread.terminate();
-	streamIOThread.wait(THREAD_WAIT_TIME_MS);
+	converterThread.quit();
+	boardThread.quit();
 	converterThread.wait(THREAD_WAIT_TIME_MS);
 	boardThread.wait(THREAD_WAIT_TIME_MS);
 	QApplication::quit();

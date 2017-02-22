@@ -50,7 +50,7 @@ private:
 	QTimer main_timer;
 	QTimer board_timer; 
 	BalanceBoardThread boardThread;
-	StreamIO streamIOThread;
+	StreamIO streamIO;
 	CameraCapture capture;
 	Converter converterThread;
 

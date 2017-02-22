@@ -1,7 +1,6 @@
 #ifndef STREAMIO_H
 #define STREAMIO_H
 
-#include <QThread>
 #include <QFuture>
 #include <QFile>
 #include <QDataStream>
@@ -28,10 +27,11 @@ public:
 	void reset();
 };
 
-class StreamIO : public QThread
+class StreamIO : public QObject
 {
 	Q_OBJECT
 public:
+	// need QObject parent?
 	StreamIO(const CurrentState* state, const QString& name=DEFAULT_OUTFILE);
 	~StreamIO();
 	const CurrentState* state;

@@ -30,19 +30,6 @@ CameraCapture::~CameraCapture()
 	waitAllForFinished();
 }
 
-void CameraCapture::start()
-{
-	try
-	{
-		kinect_init_future.waitForFinished();
-		emit cameraStateChanged(CvCamera::CONNECTED);
-	}
-	catch(const camera_error& e)
-	{
-		emit cameraStateChanged(CvCamera::DISCONNECTED);
-	}
-}
-
 void CameraCapture::waitAllForFinished()
 {
 	QMutexLocker queueLock(&updateQueueMutex);
