@@ -71,7 +71,7 @@ public:
 private:
 
 	JointOrientations angleMeasurement();
-	float angleSizeCalc();
+	float angleSizeCalc(EMMA::Joints jointNumber);
 	SpacePoint centerOfGravityMeasurement();
 };
 

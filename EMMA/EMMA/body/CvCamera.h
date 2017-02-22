@@ -33,12 +33,11 @@ class CvCamera: QObject
 {
     Q_OBJECT
 public:
-    enum State
+    enum State : int
     {
         CONNECTED,
         DISCONNECTED
     };
-    Q_ENUM(State)
     static const QMap<State,QString> STATE_DESCRIPTION;
 
     CvCamera(int destinationWidth=960, int destinationHeight=540);

@@ -79,15 +79,85 @@ void CurrentState::set_angles(JointOrientations o)
 JointOrientations CurrentState::angleMeasurement()
 {
 	JointOrientations angles;
-
-	// TODO Hui-Ting Code, if necessary
-
 	return angles;
 }
 
-float CurrentState::angleSizeCalc()
+/*
+Invalid jointNumber: 0, 3, 15, 19, 20, 21, 22, 23, 24
+*/
+float CurrentState::angleSizeCalc(EMMA::Joints jointNumber)
 {
-	// TODO
+	SpacePoint j1, j2, j3;
+	j2 = joints[jointNumber];
+	float angle = 0;
+	switch (jointNumber){
+	case SpineMid:		// case 1
+		j1 = joints[SpineBase];
+		j3 = joints[SpineShoulder];
+		break;
+	case Neck:			// case 2
+		j1 = joints[Head];
+		j3 = joints[SpineShoulder];
+		break;
+	case ShoulderLeft:	// case 4
+		j1 = joints[ElbowLeft];
+		j3 = joints[SpineShoulder];
+		break;
+	case ElbowLeft:		// case 5
+		j1 = joints[ShoulderLeft];
+		j3 = joints[WristLeft];
+		break;
+	case WristLeft:		// case 6
+		j1 = joints[HandLeft];
+		j3 = joints[ElbowLeft];
+		break;
+	case HandLeft:		// case 7
+		j1 = joints[HandTipLeft];
+		j3 = joints[WristLeft];
+		break;
+	case ShoulderRight: // case 8
+		j1 = joints[SpineShoulder];
+		j3 = joints[ElbowRight];
+		break;
+	case ElbowRight:// case 9
+		j1 = joints[ShoulderRight];
+		j3 = joints[WristRight];
+		break;
+	case WristRight: // case 10
+		j1 = joints[HandRight];
+		j3 = joints[ElbowRight];
+		break;
+	case HandRight: // case 11
+		j1 = joints[HandTipRight];
+		j3 = joints[WristRight];
+		break;
+	case HipLeft: // case 12
+		j1 = joints[SpineBase];
+		j3 = joints[KneeLeft];
+		break;
+	case KneeLeft: // case 13
+		j1 = joints[HipLeft];
+		j3 = joints[AnkleLeft];
+		break;
+	case AnkleLeft: // case 14
+		j1 = joints[KneeLeft];
+		j3 = joints[FootLeft];
+		break;
+	case HipRight: // case 16
+		j1 = joints[SpineBase];
+		j3 = joints[KneeRight];
+		break;
+	case KneeRight: // case 17
+		j1 = joints[HipRight];
+		j3 = joints[AnkleRight];
+		break;
+	case AnkleRight: // case 18
+		j1 = joints[KneeRight];
+		j3 = joints[FootRight];
+		break;
+	}
+
+	return angle;
 }
 
 SpacePoint CurrentState::centerOfGravityMeasurement()
