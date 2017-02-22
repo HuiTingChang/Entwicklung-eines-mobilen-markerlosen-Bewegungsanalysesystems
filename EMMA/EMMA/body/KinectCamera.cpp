@@ -129,6 +129,9 @@ inline void KinectCamera::initializeColor()
     ERROR_CHECK( colorFrameDescription->get_Width( &colorWidth ) ); // 1920
     ERROR_CHECK( colorFrameDescription->get_Height( &colorHeight ) ); // 1080
     ERROR_CHECK( colorFrameDescription->get_BytesPerPixel( &colorBytesPerPixel ) ); // 4
+
+    // Allocation Color Buffer
+    colorBuffer.resize( colorWidth * colorHeight * colorBytesPerPixel );
 }
 
 // Initialize Body
@@ -189,12 +192,8 @@ inline void KinectCamera::updateColor()
         throw camera_has_no_frame_error();
     }
 
-    // Allocation Color Buffer
-    auto colorBufferSize = static_cast<UINT>( colorWidth * colorHeight * colorBytesPerPixel );
-    std::vector<BYTE> colorBuffer(colorBufferSize);
-
     // Convert Format ( YUY2 -> BGRA )
-    ERROR_CHECK( colorFrame->CopyConvertedFrameDataToArray(colorBufferSize, colorBuffer.data(), cvColorFormat) );
+    ERROR_CHECK( colorFrame->CopyConvertedFrameDataToArray(static_cast<UINT>( colorBuffer.size() ), colorBuffer.data(), cvColorFormat) );
 
     // Create cv::Mat from Color Buffer
     colorMat = cv::Mat(colorHeight, colorWidth, colorType, colorBuffer.data());

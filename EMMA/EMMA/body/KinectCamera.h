@@ -28,6 +28,7 @@ private:
     ComPtr<IBodyFrameReader> bodyFrameReader;
 
     // colorMat
+    std::vector<BYTE> colorBuffer;
     int colorWidth;
     int colorHeight;
     int colorType;
