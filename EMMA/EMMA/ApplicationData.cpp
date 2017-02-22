@@ -36,6 +36,7 @@ ApplicationData::ApplicationData():
 	else
 	{
 		widgetWork = reader.GetBoolean("wii", "widgetWork", widgetWork);
+		main_timer_interval_ms = reader.GetInteger("capture", "main_timer_interval_ms", main_timer_interval_ms);
 	}
 }
 
