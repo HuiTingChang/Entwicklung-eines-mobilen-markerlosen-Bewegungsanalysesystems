@@ -9,21 +9,17 @@
 
 #include "ApplicationData.h"
 
-using namespace std;
-using namespace cv;
-
-
 class Converter : public QThread {
 	Q_OBJECT
 	ApplicationData* app_data;
 
 	QBasicTimer m_timer;
 	const QImage::Format qimage_format;
-	Mat m_frame;
+	cv::Mat m_frame;
 	bool m_processAll;
 	static void matDeleter(void* mat);
-	void queue(const Mat & frame);
-	void process(Mat frame); 
+	void queue(const cv::Mat & frame);
+	void process(cv::Mat frame);
 	void timerEvent(QTimerEvent * ev);
 public:
 	Converter(QObject* parent, QSize widget_size, ApplicationData *data);
@@ -38,7 +34,7 @@ public:
 
 private:
 	QSize widget_size;
-	void saveMat(Mat  const& image);
+	void saveMat(cv::Mat  const& image);
 	int matCount; 
 	static const int cvtColorCode;
 };

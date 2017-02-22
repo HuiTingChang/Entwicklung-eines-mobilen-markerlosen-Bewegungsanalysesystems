@@ -1,15 +1,15 @@
 #include <QTimerEvent>
 #include <QThread>
 #include <QDebug>
-#include <QResizeEvent>
-#include <QLibrary>
-#include <QFile>
 
 #include <iostream>                         // cout, endl
 #include <cstdint>                         // uint32_t
 
 #include "cvConverter.h"
 #include "cvmatandqimage.h"
+
+using namespace cv;
+using namespace std;
 
 const int Converter::cvtColorCode = COLOR_BGRA2RGBA; // formerly BGR2RGB
 

@@ -11,21 +11,18 @@
 #include "CurrentState.h"
 #include "CvCamera.h"
 
-using namespace Microsoft::WRL;
-using namespace cv;
-
 class KinectCamera: public CvCamera
 {
 private:
     // Sensor
-    ComPtr<IKinectSensor> kinect;
+    Microsoft::WRL::ComPtr<IKinectSensor> kinect;
 
     // Coordinate Mapper
-    ComPtr<ICoordinateMapper> coordinateMapper;
+    Microsoft::WRL::ComPtr<ICoordinateMapper> coordinateMapper;
 
     // Reader
-    ComPtr<IColorFrameReader> colorFrameReader;
-    ComPtr<IBodyFrameReader> bodyFrameReader;
+    Microsoft::WRL::ComPtr<IColorFrameReader> colorFrameReader;
+    Microsoft::WRL::ComPtr<IBodyFrameReader> bodyFrameReader;
 
     // colorMat
     std::vector<BYTE> colorBuffer;
@@ -90,7 +87,7 @@ private:
 
     // Draw Body
     inline void drawBody();
-	inline void drawSkeleton(cv::Mat& image, const ComPtr<IBody> body, const cv::Vec3b& color, const int thickness = -1);
+    inline void drawSkeleton(cv::Mat& image, const Microsoft::WRL::ComPtr<IBody> body, const cv::Vec3b& color, const int thickness = -1);
 
     // Draw Circle
     inline void drawEllipse( cv::Mat& image, const Joint& joint, const int radius, const cv::Vec3b& color, const int thickness = -1 );
@@ -105,10 +102,10 @@ private:
 	inline void drawCOG(cv::Mat& image, const cv::Vec3b& color, const int thickness = -1);
 
 	// Retrieve Data
-    Mat retrieveFrame();
+    cv::Mat retrieveFrame();
 
     // Show Body
-    inline Mat showBody();
+    inline cv::Mat showBody();
 
 
 	// Calculates angle using the 3 given joints: j1, j2 and j3

@@ -5,6 +5,8 @@
 #include <chrono>
 #include <QtConcurrent>
 
+using namespace cv;
+using namespace Microsoft::WRL;
 using namespace EMMA;
 
 const ColorImageFormat KinectCamera::cvColorFormat = ColorImageFormat::ColorImageFormat_Bgra;
