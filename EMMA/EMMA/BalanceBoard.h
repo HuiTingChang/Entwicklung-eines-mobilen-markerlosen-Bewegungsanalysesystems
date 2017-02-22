@@ -73,7 +73,7 @@ class balance_board_not_found_error: public QException
 public:
 	void raise() const { throw *this; }
 	balance_board_not_found_error *clone() const { return new balance_board_not_found_error(*this); }
-	virtual const char* what() const
+	virtual const char* what() const throw()
 	{
 		return "Balance Board can not be found";
 	}
@@ -84,7 +84,7 @@ class balance_board_not_connected_error: public QException
 public:
 	void raise() const { throw *this; }
 	balance_board_not_connected_error *clone() const { return new balance_board_not_connected_error(*this); }
-	virtual const char* what() const
+	virtual const char* what() const throw()
 	{
 		return "Balance Board is not connected";
 	}

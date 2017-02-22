@@ -55,7 +55,7 @@ protected:
 class camera_error: public QException
 {
 public:
-	virtual const char* what() const=0;
+	virtual const char* what() const throw()=0;
 };
 
 class camera_inactive_error: public camera_error
@@ -63,7 +63,7 @@ class camera_inactive_error: public camera_error
 public:
 	void raise() const { throw *this; }
 	camera_inactive_error *clone() const { return new camera_inactive_error(*this); }
-	virtual const char* what() const
+	virtual const char* what() const throw()
 	{
 		return "Camera does not have any open stream";
 	}
@@ -74,7 +74,7 @@ class camera_not_available_error: public camera_error
 public:
 	void raise() const { throw *this; }
 	camera_not_available_error *clone() const { return new camera_not_available_error(*this); }
-	virtual const char* what() const
+	virtual const char* what() const throw()
 	{
 		return "Camera is inactive";
 	}
@@ -85,7 +85,7 @@ class camera_not_found_error: public camera_error
 public:
 	void raise() const { throw *this; }
 	camera_not_found_error *clone() const { return new camera_not_found_error(*this); }
-	virtual const char* what() const
+	virtual const char* what() const throw()
 	{
 		return "Camera can not be found";
 	}
@@ -96,7 +96,7 @@ class camera_has_no_frame_error: public camera_error
 public:
 	void raise() const { throw *this; }
 	camera_has_no_frame_error *clone() const { return new camera_has_no_frame_error(*this); }
-	virtual const char* what() const
+	virtual const char* what() const throw()
 	{
 		return "Camera has no frame";
 	}
