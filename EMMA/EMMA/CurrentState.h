@@ -74,9 +74,9 @@ public:
 
 private:
 
-	JointOrientations angleMeasurement();
 	float angleSizeCalc(EMMA::Joints jointNumber);
 	SpacePoint centerOfGravityMeasurement();
+	JointOrientations anglesInRelativeCoordinateSystem();
 };
 
 QDataStream& operator<<(QDataStream& out, const CurrentState& state); 

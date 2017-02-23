@@ -73,11 +73,19 @@ void CurrentState::set_jointPositions(JointPositions j)
 
 void CurrentState::set_angles(JointOrientations o)
 {
-	angles = o; // angleMeasurement();
+	angles = o; // anglesInRelativeCoordinateSystem();
 }
 
-JointOrientations CurrentState::angleMeasurement()
+JointOrientations CurrentState::anglesInRelativeCoordinateSystem()
 {
+	SpacePoint relative_y(0, 1, 0);	// Y axis is vertical
+	SpacePoint relative_x(joints[ShoulderLeft] - joints[SpineShoulder]); // X is directed along left arm in T-pose
+	relative_x.setY(0); // X is perpendicular to Y
+	relative_x.normalized();
+	SpacePoint relative_z = SpacePoint::crossProduct(relative_x, relative_y);
+	
+
+
 	JointOrientations angles;
 	return angles;
 }
