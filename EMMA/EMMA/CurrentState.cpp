@@ -87,7 +87,7 @@ Invalid jointNumber: 0, 3, 15, 19, 20, 21, 22, 23, 24
 */
 float CurrentState::angleSizeCalc(EMMA::Joints jointNumber)
 {
-	SpacePoint j1, j2, j3;
+	SpacePoint j1, j2, j3, v1, v2;
 	j2 = joints[jointNumber];
 	float angle = 0;
 	switch (jointNumber){
@@ -166,7 +166,10 @@ float CurrentState::angleSizeCalc(EMMA::Joints jointNumber)
 	case ThumbRight:
 		throw invalid_mechanical_parameters_error("Planar angle calculation for leaf nodes undefined!");
 	}
-
+	v1 = j1 - j2;
+	v2 = j3 - j2;
+	float theta = acos((v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2]) / (sqrt(pow(v1[0], 2) + pow(v1[1], 2) + pow(v1[2], 2))*sqrt(pow(v2[0], 2) + pow(v2[1], 2) + pow(v2[2], 2))));
+	angle = theta * 180 / P_PI;
 	return angle;
 }
 

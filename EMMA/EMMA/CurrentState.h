@@ -2,6 +2,7 @@
 // the current source file to be included only once in a single compilation
 #pragma once
 
+#include <cmath>
 #include <string>
 #include <QDateTime>
 #include <QPoint>
@@ -25,6 +26,8 @@ typedef QPoint BoardPoint;
 typedef QMap<uint,SpacePoint> JointPositions;
 
 typedef QMap<uint, Quaternion> JointOrientations;
+
+# define P_PI           3.14159265358979323846;
 
 class CurrentState
 {
