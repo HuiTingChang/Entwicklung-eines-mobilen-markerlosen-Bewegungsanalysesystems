@@ -359,7 +359,7 @@ inline void KinectCamera::drawBody()
         ERROR_CHECK( body->get_Lean( &amount ) );*/
 
 		// Draw Skeleton
-		drawSkeleton(colorMat, body, colors[count]);
+		drawSkeleton(colorMat, body, colors[2]);
     } //);
 
 
@@ -455,7 +455,7 @@ inline void KinectCamera::drawSkeleton(cv::Mat& image, const ComPtr<IBody> body,
 	drawLine(image, joints[JointType_AnkleLeft], joints[JointType_FootLeft], color);
 	drawLine(image, joints[JointType_AnkleRight], joints[JointType_FootRight], color);
 
-	drawCOG(image, colors[1]); // green
+	drawCOG(image, colors[0]); // green
 }
 
 inline void KinectCamera::drawLine(cv::Mat& image, const Joint& joint1, const Joint& joint2, const cv::Vec3b& color, const int thickness)
@@ -516,7 +516,7 @@ inline void KinectCamera::drawCOG(cv::Mat& image, const cv::Vec3b& color, const 
 	const int x1 = static_cast<int>(colorSpacePoint.X + 0.5f);
 	const int y1 = static_cast<int>(colorSpacePoint.Y + 0.5f);
 
-	cv::circle(image, cv::Point(x1, y1), 3, static_cast<cv::Scalar>(color), thickness, cv::LINE_AA);
+	cv::circle(image, cv::Point(x1, y1), 9, static_cast<cv::Scalar>(color), thickness, cv::LINE_AA);
 }
 
 // Show Data
