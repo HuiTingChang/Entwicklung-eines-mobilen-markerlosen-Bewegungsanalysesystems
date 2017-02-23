@@ -119,52 +119,49 @@ float CurrentState::angleSizeCalc(EMMA::Joints jointNumber)
 		j1 = joints[SpineShoulder];
 		j3 = joints[ElbowRight];
 		break;
-	case ElbowRight:// case 9
+	case ElbowRight:	// case 9
 		j1 = joints[ShoulderRight];
 		j3 = joints[WristRight];
 		break;
-	case WristRight: // case 10
+	case WristRight:	// case 10
 		j1 = joints[HandRight];
 		j3 = joints[ElbowRight];
 		break;
-	case HandRight: // case 11
+	case HandRight:		// case 11
 		j1 = joints[HandTipRight];
 		j3 = joints[WristRight];
 		break;
-	case HipLeft: // case 12
+	case HipLeft:		// case 12
 		j1 = joints[SpineBase];
 		j3 = joints[KneeLeft];
 		break;
-	case KneeLeft: // case 13
+	case KneeLeft:		// case 13
 		j1 = joints[HipLeft];
 		j3 = joints[AnkleLeft];
 		break;
-	case AnkleLeft: // case 14
+	case AnkleLeft:		// case 14
 		j1 = joints[KneeLeft];
 		j3 = joints[FootLeft];
 		break;
-	case HipRight: // case 16
+	case HipRight:		// case 16
 		j1 = joints[SpineBase];
 		j3 = joints[KneeRight];
 		break;
-	case KneeRight: // case 17
+	case KneeRight:		// case 17
 		j1 = joints[HipRight];
 		j3 = joints[AnkleRight];
 		break;
-	case AnkleRight: // case 18
+	case AnkleRight:	// case 18
 		j1 = joints[KneeRight];
 		j3 = joints[FootRight];
 		break;
-	case SpineBase:
-	case Head:
-	case FootLeft:
-	case FootRight:
-	case SpineShoulder:
-	case HandTipLeft:
-	case ThumbLeft:
-	case HandTipRight:
-	case ThumbRight:
-		throw invalid_mechanical_parameters_error("Planar angle calculation for leaf nodes undefined!");
+	case SpineBase:		// case 20
+		j1 = joints[HipLeft];
+		j3 = joints[SpineMid];
+		break;
+	default:
+		throw invalid_mechanical_parameters_error("Invalid joint for the calculation of angle size!");
+		break;
 	}
 	v1 = j1 - j2;
 	v2 = j3 - j2;
