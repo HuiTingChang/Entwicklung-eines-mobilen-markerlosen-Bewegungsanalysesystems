@@ -17,7 +17,7 @@ KinectCamera::KinectCamera():
     colorType(CV_8UC4)
 {
 	bodies = { { nullptr } };
-
+	
 
 	// Initialize
     //initialize();
@@ -44,7 +44,7 @@ CameraData KinectCamera::run()
     }
         // Draw Data
         draw();
-
+		
 
 		//doScreenShot();
 

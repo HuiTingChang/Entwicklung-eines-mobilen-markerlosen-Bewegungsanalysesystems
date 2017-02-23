@@ -35,6 +35,7 @@ public:
 	~Body_Widget();
 
 	void checkSaveData();
+	void initializeWidgets();
 
 	Q_SLOT void setImage(const QImage & img);
 	Q_SLOT void afterSaveData();
@@ -54,6 +55,8 @@ private:
 	CameraCapture capture;
 	Converter converterThread;
 
+	void drawPlot();
+
 private slots:
 	virtual void closeEvent(QCloseEvent * ev);
 
@@ -66,7 +69,12 @@ private slots:
 	void cameraConnectedInfo(CvCamera::State state);
 	void currentStateUpdate(board_display_data data);
 	void currentStateUpdate(const JointPositions& jointPos, const JointOrientations& jointOrient);
-	void drawPlot();
+	void showPlot(const JointPositions& jointPos, const JointOrientations& jointOrient);
+	void jointIndexChanged(int index);
+	void coordinateIndexChanged(int index);
+	void jointPosSelected();
+	void jointOrientSelected();
+	void CogSelected();
 	void on_colibration_button_clicked();
 };
 

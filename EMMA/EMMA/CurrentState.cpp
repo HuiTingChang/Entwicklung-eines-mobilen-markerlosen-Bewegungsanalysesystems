@@ -170,6 +170,7 @@ float CurrentState::angleSizeCalc(EMMA::Joints jointNumber)
 	return angle;
 }
 
+// http://www.ele.uri.edu/faculty/vetter/BME207/anthropometric-data.pdf
 SpacePoint CurrentState::centerOfGravityMeasurement()
 {
 	SpacePoint cog(0.0, 0.0, 0.0);

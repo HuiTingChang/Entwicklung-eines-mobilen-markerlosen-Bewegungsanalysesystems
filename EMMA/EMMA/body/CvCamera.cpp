@@ -3,15 +3,22 @@
 #include "CvCamera.h"
 using namespace std;
 
-const QMap<CvCamera::State,QString> CvCamera::STATE_DESCRIPTION
+static QMap<CvCamera::State, QString> create_map()
 {
-    {State::CONNECTED, "connected"},
-    {State::DISCONNECTED, "disconnected"}
-};
+	QMap<CvCamera::State, QString>map;
+
+	map.insert(CvCamera::State::CONNECTED, QString("connected"));
+	map.insert(CvCamera::State::DISCONNECTED, QString("disconnected"));
+
+	return map;
+}
+const QMap<CvCamera::State, QString> CvCamera::STATE_DESCRIPTION = create_map();
+
 
 CvCamera::CvCamera(int destinationWidth, int destinationHeight):
     destinationSize(destinationWidth, destinationHeight)
 {
+	
 }
 
 shared_ptr<cv::Mat> CvCamera::get_blank_mat()

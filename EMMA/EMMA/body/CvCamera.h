@@ -38,8 +38,11 @@ public:
         CONNECTED,
         DISCONNECTED
     };
-    static const QMap<State,QString> STATE_DESCRIPTION;
-
+    
+	static const QMap<State,QString> STATE_DESCRIPTION;
+	
+	
+	
     CvCamera(int destinationWidth=960, int destinationHeight=540);
     virtual CameraData run();
     virtual void initialize();

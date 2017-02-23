@@ -5,8 +5,9 @@
 #include <QHBoxLayout>
 #include <QResizeEvent>
 //#include <QtConcurrent>
-
 #include "ApplicationData.h"
+
+using namespace EMMA;
 
 // associated with qRegisterMetaType<cv::Mat>(); in body_widget.cpp
 Q_DECLARE_METATYPE(cv::Mat)
@@ -51,12 +52,18 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	connect(ui.load_button, SIGNAL(clicked()), this, SLOT(load_button_clicked()));
 	connect(&capture, SIGNAL(matReady(cv::Mat)), &converterThread, SLOT(processFrame(cv::Mat)));
 	connect(&capture, SIGNAL(jointReady(const JointPositions&, const JointOrientations&)), this, SLOT(currentStateUpdate(const JointPositions&, const JointOrientations&)));
+	connect(&capture, SIGNAL(jointReady(const JointPositions&, const JointOrientations&)), this, SLOT(showPlot(const JointPositions&, const JointOrientations&)));
 	connect(&converterThread, SIGNAL(imageReady(QImage)), SLOT(setImage(QImage)));
 	connect(this, SIGNAL(stop()), &main_timer, SLOT(stop()));
 	connect(ui.exit_button, SIGNAL(clicked()), this, SIGNAL(stop()));
 	connect(this, SIGNAL(stop()), this, SLOT(on_exit()));
 	connect(this, SIGNAL(dataReady()), &streamIO, SLOT(write()));
 	connect(&streamIO, SIGNAL(dataSaveFinished()), this, SLOT(afterSaveData()));
+	connect(ui.JointSelect, SIGNAL(currentIndexChanged(int)), this, SLOT(jointIndexChanged(int)));
+	connect(ui.CoordinateSelect, SIGNAL(currentIndexChanged(int)), this, SLOT(coordinateIndexChanged(int)));
+	connect(ui.jointPos, SIGNAL(clicked()), this, SLOT(jointPosSelected()));
+	connect(ui.jointOrient, SIGNAL(clicked()), this, SLOT(jointOrientSelected()));
+	connect(ui.COG, SIGNAL(clicked()), this, SLOT(CogSelected()));
 
 
 
@@ -82,6 +89,8 @@ Body_Widget::Body_Widget(QWidget *parent) :
 //	connect(this, SIGNAL(stop()), &boardThread, SLOT(disconnect()));
 //	connect(&boardThread, SIGNAL(finished()), this, SLOT(boardStop( )));
 	Body_Widget::drawPlot();
+
+	initializeWidgets();
 }
 
 Body_Widget::~Body_Widget()
@@ -95,6 +104,27 @@ void Body_Widget::on_colibration_button_clicked(){
 		app_data.calibrationStart = true; 
 
 }
+
+void Body_Widget::initializeWidgets()
+{
+	ui.CoordinateSelect->addItems(QStringList() <<  "X" << "Y" << "Z");
+	ui.CoordinateSelect->setCurrentIndex(ui.CoordinateSelect->findText("X"));
+
+	ui.JointSelect->addItems(QStringList() << "SpineBase" << "SpineMid" << "Neck" << "Head" << "ShoulderLeft" << "ElbowLeft"
+		<< "WristLeft" << "HandLeft" << "ShoulderRight" << "ElbowRight" << "WristRight" << "HandRight" << "HipLeft" << "KneeLeft"
+		<< "AnkleLeft" << "FootLeft" << "HipRight" << "KneeRight" << "AnkleRight" << "FootRight" << "SpineShoulder" <<
+		"HandTipLeft" << "ThumbLeft" << "HandTipRight" << "ThumbRight");
+	ui.JointSelect->setCurrentIndex(ui.JointSelect->findText("SpineBase"));
+
+	ui.centre_gravity_X->setText("0");
+	ui.centre_gravity_Y->setText("0");
+	ui.centre_gravity_Z->setText("0");
+
+	ui.COG->setChecked(false);
+	ui.jointOrient->setChecked(false);
+	ui.jointPos->setChecked(true);
+}
+
 void Body_Widget::load_button_clicked()
 {
 	
@@ -164,10 +194,7 @@ void Body_Widget::boardDataUpdate() // GUI
 	
 	ui.weight->setText(QString::number(round(app_data.weight)));
 	
-	SpacePoint cog = newState.get_centOfGv();
-	ui.centre_gravity_X->setText(QString::number(cog[0]));
-	ui.centre_gravity_Y ->setText(QString::number(cog[1]));
-	ui.centre_gravity_Z->setText(QString::number(cog[2]));
+	
 }
 
 void Body_Widget::cameraConnectedInfo(CvCamera::State state)
@@ -194,7 +221,7 @@ void Body_Widget::currentStateUpdate(board_display_data data)
 {
 	newState.set_centOfPr(data.center_of_pressure);
 	newState.set_gewicht(data.total_weight);
-	newState.set_centOfGv();
+	
 
 	if (!app_data.balanceDataUpdated)
 		app_data.balanceDataUpdated = true;
@@ -206,8 +233,17 @@ void Body_Widget::currentStateUpdate(board_display_data data)
  
 void Body_Widget::currentStateUpdate(const JointPositions& jointPos, const JointOrientations& jointOrient)
 {
+	if (jointOrient.size() == 0)
+		return; 
+
 	newState.set_jointPositions(jointPos);
 	newState.set_angles(jointOrient);
+	newState.set_centOfGv();
+
+	SpacePoint cog = newState.get_centOfGv();
+	ui.centre_gravity_X->setText(QString::number(cog[0]));
+	ui.centre_gravity_Y->setText(QString::number(cog[1]));
+	ui.centre_gravity_Z->setText(QString::number(cog[2]));
 
 	if (!app_data.cameraDataUpdated)
 		app_data.cameraDataUpdated = true;
@@ -227,6 +263,18 @@ void Body_Widget::afterSaveData()
 {
 	app_data.balanceDataUpdated = false;
 	app_data.cameraDataUpdated = false;
+}
+
+void Body_Widget::showPlot(const JointPositions& jointPos, const JointOrientations& jointOrient)
+{
+	if (jointOrient.size() == 0)
+		return;
+
+	int joint = ui.JointSelect->currentIndex();
+	int direction = ui.CoordinateSelect->currentIndex();
+	
+	//if (ui.jointPos->isChecked())
+	
 }
 
 void Body_Widget::drawPlot()
@@ -249,4 +297,32 @@ void Body_Widget::drawPlot()
 	ui.customPlot->xAxis->setRange(-1, 1);
 	ui.customPlot->yAxis->setRange(0, 1);
 	ui.customPlot->replot();
+}
+
+void Body_Widget::jointIndexChanged(int index)
+{
+	ui.JointSelect->setCurrentIndex(index);
+}
+
+void Body_Widget::coordinateIndexChanged(int index)
+{
+	ui.CoordinateSelect->setCurrentIndex(index);
+}
+
+void Body_Widget::jointPosSelected()
+{
+	if (!ui.JointSelect->isEnabled())
+		ui.JointSelect->setEnabled(true);
+}
+
+void Body_Widget::jointOrientSelected()
+{
+	if (!ui.JointSelect->isEnabled())
+		ui.JointSelect->setEnabled(true);
+}
+
+void Body_Widget::CogSelected()
+{
+	if (ui.JointSelect->isEnabled())
+		ui.JointSelect->setEnabled(false);
 }
