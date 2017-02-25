@@ -28,7 +28,7 @@ typedef QMap<uint,SpacePoint> JointPositions;
 
 typedef QMap<uint, Quaternion> JointOrientations;
 
-# define P_PI           3.14159265358979323846;
+const double P_PI = std::acos(1);
 
 class CurrentState
 {
