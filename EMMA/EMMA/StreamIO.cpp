@@ -1,4 +1,5 @@
 #include <QIODevice>
+#include <QMutexLocker>
 #include <QtConcurrent>
 #include "StreamIO.h"
 
@@ -42,7 +43,10 @@ bool StreamIO::flush()
 void StreamIO::write()
 {
 	file_open_ret.waitForFinished();
-	ioStream << *state;
+	{
+		QMutexLocker lock(&ioFileMutex);
+		ioStream << *state;
+	}
 	emit(dataSaveFinished());
 }
 
@@ -55,8 +59,16 @@ StreamReader StreamIO::get_reader()
 CurrentState StreamIO::read_at(qint64 pos, qint64* nextpos=nullptr)
 {
 	file_open_ret.waitForFinished();
+	QMutexLocker lock(&ioFileMutex);
 	auto write_pos = ioFile.pos();
-	ioFile.seek(pos);
+	if(!ioFile.seek(pos))
+	{
+		throw io_error("StreamIO: cannot seek file to nextpos!");
+	}
+	else if(ioFile.atEnd())
+	{
+		throw io_error("StreamIO: file reached end!");
+	}
 	auto result = CurrentState::read_next_from_stream(ioStream);
 	if(nextpos != nullptr)
 	{
@@ -69,6 +81,7 @@ CurrentState StreamIO::read_at(qint64 pos, qint64* nextpos=nullptr)
 bool StreamIO::ends_at(qint64 pos)
 {
 	auto write_pos = ioFile.pos();
+	QMutexLocker lock(&ioFileMutex);
 	bool seekable = ioFile.seek(pos);
 	if(seekable)
 	{
