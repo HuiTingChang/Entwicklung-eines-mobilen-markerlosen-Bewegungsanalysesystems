@@ -209,10 +209,23 @@ QDataStream& CurrentState::__outStreamOperator(QDataStream& out) const
 	return out;
 }
 
-QDataStream& operator<<(QDataStream& out, const CurrentState& state)
+QTextStream& CurrentState::__outStreamOperator(QTextStream& out) const
+{
+	out << timestamp;  // a lot missing!
+	endl(out);
+	return out;
+}
+
+template<class T>
+T& operator<<(T& out, const CurrentState& state)
 {
 	return state.__outStreamOperator(out);
 }
+
+template
+QDataStream& operator<<(QDataStream& out, const CurrentState& state);
+template
+QTextStream& operator<<(QTextStream& out, const CurrentState& state);
 
 CurrentState CurrentState::read_next_from_stream(QDataStream& input)
 {

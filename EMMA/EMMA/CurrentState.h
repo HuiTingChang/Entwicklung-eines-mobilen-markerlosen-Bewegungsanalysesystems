@@ -10,6 +10,7 @@
 #include <QVector3D>
 #include <QVector4D>
 #include <QDataStream>
+#include <QTextStream>
 #include <QException>
 #include "Anatomy.h"
 
@@ -69,6 +70,7 @@ public:
 	JointOrientations get_angles() const;
 
 	QDataStream& __outStreamOperator(QDataStream& out) const;
+	QTextStream& __outStreamOperator(QTextStream& out) const;
 	static CurrentState read_next_from_stream(QDataStream& input);
 	operator std::string(void) const;
 
@@ -79,7 +81,15 @@ private:
 	JointOrientations anglesInRelativeCoordinateSystem();
 };
 
-QDataStream& operator<<(QDataStream& out, const CurrentState& state); 
+/**
+* only implemented for QDataStream and QTextStream.
+* QDataStream output should contain the complete state information
+* without conversion
+* QTextStream output is lossy and may contain useful values that are not
+* part of the state information
+*/
+template<class T>
+T& operator<<(T& out, const CurrentState& state);
 
 class invalid_mechanical_parameters_error: public QException
 {
