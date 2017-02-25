@@ -69,8 +69,11 @@ CurrentState StreamIO::read_at(qint64 pos, qint64* nextpos=nullptr)
 bool StreamIO::ends_at(qint64 pos)
 {
 	auto write_pos = ioFile.pos();
-	ioFile.seek(pos);
-	bool seekable = ioFile.atEnd();
+	bool seekable = ioFile.seek(pos);
+	if(seekable)
+	{
+		seekable = !ioFile.atEnd();
+	}
 	ioFile.seek(write_pos);
-	return seekable;
+	return !seekable;
 }
