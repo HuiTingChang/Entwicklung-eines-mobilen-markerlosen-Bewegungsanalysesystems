@@ -52,6 +52,18 @@ signals:
 	void dataSaveFinished();
 };
 
+class Export
+{
+public:
+	Export(StreamReader& reader):
+		reader(&reader)
+	{
+	}
+	virtual void operator()()=0;
+protected:
+	StreamReader* reader;
+};
+
 class io_error: public QException
 {
 private:

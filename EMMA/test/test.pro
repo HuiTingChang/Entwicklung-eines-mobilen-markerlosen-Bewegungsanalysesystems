@@ -25,6 +25,7 @@ SOURCES += test_currentstate.cpp \
         $${EMMA_DIR}/BalanceBoard.cpp \
         $${EMMA_DIR}/BalanceBoardThread.cpp \
 	$${EMMA_DIR}/StreamIO.cpp \
+	$${EMMA_DIR}/TextExport.cpp \
         $${EMMA_DIR}/body/CvCamera.cpp \
         $${EMMA_DIR}/body/cvCapture.cpp \
         # $${EMMA_DIR}/body/cvConverter.cpp # removed because QImage requires QGuiApplication
@@ -38,6 +39,7 @@ HEADERS  += ../../inc/inih/ini.h \
         $${EMMA_DIR}/BalanceBoard.h \
         $${EMMA_DIR}/BalanceBoardThread.h \
 	$${EMMA_DIR}/StreamIO.h \
+	$${EMMA_DIR}/TextExport.h \
         $${EMMA_DIR}/body/CvCamera.h \
         $${EMMA_DIR}/body/cvCapture.h \
         # $${EMMA_DIR}/body/cvConverter.h \ # removed because QImage requires QGuiApplication

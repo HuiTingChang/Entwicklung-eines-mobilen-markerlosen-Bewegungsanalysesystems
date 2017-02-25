@@ -1,8 +1,10 @@
 #include <QtTest/QtTest>
 #include <QString>
+#include <QFile>
 #include <QDebug>
 #include "CurrentState.h"
 #include "StreamIO.h"
+#include "TextExport.h"
 
 class Test_CurrentState: public QObject
 {
@@ -18,6 +20,7 @@ private slots:
     void writeReadSeparately();
     void writeRead();
     void writeReadTwice();
+    void textExport();
 };
 
 JointPositions Test_CurrentState::get_example_jpositions()
@@ -99,6 +102,39 @@ void Test_CurrentState::writeReadTwice()
     auto siocs = sioreader.next();
     qDebug() << QString(((std::string) siocs).c_str());
     QCOMPARE(cs, siocs);
+}
+
+void Test_CurrentState::textExport()
+{
+    QString fname = "emma-test.txt";
+    int states_n = 2;
+    {
+	CurrentState cs;
+	cs.set_jointPositions(get_example_jpositions());
+	StreamIO sio(&cs);
+	connect(this, &Test_CurrentState::write_now, &sio, &StreamIO::write);
+	emit write_now();
+	for(int i=1; i<states_n; i++)
+	{
+	    cs.set_jointPositions(get_modified_example_jpositions(cs.get_joints()));
+	    emit write_now();
+	}
+	sio.flush();
+	auto sioreader = sio.get_reader();
+	TextExport ex(sioreader, fname);
+	ex();
+    }
+    int line=0;
+    {
+	QFile exf(fname);
+	exf.open(QFile::ReadOnly);
+	char buf[0x400];
+	while(-1 < exf.readLine(buf, sizeof(buf)))
+	{
+	    ++line;
+	}
+    }
+    QCOMPARE(line, states_n);
 }
 
 QTEST_GUILESS_MAIN(Test_CurrentState)
