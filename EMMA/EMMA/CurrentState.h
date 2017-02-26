@@ -35,6 +35,7 @@ const double P_PI = std::acos(1);
 class CurrentState
 {
 private:
+	static const bool QTEXTSTREAM_FORMAT_CSV;
 	/**
 	* milliseconds since Epoch (in UTC) of the last update trigger (values
 	* can be older if no update was received)

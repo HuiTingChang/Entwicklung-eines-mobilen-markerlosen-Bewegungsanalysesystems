@@ -1,6 +1,10 @@
+#include <sstream>
+#include "text/csv/ostream.hpp"
 #include "CurrentState.h"
 
 using namespace EMMA;
+
+const bool CurrentState::QTEXTSTREAM_FORMAT_CSV = true;
 
 CurrentState::CurrentState():
 	centOfGv(SpacePoint(0.0, 0.0, 0.0)),
@@ -282,7 +286,33 @@ QDataStream& CurrentState::__outStreamOperator(QDataStream& out) const
 
 QTextStream& CurrentState::__outStreamOperator(QTextStream& out) const
 {
-	out << timestamp;  // a lot missing!
+	if(QTEXTSTREAM_FORMAT_CSV)
+	{
+		std::ostringstream os;
+		text::csv::csv_ostream csv_out(os);
+
+		csv_out << QString::number(timestamp).data();
+		for(auto j=joints.begin();j != joints.end();++j)
+		{
+			csv_out
+				<< j.value().x()
+				<< j.value().y()
+				<< j.value().z();
+		}
+		for(auto j=angles.begin();j != angles.end();++j)
+		{
+			csv_out
+				<< j.value().w()
+				<< j.value().x()
+				<< j.value().y()
+				<< j.value().z();
+		}
+		out << os.str().data();
+	}
+	else
+	{
+		out << timestamp;  // a lot missing!
+	}
 	endl(out);
 	return out;
 }
