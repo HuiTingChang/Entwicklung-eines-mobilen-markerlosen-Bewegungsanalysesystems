@@ -48,6 +48,7 @@ SOURCES += ../../inc/inih/ini.c \
 HEADERS  += ../../inc/inih/ini.h \
         ../../inc/inih/cpp/INIReader.h \
         ../../inc/QCustomPlot/src/qcustomplot.h \
+        ../../inc/text-csv/include/text/csv/ostream.hpp \
         ../../inc/QtOpenCV/cvmatandqimage.h \
         Anatomy.h \
         ApplicationData.h \
@@ -71,6 +72,7 @@ FORMS    += emma.ui
 INCLUDEPATH += ../../inc/wiiuse/src \
     ../../inc/inih/cpp \
     ../../inc/QCustomPlot/src \
+    ../../inc/text-csv/include \
     ../../inc/QtOpenCV \
     body
 

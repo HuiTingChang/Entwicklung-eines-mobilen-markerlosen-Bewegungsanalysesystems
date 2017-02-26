@@ -4,3 +4,6 @@
 [submodule "inc/inih"]
 	path = inc/inih
 	url = https://github.com/benhoyt/inih.git
+[submodule "inc/text-csv"]
+	path = inc/text-csv
+	url = https://github.com/roman-kashitsyn/text-csv.git

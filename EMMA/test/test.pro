@@ -11,6 +11,7 @@ TARGET = test
 INCLUDEPATH += . \
     ../../inc/wiiuse/src \
     ../../inc/inih/cpp \
+    ../../inc/text-csv/include \
     ../../inc/QtOpenCV \
     $${EMMA_DIR} \
     $${EMMA_DIR}/body
@@ -32,6 +33,7 @@ SOURCES += test_currentstate.cpp \
 
 HEADERS  += ../../inc/inih/ini.h \
         ../../inc/inih/cpp/INIReader.h \
+        ../../inc/text-csv/include/text/csv/ostream.hpp \
         ../../inc/QtOpenCV/cvmatandqimage.h \
 	$${EMMA_DIR}/Anatomy.h \
         $${EMMA_DIR}/ApplicationData.h \
