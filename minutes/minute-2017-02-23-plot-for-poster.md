@@ -26,6 +26,10 @@ of the session and we send it to the course instructors.
 Hui-Ting has been working on calculating joint angles and this is now
 implemented within `CurrentState`.
 
+### Relative cordination system
+
+Hui-Ting has clarified the exact requirement with our customer (Malte) and is getting her hands on design and implementing it.
+
 ## Next session
 
 On the next Monday, the 27th February, a session will not take place
