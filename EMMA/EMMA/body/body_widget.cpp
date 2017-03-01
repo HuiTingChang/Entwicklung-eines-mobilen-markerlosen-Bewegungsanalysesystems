@@ -226,11 +226,8 @@ void Body_Widget::currentStateUpdate(board_display_data data)
 {
 	newState.set_centOfPr(data.center_of_pressure);
 	newState.set_gewicht(data.total_weight);
-	
 
-	if (!app_data.balanceDataUpdated)
-		app_data.balanceDataUpdated = true;
-
+	app_data.balanceDataUpdated = true;
 	checkSaveData();
 }
 
@@ -239,8 +236,7 @@ void Body_Widget::currentStateUpdate(board_display_data data)
 void Body_Widget::currentStateUpdate(const JointPositions& jointPos, const JointOrientations& jointOrient)
 {
 	if (jointOrient.size() == 0)
-		return; 
-
+		return;
 	newState.set_jointPositions(jointPos);
 	newState.set_angles(jointOrient);
 	newState.set_centOfGv();
@@ -258,9 +254,9 @@ void Body_Widget::currentStateUpdate(const JointPositions& jointPos, const Joint
 
 void Body_Widget::checkSaveData()
 {
-	if (!app_data.balanceDataUpdated || !app_data.cameraDataUpdated)
+	if (!app_data.balanceDataUpdated && (
+		!app_data.cameraDataUpdated || app_data.boardConnected))
 		return;
-
 	emit(dataReady());
 }
 
