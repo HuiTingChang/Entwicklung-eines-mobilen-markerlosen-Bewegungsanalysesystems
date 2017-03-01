@@ -1,6 +1,7 @@
 #include <QtConcurrent>
 
 #include "CvCamera.h"
+#include "Anatomy.h"
 using namespace std;
 
 static QMap<CvCamera::State, QString> create_map()
@@ -45,15 +46,39 @@ CameraData CvCamera::run()
 	// default-construct them
 	j_tmp[i];
     }
-    QVector3D meaningless_joint(
+    SpacePoint meaningless_joint(
             13, // x
             14, // y
             15  // z
             );
-    QtConcurrent::blockingMap(j_tmp.begin(), j_tmp.end(), [meaningless_joint](QVector3D& item){
-        item += meaningless_joint;
+    Quaternion meaningless_quaternion(
+            1.2, // w
+            1.3, // x
+            1.4, // y
+            1.5  // z
+            );
+    JointOrientations jo_tmp;
+    for(unsigned int i=0; i<EMMA::JOINTS_COUNT; ++i)
+    {
+        // default-construct them
+        jo_tmp[i];
+    }
+    auto p_task = QtConcurrent::map(
+                j_tmp.begin(), j_tmp.end(),
+                [meaningless_joint](
+                SpacePoint& itemp
+                ){
+        itemp += meaningless_joint;
     });
-    JointOrientations jo_tmp;  // XXX
+    auto q_task = QtConcurrent::map(
+                jo_tmp.begin(), jo_tmp.end(),
+                [meaningless_quaternion](
+                Quaternion& itemq
+                ){
+        itemq += meaningless_quaternion;
+    });
+    p_task.waitForFinished();
+    q_task.waitForFinished();
     CameraData result(frame, j_tmp, jo_tmp);
 
     return result;
