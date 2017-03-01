@@ -1,6 +1,4 @@
 #include <QApplication>
-#include "ApplicationData.h"
-#include "BalanceBoard.h"
 #include "body_widget.h"
 int main(int argc, char *argv[])
 {

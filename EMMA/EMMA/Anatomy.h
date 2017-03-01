@@ -1,3 +1,4 @@
+#pragma once
 #define HAND_MASS			0.006
 #define HAND_COM			0.506
 
