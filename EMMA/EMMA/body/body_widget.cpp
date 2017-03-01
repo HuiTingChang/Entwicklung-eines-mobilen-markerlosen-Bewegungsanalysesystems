@@ -5,7 +5,7 @@
 #include <QHBoxLayout>
 #include <QResizeEvent>
 //#include <QtConcurrent>
-#include "ApplicationData.h"
+#include "TextExport.h"
 
 using namespace EMMA;
 
@@ -129,13 +129,18 @@ void Body_Widget::load_button_clicked()
 {
 	
 	if (main_timer.isActive()) // && (ui.actionStop->isEnabled()) )
-	{
-		QMessageBox::warning(this, "Warning", "Already grabbing!");
+    {
+        setWindowTitle(tr("EMMA: saving"));
+        QMessageBox::information(this, "Saving", "saving recorded data to file!");
+        on_save();
+        setWindowTitle(tr("EMMA"));
 		return;
 	}
 
 	main_timer.start(app_data.main_timer_interval_ms);
 	converterThread.start();
+    ui.load_button->setStyleSheet("background-color: #fab;");
+    ui.load_button->setText("&Save");
 }
 
 void Body_Widget::setImage(const QImage & img)
@@ -297,6 +302,12 @@ void Body_Widget::drawPlot()
 	ui.customPlot->xAxis->setRange(-1, 1);
 	ui.customPlot->yAxis->setRange(0, 1);
 	ui.customPlot->replot();
+}
+
+void Body_Widget::on_save()
+{
+    TextExport expo(streamIO.get_reader(), "emmaout.emtex");
+    expo();
 }
 
 void Body_Widget::jointIndexChanged(int index)

@@ -56,6 +56,7 @@ private:
 	Converter converterThread;
 
 	void drawPlot();
+    void on_save();
 
 private slots:
 	virtual void closeEvent(QCloseEvent * ev);

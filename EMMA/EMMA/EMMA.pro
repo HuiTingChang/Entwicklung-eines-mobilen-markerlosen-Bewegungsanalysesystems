@@ -40,6 +40,7 @@ SOURCES += ../../inc/inih/ini.c \
         BalanceBoard.cpp \
         BalanceBoardThread.cpp \
 	StreamIO.cpp \
+	TextExport.cpp \
         body/body_widget.cpp \
         body/CvCamera.cpp \
         body/cvCapture.cpp \
@@ -56,6 +57,7 @@ HEADERS  += ../../inc/inih/ini.h \
         BalanceBoard.h \
         BalanceBoardThread.h \
 	StreamIO.h \
+	TextExport.h \
         body/body_widget.h \
         body/CvCamera.h \
         body/cvCapture.h \
