@@ -81,7 +81,7 @@ private:
 	float angleSizeCalc(EMMA::Joints jointNumber);
 	SpacePoint centerOfGravityMeasurement();
 	JointRelativeAngles anglesInRelativeCoordinateSystem();
-	EMMA::Joints CurrentState::GetParentJoint(EMMA::Joints);
+	static EMMA::Joints GetParentJoint(EMMA::Joints);
 };
 
 /**
