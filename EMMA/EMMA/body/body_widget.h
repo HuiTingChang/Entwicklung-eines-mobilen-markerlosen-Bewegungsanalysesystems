@@ -71,8 +71,8 @@ private slots:
 	void boardDataUpdate();
 	void boardConnectedInfo();
 	void cameraConnectedInfo(CvCamera::State state);
-	void currentStateUpdate(board_display_data data);
-	void currentStateUpdate(const JointPositions& jointPos);
+	void currentStateUpdate_board(board_display_data data);
+	void currentStateUpdate_camera(const JointPositions& jointPos);
 //	void showPlot(const JointPositions& jointPos, const JointOrientations& jointOrient);
 	void jointIndexChanged(int index);
 	void coordinateIndexChanged(int index);

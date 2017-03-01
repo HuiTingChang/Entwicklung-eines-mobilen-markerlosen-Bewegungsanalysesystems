@@ -52,7 +52,7 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	connect(&capture, SIGNAL(cameraStateChanged(CvCamera::State)), this, SLOT(cameraConnectedInfo(CvCamera::State)));
 	connect(ui.load_button, SIGNAL(clicked()), this, SLOT(load_button_clicked()));
 	connect(&capture, SIGNAL(matReady(cv::Mat)), &converterThread, SLOT(processFrame(cv::Mat)));
-	connect(&capture, SIGNAL(jointReady(const JointPositions&, const JointOrientations&)), this, SLOT(currentStateUpdate(const JointPositions&, const JointOrientations&)));
+	connect(&capture, &CameraCapture::jointReady, this, &Body_Widget::currentStateUpdate_camera);
 	connect(&converterThread, SIGNAL(imageReady(QImage)), SLOT(setImage(QImage)));
 	connect(this, SIGNAL(stop()), &main_timer, SLOT(stop()));
 	connect(ui.exit_button, SIGNAL(clicked()), this, SIGNAL(stop()));
@@ -81,7 +81,7 @@ Body_Widget::Body_Widget(QWidget *parent) :
 
 
 //	connect(&boardThread, SIGNAL(valueChanged(board_display_data)), this, SLOT(boardDataUpdate()));
-	connect(&boardThread, SIGNAL(valueChanged(board_display_data)), this, SLOT(currentStateUpdate(board_display_data)));
+	connect(&boardThread, &BalanceBoardThread::valueChanged, this, &Body_Widget::currentStateUpdate_board);
 	connect(&boardThread, SIGNAL(boardConnected()), this, SLOT(boardConnectedInfo()));
 	 
 	boardThread.start();
@@ -228,7 +228,7 @@ void Body_Widget::boardConnectedInfo()
 	}
 }
 
-void Body_Widget::currentStateUpdate(board_display_data data)
+void Body_Widget::currentStateUpdate_board(board_display_data data)
 {
 	newState.set_centOfPr(data.center_of_pressure);
 	newState.set_gewicht(data.total_weight);
@@ -239,7 +239,7 @@ void Body_Widget::currentStateUpdate(board_display_data data)
 
 
  
-void Body_Widget::currentStateUpdate(const JointPositions& jointPos)
+void Body_Widget::currentStateUpdate_camera(const JointPositions& jointPos)
 {
 	if (jointPos.size() == 0)
 		return; 
