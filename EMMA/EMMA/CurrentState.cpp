@@ -76,7 +76,7 @@ void CurrentState::set_angles(JointOrientations o)
 	angles = o; // anglesInRelativeCoordinateSystem();
 }
 
-JointOrientations CurrentState::anglesInRelativeCoordinateSystem()
+JointRelativeAngles CurrentState::anglesInRelativeCoordinateSystem()
 {
 	SpacePoint relative_y(0, 1, 0);	// Y axis is vertical
 	SpacePoint relative_x(joints[ShoulderLeft] - joints[SpineShoulder]); // X is directed along left arm in T-pose
@@ -86,8 +86,79 @@ JointOrientations CurrentState::anglesInRelativeCoordinateSystem()
 	
 
 
-	JointOrientations angles;
+	JointRelativeAngles angles;
 	return angles;
+}
+
+EMMA::Joints CurrentState::GetParentJoint(EMMA::Joints jointNumber){
+	EMMA::Joints parent;
+	switch (jointNumber){
+		case SpineBase:
+		case HipLeft:
+		case HipRight:
+		case SpineMid:
+			parent = SpineBase;
+			break;
+		case KneeLeft:
+			parent = HipLeft;
+			break;
+		case KneeRight:
+			parent = HipRight;
+			break;
+		case AnkleLeft:
+			parent = KneeLeft;
+			break;
+		case AnkleRight:
+			parent = KneeRight;
+			break;
+		case FootLeft:
+			parent = AnkleLeft;
+			break;
+		case FootRight:
+			parent = AnkleRight;
+			break;
+		case SpineShoulder:
+			parent = SpineMid;
+			break;
+		case Neck:
+			parent = SpineShoulder;
+			break;
+		case Head:
+			parent = Neck;
+			break;
+		case ShoulderLeft:
+		case ShoulderRight:
+			parent = SpineShoulder;
+			break;
+		case ElbowLeft:
+			parent = ShoulderLeft;
+			break;
+		case ElbowRight:
+			parent = ShoulderRight;
+			break;
+		case WristLeft:
+			parent = ElbowLeft;
+			break;
+		case WristRight:
+			parent = ElbowRight;
+			break;
+		case HandLeft:
+			parent = WristLeft;
+			break;
+		case HandRight:
+			parent = WristRight;
+			break;
+		case ThumbLeft:
+		case HandTipLeft:
+			parent = HandLeft;
+			break;
+		case ThumbRight:
+		case HandTipRight:
+			parent = HandRight;
+			break;
+	}
+	return parent;
+
 }
 
 /*

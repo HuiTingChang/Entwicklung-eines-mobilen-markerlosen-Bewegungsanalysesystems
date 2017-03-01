@@ -26,6 +26,8 @@ typedef QPoint BoardPoint;
 
 typedef QMap<uint,SpacePoint> JointPositions;
 
+typedef QMap<uint, SpacePoint> JointRelativeAngles;
+
 typedef QMap<uint, Quaternion> JointOrientations;
 
 const double P_PI = std::acos(1);
@@ -78,7 +80,8 @@ private:
 
 	float angleSizeCalc(EMMA::Joints jointNumber);
 	SpacePoint centerOfGravityMeasurement();
-	JointOrientations anglesInRelativeCoordinateSystem();
+	JointRelativeAngles anglesInRelativeCoordinateSystem();
+	EMMA::Joints CurrentState::GetParentJoint(EMMA::Joints);
 };
 
 /**
