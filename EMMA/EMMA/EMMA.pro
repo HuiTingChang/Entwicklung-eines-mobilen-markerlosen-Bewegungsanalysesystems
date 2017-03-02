@@ -83,14 +83,22 @@ config_files.files = emma.ini
 
 INSTALLS += config_files
 
-unix:LIBS += -L$${PWD}/../../inc/wiiuse/build/src -lwiiuse
-
-win32:LIBS += ../../inc/wiiuse/build/src/Debug/wiiuse_debug.lib
-
+WIIUSE_SRC = ../../inc/wiiuse/build/src
 win32 {
+    USE_WIIUSE_DEBUG = \
+        (debug:exists($${WIIUSE_SRC}/Debug/wiiuse_debug.dll))\
+        |!exists($${WIIUSE_SRC}/Debug/wiiuse.dll)
+    USE_WIIUSE_DEBUG {
+        LIBS += $${WIIUSE_SRC}/Debug/wiiuse_debug.lib
+        wiidll.files = $${WIIUSE_SRC}/Debug/wiiuse_debug.dll
+    } else {
+        LIBS += $${WIIUSE_SRC}/Release/wiiuse.lib
+        wiidll.files = $${WIIUSE_SRC}/Release/wiiuse.dll
+    }
     wiidll.path = $${DESTDIR}
-    wiidll.files = ../../inc/wiiuse/build/src/Debug/wiiuse_debug.dll
     INSTALLS += wiidll
+} else:unix {
+    LIBS += -L$$absolute_path($${WIIUSE_SRC}) -lwiiuse
 }
 
 win32:INCLUDEPATH += "$$(KINECTSDK20_DIR)/inc"\
