@@ -15,8 +15,3 @@ and returns JointRelativeAngles, which is a QMap<uint, Angles3D>.
 Anggles3D has 3 values: x, y and z, which coresponds to the angle between parent->child and x-axis, the angle between parent->child and y-axis and the angle between parent->child and z-axis.
 In this QMap, you can access 
 
-
-typedef QMap<uint, Angles3D> JointRelativeAngles;
-
-	SpacePoint v1, v2;
-	Angles3D angle;
