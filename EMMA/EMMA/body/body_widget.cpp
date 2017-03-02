@@ -64,9 +64,7 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	connect(ui.jointPos, SIGNAL(clicked()), this, SLOT(jointPosSelected()));
 	connect(ui.jointOrient, SIGNAL(clicked()), this, SLOT(jointOrientSelected()));
 	connect(ui.COG, SIGNAL(clicked()), this, SLOT(CogSelected()));
-	connect(ui.AngleSize, SIGNAL(clicked()), this, SLOT(AngleSizeSelected()));
-	connect(ui.Start_button, SIGNAL(clicked()), this, SLOT(on_plotStart_clicked()));
-	
+	//connect(ui.Start_button, SIGNAL(clicked()), this, SLOT(on_plotStart_clicked()));
 
 
 
