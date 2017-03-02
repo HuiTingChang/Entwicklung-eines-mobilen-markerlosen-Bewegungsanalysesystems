@@ -200,7 +200,7 @@
      <item row="1" column="2">
       <layout class="QHBoxLayout" name="horizontalLayout_12">
        <item>
-        <widget class="QRadioButton" name="radioButton">
+        <widget class="QRadioButton" name="AngleSize">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -213,7 +213,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="AngleSize">
+        <widget class="QLabel" name="label_12">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>

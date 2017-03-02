@@ -59,6 +59,9 @@ private:
 
 	void makePlot();
 	void dataInit();
+	void feedData(const JointPositions& jp, const JointRelativeAngles& jo);
+	void resetPlot();
+
 	void on_save();
 
 private slots:
@@ -79,11 +82,12 @@ private slots:
 	void jointPosSelected();
 	void jointOrientSelected();
 	void CogSelected();
+	void AngleSizeSelected();
 	void on_colibration_button_clicked();
 //	void plot_Update();
 //	void on_plotStart_clicked();
 //	void slot_Feed_Update();
-	void feedData(const JointPositions& jp, const JointRelativeAngles& jo);
+	
 };
 
 #endif // BODY_WIDGET_H

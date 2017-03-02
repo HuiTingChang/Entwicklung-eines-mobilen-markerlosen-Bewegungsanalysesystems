@@ -34,7 +34,7 @@ typedef QMap<uint, Angles3D> JointRelativeAngles;
 
 typedef QMap<uint, Quaternion> JointOrientations;
 
-const double P_PI = std::acos(1);
+const double P_PI = std::acos(-1);
 
 class CurrentState
 {
@@ -75,6 +75,7 @@ public:
 	SpacePoint get_centOfGv() const;
 	JointPositions get_joints() const;
 	JointRelativeAngles get_angles() const;
+	float angleSizeCalc(EMMA::Joints jointNumber);
 
 	QDataStream& __outStreamOperator(QDataStream& out) const;
 	QTextStream& __outStreamOperator(QTextStream& out) const;
@@ -85,7 +86,7 @@ private:
 
 	//float angleOf3Points(SpacePoint& p1, SpacePoint& p2, SpacePoint& p3);
 
-	float angleSizeCalc(EMMA::Joints jointNumber);
+	
 	SpacePoint centerOfGravityMeasurement();
 	JointRelativeAngles anglesInRelativeCoordinateSystem();
 	EMMA::Joints getParentJoint(EMMA::Joints);

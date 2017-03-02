@@ -52,7 +52,7 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	connect(&capture, SIGNAL(cameraStateChanged(CvCamera::State)), this, SLOT(cameraConnectedInfo(CvCamera::State)));
 	connect(ui.load_button, SIGNAL(clicked()), this, SLOT(load_button_clicked()));
 	connect(&capture, SIGNAL(matReady(cv::Mat)), &converterThread, SLOT(processFrame(cv::Mat)));
-	connect(&capture, &CameraCapture::jointReady, this, &Body_Widget::currentStateUpdate_camera);
+	connect(&capture, SIGNAL(jointReady(const JointPositions&, const JointOrientations&)), this, SLOT(currentStateUpdate(const JointPositions&)));
 	connect(&converterThread, SIGNAL(imageReady(QImage)), SLOT(setImage(QImage)));
 	connect(this, SIGNAL(stop()), &main_timer, SLOT(stop()));
 	connect(ui.exit_button, SIGNAL(clicked()), this, SIGNAL(stop()));
@@ -64,7 +64,9 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	connect(ui.jointPos, SIGNAL(clicked()), this, SLOT(jointPosSelected()));
 	connect(ui.jointOrient, SIGNAL(clicked()), this, SLOT(jointOrientSelected()));
 	connect(ui.COG, SIGNAL(clicked()), this, SLOT(CogSelected()));
+	connect(ui.AngleSize, SIGNAL(clicked()), this, SLOT(AngleSizeSelected()));
 	connect(ui.Start_button, SIGNAL(clicked()), this, SLOT(on_plotStart_clicked()));
+	
 
 
 
@@ -95,8 +97,9 @@ Body_Widget::Body_Widget(QWidget *parent) :
 //	connect(this, SIGNAL(stop()), &boardThread, SLOT(disconnect()));
 //	connect(&boardThread, SIGNAL(finished()), this, SLOT(boardStop( )));
 	
-	initializeWidgets();
 	dataInit();
+	initializeWidgets();
+	
 }
 
 Body_Widget::~Body_Widget()
@@ -256,6 +259,7 @@ void Body_Widget::currentStateUpdate_camera(const JointPositions& jointPos)
 	if (!app_data.cameraDataUpdated)
 		app_data.cameraDataUpdated = true;
 
+	feedData(jointPos, newState.get_angles());
 	checkSaveData();
 }
 
@@ -290,6 +294,8 @@ void Body_Widget::afterSaveData()
 
 void Body_Widget::feedData(const JointPositions& jp, const JointRelativeAngles& jo)
 {
+	int invalid_joints[] = { 0, 3, 15, 19, 20, 21, 22, 23, 24 };
+	
 	if (jo.size() == 0)
 		return;
 
@@ -304,32 +310,56 @@ void Body_Widget::feedData(const JointPositions& jp, const JointRelativeAngles& 
 		s.append((double)jp[joint].x());
 		s.append((double)jp[joint].y());
 		s.append((double)jp[joint].z());
+		data[0].append(s[0]);
+		data[1].append(s[1]);
+		data[2].append(s[2]);
+		time_data.append(data[0].size());
 
 	}
 	// Joint Orientation selected
 	else if (ui.jointOrient->isChecked())
 	{
+		int joint = ui.JointSelect->currentIndex();
 		s.append((double)jo[joint].x());
 		s.append((double)jo[joint].y());
 		s.append((double)jo[joint].z());
+		data[0].append(s[0]);
+		data[1].append(s[1]);
+		data[2].append(s[2]);
+		time_data.append(data[0].size());
 
 	}
 	// Centre of gravity
-	else
+	else if (ui.COG->isChecked())
 	{
 		SpacePoint sp = newState.get_centOfGv();
 		
 		s.append((double)sp.x());
 		s.append( (double) sp.y());
 		s.append( (double) sp.z());
+		data[0].append(s[0]);
+		data[1].append(s[1]);
+		data[2].append(s[2]);
+		time_data.append(data[0].size());
+	}
+	else   // AngleSize
+	{
+		int found = 0;
+		for (int i = 0; i < sizeof(invalid_joints) / sizeof(int); i++)
+		if (invalid_joints[i] == joint)
+		{
+			found = 1;
+			break;
+		}
+			
+		if (found)
+			return;
+
+		s.append((double)newState.angleSizeCalc((EMMA::Joints) joint));
+		data[3].append(s[0]);
+		time_data.append(data[3].size());
 	}
 	
-	data[0].append(s[0]);
-	data[1].append(s[1]);
-	data[2].append(s[2]);
-
-	time_data.append(data[0].size());
-
 	makePlot();
 }
 
@@ -338,7 +368,10 @@ void Body_Widget::makePlot()
 	// create graph and assign data:
 	ui.customPlot->addGraph();
 
-	ui.customPlot->graph(0)->setData(time_data, data[ui.CoordinateSelect->currentIndex()]);
+	if (ui.AngleSize->isChecked())
+		ui.customPlot->graph(0)->setData(time_data, data[3]);
+	else
+		ui.customPlot->graph(0)->setData(time_data, data[ui.CoordinateSelect->currentIndex()]);
 
 
 	ui.customPlot->xAxis->setLabel("Time in ms");
@@ -367,6 +400,7 @@ void Body_Widget::on_save()
 void Body_Widget::jointIndexChanged(int index)
 {
 	ui.JointSelect->setCurrentIndex(index);
+	resetPlot();
 }
 
 void Body_Widget::coordinateIndexChanged(int index)
@@ -378,18 +412,24 @@ void Body_Widget::jointPosSelected()
 {
 	if (!ui.JointSelect->isEnabled())
 		ui.JointSelect->setEnabled(true);
+
+	resetPlot();
 }
 
 void Body_Widget::jointOrientSelected()
 {
 	if (!ui.JointSelect->isEnabled())
 		ui.JointSelect->setEnabled(true);
+
+	resetPlot();
 }
 
 void Body_Widget::CogSelected()
 {
 	if (ui.JointSelect->isEnabled())
 		ui.JointSelect->setEnabled(false);
+
+	resetPlot();
 }
 
 
@@ -397,14 +437,39 @@ void Body_Widget::dataInit()
 {
 	QVector<double> temp;
 	temp.append(0);
-	for (int i = 0; i < 3; i++){
+	for (int i = 0; i < 4; i++){
 		data.append(temp);
 	}
 }
 
+void Body_Widget::resetPlot()
+{
 
+	//clear all the datas, also the time_data
+	for (int i = 0; i < 4; i++){
+
+		data[i].clear();
+
+	}
+	time_data.clear();
+
+	//reinitialise the empty datas with pseudo-values
+	dataInit();
+	time_data.append(0);
+
+
+	makePlot();
+}
 //void Body_Widget::on_plotStart_clicked()
 //{
 //	timer_plot.start();
 //	ui.customPlot->setInteraction(QCP::iRangeDrag, true);
 //}
+
+void Body_Widget::AngleSizeSelected()
+{
+	if (!ui.JointSelect->isEnabled())
+		ui.JointSelect->setEnabled(true);
+
+	resetPlot();
+}
