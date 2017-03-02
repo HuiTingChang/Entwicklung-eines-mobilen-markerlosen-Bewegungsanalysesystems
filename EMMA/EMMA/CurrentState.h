@@ -29,6 +29,7 @@ typedef QPoint BoardPoint;
 
 typedef QMap<uint,SpacePoint> JointPositions;
 
+// A QMap to store the result of calculation of angles in a relative coordination system
 typedef QMap<uint, Angles3D> JointRelativeAngles;
 
 typedef QMap<uint, Quaternion> JointOrientations;

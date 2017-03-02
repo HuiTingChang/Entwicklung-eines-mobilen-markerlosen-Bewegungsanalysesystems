@@ -115,13 +115,8 @@ JointRelativeAngles CurrentState::anglesInRelativeCoordinateSystem()
 		theta = acos((v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2]) / (sqrt(pow(v1[0], 2) + pow(v1[1], 2) + pow(v1[2], 2))*sqrt(pow(v2[0], 2) + pow(v2[1], 2) + pow(v2[2], 2))));
 		gama = theta * 180 / P_PI;
 		angle.setZ(gama);
-
 		angles[i] = angle;
 	}
-
-
-
-
 	return angles;
 }
 
