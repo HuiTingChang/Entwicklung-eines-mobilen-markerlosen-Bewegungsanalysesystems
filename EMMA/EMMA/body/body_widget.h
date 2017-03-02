@@ -58,10 +58,9 @@ private:
 	QVector<QVector<double>> data;
 	QVector<double> time_data;
 
-	void drawPlot(SpacePoint coord);
 	void makePlot();
 	void dataInit();
-	
+	void on_save();
 
 private slots:
 	virtual void closeEvent(QCloseEvent * ev);
