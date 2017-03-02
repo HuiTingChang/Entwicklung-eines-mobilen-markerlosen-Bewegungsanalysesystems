@@ -302,8 +302,9 @@ void Body_Widget::drawPlot()
 
 void Body_Widget::on_save()
 {
-    TextExport expo(streamIO.get_reader(), "emmaout.emtex");
-    expo();
+	StreamReader reader = streamIO.get_reader();
+	TextExport expo(reader, "emmaout.emtex");
+	expo();
 }
 
 void Body_Widget::jointIndexChanged(int index)
