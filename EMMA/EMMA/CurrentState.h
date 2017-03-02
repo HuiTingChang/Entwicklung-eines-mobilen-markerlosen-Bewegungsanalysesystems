@@ -79,10 +79,12 @@ public:
 
 private:
 
+	//float angleOf3Points(SpacePoint& p1, SpacePoint& p2, SpacePoint& p3);
+
 	float angleSizeCalc(EMMA::Joints jointNumber);
 	SpacePoint centerOfGravityMeasurement();
 	JointRelativeAngles anglesInRelativeCoordinateSystem();
-	static EMMA::Joints GetParentJoint(EMMA::Joints);
+	EMMA::Joints getParentJoint(EMMA::Joints);
 };
 
 /**

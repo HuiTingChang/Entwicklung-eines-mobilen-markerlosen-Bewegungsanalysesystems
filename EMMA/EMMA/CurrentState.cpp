@@ -82,19 +82,49 @@ void CurrentState::set_angles(JointOrientations o)
 
 JointRelativeAngles CurrentState::anglesInRelativeCoordinateSystem()
 {
-	SpacePoint relative_y(0, 1, 0);	// Y axis is vertical
-	SpacePoint relative_x(joints[ShoulderLeft] - joints[SpineShoulder]); // X is directed along left arm in T-pose
-	relative_x.setY(0); // X is perpendicular to Y
-	relative_x.normalized();
-	SpacePoint relative_z = SpacePoint::crossProduct(relative_x, relative_y);
-	
-
-
 	JointRelativeAngles angles;
+	// Define the direction of 3 axes
+	SpacePoint main_y(0, 1, 0);	// Y axis is vertical
+	SpacePoint main_x(joints[ShoulderLeft] - joints[SpineShoulder]); // X is directed along left arm in T-pose
+	main_x.setY(0); // X is perpendicular to Y
+	main_x.normalized();
+
+	// Returns the normalized vector of a plane defined by vectors relative_x & relative_y.
+	SpacePoint main_z = SpacePoint::normal(main_x, main_y);
+
+	// Calculate alpha, beta and gama for each joint, except for SpineBase(0).
+	SpacePoint angle, v1, v2;
+	float theta, alpha, beta, gama;
+	SpacePoint parentJoint;
+	for (EMMA::Joints i = SpineMid; i != ThumbRight; i = EMMA::Joints(i + 1)){
+		parentJoint = joints[getParentJoint(i)];
+
+		v1 = main_x;
+		v2 = joints[i] - parentJoint;
+		theta = acos((v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2]) / (sqrt(pow(v1[0], 2) + pow(v1[1], 2) + pow(v1[2], 2))*sqrt(pow(v2[0], 2) + pow(v2[1], 2) + pow(v2[2], 2))));
+		alpha = theta * 180 / P_PI;
+		angle.setX(alpha);
+
+		v1 = main_y;
+		theta = acos((v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2]) / (sqrt(pow(v1[0], 2) + pow(v1[1], 2) + pow(v1[2], 2))*sqrt(pow(v2[0], 2) + pow(v2[1], 2) + pow(v2[2], 2))));
+		beta = theta * 180 / P_PI;
+		angle.setY(beta);
+
+		v1 = main_z;
+		theta = acos((v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2]) / (sqrt(pow(v1[0], 2) + pow(v1[1], 2) + pow(v1[2], 2))*sqrt(pow(v2[0], 2) + pow(v2[1], 2) + pow(v2[2], 2))));
+		gama = theta * 180 / P_PI;
+		angle.setZ(gama);
+
+		angles[i] = angle;
+	}
+
+
+
+
 	return angles;
 }
 
-EMMA::Joints CurrentState::GetParentJoint(EMMA::Joints jointNumber){
+EMMA::Joints CurrentState::getParentJoint(EMMA::Joints jointNumber){
 	EMMA::Joints parent;
 	switch (jointNumber){
 		case SpineBase:
@@ -246,12 +276,24 @@ float CurrentState::angleSizeCalc(EMMA::Joints jointNumber)
 		throw invalid_mechanical_parameters_error("Invalid joint for the calculation of angle size!");
 		break;
 	}
+	float theta;
 	v1 = j1 - j2;
 	v2 = j3 - j2;
-	float theta = acos((v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2]) / (sqrt(pow(v1[0], 2) + pow(v1[1], 2) + pow(v1[2], 2))*sqrt(pow(v2[0], 2) + pow(v2[1], 2) + pow(v2[2], 2))));
+	theta = acos((v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2]) / (sqrt(pow(v1[0], 2) + pow(v1[1], 2) + pow(v1[2], 2))*sqrt(pow(v2[0], 2) + pow(v2[1], 2) + pow(v2[2], 2))));
 	angle = theta * 180 / P_PI;
 	return angle;
 }
+
+//float angleOf3Points(SpacePoint& p1, SpacePoint& p2, SpacePoint& p3){
+//	float theta, angle;
+//	SpacePoint v1, v2;
+//	//v1 = p1 - p2;
+//	//v2 = p3 - p2;
+//	//theta = acos((v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2]) / (sqrt(pow(v1[0], 2) + pow(v1[1], 2) + pow(v1[2], 2))*sqrt(pow(v2[0], 2) + pow(v2[1], 2) + pow(v2[2], 2))));
+//	//angle = theta * 180 / P_PI;
+//	return angle;
+//}
+
 
 // http://www.ele.uri.edu/faculty/vetter/BME207/anthropometric-data.pdf
 SpacePoint CurrentState::centerOfGravityMeasurement()
