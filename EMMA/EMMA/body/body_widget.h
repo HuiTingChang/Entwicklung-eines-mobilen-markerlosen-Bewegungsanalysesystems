@@ -50,7 +50,6 @@ private:
 	CurrentState newState;
 	QTimer main_timer;
 	QTimer board_timer;
-	QTimer timer_plot;
 	BalanceBoardThread boardThread;
 	StreamIO streamIO;
 	CameraCapture capture;
@@ -73,7 +72,7 @@ private slots:
 	void boardConnectedInfo();
 	void cameraConnectedInfo(CvCamera::State state);
 	void currentStateUpdate(board_display_data data);
-	void currentStateUpdate(const JointPositions& jointPos, const JointOrientations& jointOrient);
+	void currentStateUpdate(const JointPositions& jointPos);
 //	void showPlot(const JointPositions& jointPos, const JointOrientations& jointOrient);
 	void jointIndexChanged(int index);
 	void coordinateIndexChanged(int index);
@@ -84,7 +83,7 @@ private slots:
 //	void plot_Update();
 //	void on_plotStart_clicked();
 //	void slot_Feed_Update();
-	void feedData(const JointPositions& jp, const JointOrientations& jo);
+	void feedData(const JointPositions& jp, const JointRelativeAngles& jo);
 };
 
 #endif // BODY_WIDGET_H

@@ -65,7 +65,7 @@ public:
 	void set_centOfGv();
 	void set_gewicht(float g);
 	void set_jointPositions(JointPositions j);
-	void set_angles(JointRelativeAngles o);
+	void set_angles();
 
 	// getter Methods
 	QDateTime get_timestamp() const;

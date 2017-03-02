@@ -15,7 +15,6 @@ Q_DECLARE_METATYPE(cv::Mat)
 Body_Widget::Body_Widget(QWidget *parent) :
 	QWidget(parent),
 	main_timer(this),
-	timer_plot(this),
 	boardThread(&app_data),
 	streamIO(&newState),
 	converterThread(this, app_data.bodyRenderSize, &app_data)
@@ -34,6 +33,7 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	qRegisterMetaType<JointOrientations>("JointOrientations");
 	qRegisterMetaType<board_display_data>("board_display_data");
 	qRegisterMetaType<CvCamera::State>("CvCamera::State");
+	qRegisterMetaType<JointRelativeAngles>("JointRelativeAngles");
 
 	setWindowTitle(tr("EMMA"));
 	setMinimumSize(1000, 683);
@@ -53,7 +53,6 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	connect(ui.load_button, SIGNAL(clicked()), this, SLOT(load_button_clicked()));
 	connect(&capture, SIGNAL(matReady(cv::Mat)), &converterThread, SLOT(processFrame(cv::Mat)));
 	connect(&capture, SIGNAL(jointReady(const JointPositions&, const JointOrientations&)), this, SLOT(currentStateUpdate(const JointPositions&, const JointOrientations&)));
-	connect(&capture, SIGNAL(jointReady(const JointPositions&, const JointOrientations&)), this, SLOT(feedData(const JointPositions&, const JointOrientations&)));
 	connect(&converterThread, SIGNAL(imageReady(QImage)), SLOT(setImage(QImage)));
 	connect(this, SIGNAL(stop()), &main_timer, SLOT(stop()));
 	connect(ui.exit_button, SIGNAL(clicked()), this, SIGNAL(stop()));
@@ -240,12 +239,13 @@ void Body_Widget::currentStateUpdate(board_display_data data)
 
 
  
-void Body_Widget::currentStateUpdate(const JointPositions& jointPos, const JointRelativeAngles& jointOrient)
+void Body_Widget::currentStateUpdate(const JointPositions& jointPos)
 {
-	if (jointOrient.size() == 0)
-		return;
+	if (jointPos.size() == 0)
+		return; 
+
 	newState.set_jointPositions(jointPos);
-	newState.set_angles(jointOrient);
+	newState.set_angles();
 	newState.set_centOfGv();
 
 	SpacePoint cog = newState.get_centOfGv();
@@ -288,7 +288,7 @@ void Body_Widget::afterSaveData()
 //	feedData();
 //}
 
-void Body_Widget::feedData(const JointPositions& jp, const JointOrientations& jo)
+void Body_Widget::feedData(const JointPositions& jp, const JointRelativeAngles& jo)
 {
 	if (jo.size() == 0)
 		return;

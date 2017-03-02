@@ -75,7 +75,7 @@ void CurrentState::set_jointPositions(JointPositions j)
 	joints = j;
 }
 
-void CurrentState::set_angles(JointRelativeAngles o)
+void CurrentState::set_angles()
 {
 	angles = anglesInRelativeCoordinateSystem(); // anglesInRelativeCoordinateSystem();
 }

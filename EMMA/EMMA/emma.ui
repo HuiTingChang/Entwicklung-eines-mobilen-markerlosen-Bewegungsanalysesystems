@@ -14,49 +14,6 @@
    <string>Body_Widget</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_6">
-   <item row="1" column="1">
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>460</width>
-       <height>321</height>
-      </size>
-     </property>
-     <property name="title">
-      <string>Plot</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_7">
-      <item row="1" column="0">
-       <widget class="QCustomPlot" name="customPlot" native="true">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>451</width>
-          <height>271</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>330</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
    <item row="0" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_10">
      <item>
@@ -120,40 +77,30 @@
    </item>
    <item row="2" column="1">
     <layout class="QGridLayout" name="gridLayout_5">
-     <item row="2" column="1">
-      <widget class="QPushButton" name="Pause_button">
-       <property name="minimumSize">
+     <item row="3" column="0">
+      <spacer name="horizontalSpacer_5">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
         <size>
-         <width>75</width>
-         <height>0</height>
+         <width>80</width>
+         <height>20</height>
         </size>
        </property>
-       <property name="maximumSize">
-        <size>
-         <width>75</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>PAUSE</string>
-       </property>
-      </widget>
+      </spacer>
      </item>
-     <item row="1" column="1">
+     <item row="2" column="1">
       <widget class="QPushButton" name="Start_button">
        <property name="text">
         <string>START</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="3">
-      <widget class="QLabel" name="label_11">
-       <property name="text">
-        <string>Direction</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="2">
+     <item row="4" column="2">
       <widget class="QRadioButton" name="COG">
        <property name="minimumSize">
         <size>
@@ -172,20 +119,33 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="2">
-      <widget class="QRadioButton" name="jointPos">
+     <item row="3" column="3">
+      <widget class="QLabel" name="label_11">
+       <property name="text">
+        <string>Direction</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QPushButton" name="Pause_button">
+       <property name="minimumSize">
+        <size>
+         <width>75</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="maximumSize">
         <size>
-         <width>140</width>
+         <width>75</width>
          <height>16777215</height>
         </size>
        </property>
        <property name="text">
-        <string>Joint Position</string>
+        <string>PAUSE</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="2">
+     <item row="3" column="2">
       <widget class="QRadioButton" name="jointOrient">
        <property name="maximumSize">
         <size>
@@ -198,7 +158,27 @@
        </property>
       </widget>
      </item>
+     <item row="2" column="2">
+      <widget class="QRadioButton" name="jointPos">
+       <property name="maximumSize">
+        <size>
+         <width>140</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Joint Position</string>
+       </property>
+      </widget>
+     </item>
      <item row="1" column="3">
+      <widget class="QLabel" name="JointType">
+       <property name="text">
+        <string>Joint Type</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3">
       <widget class="QComboBox" name="JointSelect">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -214,31 +194,44 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="3">
-      <widget class="QLabel" name="JointType">
-       <property name="text">
-        <string>Joint Type</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="3">
+     <item row="4" column="3">
       <widget class="QComboBox" name="CoordinateSelect"/>
      </item>
-     <item row="2" column="0">
-      <spacer name="horizontalSpacer_5">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Fixed</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>80</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
+     <item row="1" column="2">
+      <layout class="QHBoxLayout" name="horizontalLayout_12">
+       <item>
+        <widget class="QRadioButton" name="radioButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="AngleSize">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Angle Size</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>
@@ -549,6 +542,53 @@
       </layout>
      </item>
     </layout>
+   </item>
+   <item row="1" column="1">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>460</width>
+       <height>321</height>
+      </size>
+     </property>
+     <property name="title">
+      <string>Plot</string>
+     </property>
+     <widget class="QCustomPlot" name="customPlot" native="true">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>23</y>
+        <width>452</width>
+        <height>330</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>451</width>
+        <height>271</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>330</height>
+       </size>
+      </property>
+     </widget>
+    </widget>
    </item>
   </layout>
  </widget>
