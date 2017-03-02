@@ -44,7 +44,7 @@ private:
 	// from camera
 	JointPositions joints;
 	SpacePoint centOfGv;
-	JointOrientations angles;
+	JointRelativeAngles angles;
 
 	// from BalanceBoard
 	BoardPoint centOfPr;
@@ -62,7 +62,7 @@ public:
 	void set_centOfGv();
 	void set_gewicht(float g);
 	void set_jointPositions(JointPositions j);
-	void set_angles(JointOrientations o);
+	void set_angles(JointRelativeAngles o);
 
 	// getter Methods
 	QDateTime get_timestamp() const;
@@ -70,7 +70,7 @@ public:
 	BoardPoint get_centOfPr() const;
 	SpacePoint get_centOfGv() const;
 	JointPositions get_joints() const;
-	JointOrientations get_angles() const;
+	JointRelativeAngles get_angles() const;
 
 	QDataStream& __outStreamOperator(QDataStream& out) const;
 	QTextStream& __outStreamOperator(QTextStream& out) const;

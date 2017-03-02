@@ -233,7 +233,7 @@ void Body_Widget::currentStateUpdate(board_display_data data)
 
 
  
-void Body_Widget::currentStateUpdate(const JointPositions& jointPos, const JointOrientations& jointOrient)
+void Body_Widget::currentStateUpdate(const JointPositions& jointPos, const JointRelativeAngles& jointOrient)
 {
 	if (jointOrient.size() == 0)
 		return;

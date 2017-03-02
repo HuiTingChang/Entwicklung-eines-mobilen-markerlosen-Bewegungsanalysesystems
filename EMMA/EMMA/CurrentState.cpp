@@ -50,7 +50,7 @@ JointPositions CurrentState::get_joints() const
 	return joints;
 }
 
-JointOrientations CurrentState::get_angles() const
+JointRelativeAngles CurrentState::get_angles() const
 {
 	return angles;
 }
@@ -75,9 +75,9 @@ void CurrentState::set_jointPositions(JointPositions j)
 	joints = j;
 }
 
-void CurrentState::set_angles(JointOrientations o)
+void CurrentState::set_angles(JointRelativeAngles o)
 {
-	angles = o; // anglesInRelativeCoordinateSystem();
+	angles = anglesInRelativeCoordinateSystem(); // anglesInRelativeCoordinateSystem();
 }
 
 JointRelativeAngles CurrentState::anglesInRelativeCoordinateSystem()
@@ -344,7 +344,6 @@ QTextStream& CurrentState::__outStreamOperator(QTextStream& out) const
 		for(auto j=angles.begin();j != angles.end();++j)
 		{
 			csv_out
-				<< j.value().w()
 				<< j.value().x()
 				<< j.value().y()
 				<< j.value().z();
