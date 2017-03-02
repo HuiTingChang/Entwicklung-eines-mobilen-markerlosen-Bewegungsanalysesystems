@@ -18,6 +18,9 @@
 // Point in the reference space
 typedef QVector3D SpacePoint;
 
+// Angles between the vector and x-, y-, and z-axis
+typedef QVector3D Angles3D;
+
 // Angle in the reference space
 typedef QVector4D Quaternion;
 
@@ -26,7 +29,7 @@ typedef QPoint BoardPoint;
 
 typedef QMap<uint,SpacePoint> JointPositions;
 
-typedef QMap<uint, SpacePoint> JointRelativeAngles;
+typedef QMap<uint, Angles3D> JointRelativeAngles;
 
 typedef QMap<uint, Quaternion> JointOrientations;
 

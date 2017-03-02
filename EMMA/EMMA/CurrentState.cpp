@@ -93,7 +93,8 @@ JointRelativeAngles CurrentState::anglesInRelativeCoordinateSystem()
 	SpacePoint main_z = SpacePoint::normal(main_x, main_y);
 
 	// Calculate alpha, beta and gama for each joint, except for SpineBase(0).
-	SpacePoint angle, v1, v2;
+	SpacePoint v1, v2;
+	Angles3D angle;
 	float theta, alpha, beta, gama;
 	SpacePoint parentJoint;
 	for (EMMA::Joints i = SpineMid; i != ThumbRight; i = EMMA::Joints(i + 1)){
