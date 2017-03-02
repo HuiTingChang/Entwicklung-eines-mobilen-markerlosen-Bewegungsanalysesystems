@@ -49,14 +49,19 @@ private:
 	ApplicationData app_data;
 	CurrentState newState;
 	QTimer main_timer;
-	QTimer board_timer; 
+	QTimer board_timer;
+	QTimer timer_plot;
 	BalanceBoardThread boardThread;
 	StreamIO streamIO;
 	CameraCapture capture;
 	Converter converterThread;
+	QVector<QVector<double>> data;
+	QVector<double> time_data;
 
-	void drawPlot();
-    void on_save();
+	void drawPlot(SpacePoint coord);
+	void makePlot();
+	void dataInit();
+	
 
 private slots:
 	virtual void closeEvent(QCloseEvent * ev);
@@ -69,14 +74,18 @@ private slots:
 	void boardConnectedInfo();
 	void cameraConnectedInfo(CvCamera::State state);
 	void currentStateUpdate(board_display_data data);
-	void currentStateUpdate(const JointPositions& jointPos, const JointRelativeAngles& jointOrient);
-	void showPlot(const JointPositions& jointPos, const JointOrientations& jointOrient);
+	void currentStateUpdate(const JointPositions& jointPos, const JointOrientations& jointOrient);
+//	void showPlot(const JointPositions& jointPos, const JointOrientations& jointOrient);
 	void jointIndexChanged(int index);
 	void coordinateIndexChanged(int index);
 	void jointPosSelected();
 	void jointOrientSelected();
 	void CogSelected();
 	void on_colibration_button_clicked();
+//	void plot_Update();
+//	void on_plotStart_clicked();
+//	void slot_Feed_Update();
+	void feedData(const JointPositions& jp, const JointOrientations& jo);
 };
 
 #endif // BODY_WIDGET_H

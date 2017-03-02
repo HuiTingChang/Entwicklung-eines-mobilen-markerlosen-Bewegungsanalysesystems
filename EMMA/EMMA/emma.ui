@@ -120,21 +120,40 @@
    </item>
    <item row="2" column="1">
     <layout class="QGridLayout" name="gridLayout_5">
-     <item row="1" column="1">
-      <widget class="QRadioButton" name="jointPos">
-       <property name="text">
-        <string>Joint Position</string>
-       </property>
-      </widget>
-     </item>
      <item row="2" column="1">
-      <widget class="QRadioButton" name="jointOrient">
+      <widget class="QPushButton" name="Pause_button">
+       <property name="minimumSize">
+        <size>
+         <width>75</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>75</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
-        <string>Joint Orientation</string>
+        <string>PAUSE</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
+     <item row="1" column="1">
+      <widget class="QPushButton" name="Start_button">
+       <property name="text">
+        <string>START</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3">
+      <widget class="QLabel" name="label_11">
+       <property name="text">
+        <string>Direction</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
       <widget class="QRadioButton" name="COG">
        <property name="minimumSize">
         <size>
@@ -142,19 +161,44 @@
          <height>17</height>
         </size>
        </property>
+       <property name="maximumSize">
+        <size>
+         <width>140</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
         <string>Centre of Gravity</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="2">
-      <widget class="QLabel" name="label_11">
+     <item row="1" column="2">
+      <widget class="QRadioButton" name="jointPos">
+       <property name="maximumSize">
+        <size>
+         <width>140</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
-        <string>Direction</string>
+        <string>Joint Position</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="2">
+     <item row="2" column="2">
+      <widget class="QRadioButton" name="jointOrient">
+       <property name="maximumSize">
+        <size>
+         <width>140</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Joint Orientation</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
       <widget class="QComboBox" name="JointSelect">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -170,14 +214,14 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="2">
+     <item row="0" column="3">
       <widget class="QLabel" name="JointType">
        <property name="text">
         <string>Joint Type</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="2">
+     <item row="3" column="3">
       <widget class="QComboBox" name="CoordinateSelect"/>
      </item>
      <item row="2" column="0">
@@ -186,11 +230,11 @@
         <enum>Qt::Horizontal</enum>
        </property>
        <property name="sizeType">
-        <enum>QSizePolicy::Expanding</enum>
+        <enum>QSizePolicy::Fixed</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>130</width>
+         <width>80</width>
          <height>20</height>
         </size>
        </property>

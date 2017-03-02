@@ -15,6 +15,7 @@ Q_DECLARE_METATYPE(cv::Mat)
 Body_Widget::Body_Widget(QWidget *parent) :
 	QWidget(parent),
 	main_timer(this),
+	timer_plot(this),
 	boardThread(&app_data),
 	streamIO(&newState),
 	converterThread(this, app_data.bodyRenderSize, &app_data)
@@ -52,7 +53,7 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	connect(ui.load_button, SIGNAL(clicked()), this, SLOT(load_button_clicked()));
 	connect(&capture, SIGNAL(matReady(cv::Mat)), &converterThread, SLOT(processFrame(cv::Mat)));
 	connect(&capture, SIGNAL(jointReady(const JointPositions&, const JointOrientations&)), this, SLOT(currentStateUpdate(const JointPositions&, const JointOrientations&)));
-	connect(&capture, SIGNAL(jointReady(const JointPositions&, const JointOrientations&)), this, SLOT(showPlot(const JointPositions&, const JointOrientations&)));
+	connect(&capture, SIGNAL(jointReady(const JointPositions&, const JointOrientations&)), this, SLOT(feedData(const JointPositions&, const JointOrientations&)));
 	connect(&converterThread, SIGNAL(imageReady(QImage)), SLOT(setImage(QImage)));
 	connect(this, SIGNAL(stop()), &main_timer, SLOT(stop()));
 	connect(ui.exit_button, SIGNAL(clicked()), this, SIGNAL(stop()));
@@ -64,6 +65,7 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	connect(ui.jointPos, SIGNAL(clicked()), this, SLOT(jointPosSelected()));
 	connect(ui.jointOrient, SIGNAL(clicked()), this, SLOT(jointOrientSelected()));
 	connect(ui.COG, SIGNAL(clicked()), this, SLOT(CogSelected()));
+	connect(ui.Start_button, SIGNAL(clicked()), this, SLOT(on_plotStart_clicked()));
 
 
 
@@ -83,14 +85,19 @@ Body_Widget::Body_Widget(QWidget *parent) :
 	connect(&boardThread, SIGNAL(valueChanged(board_display_data)), this, SLOT(currentStateUpdate(board_display_data)));
 	connect(&boardThread, SIGNAL(boardConnected()), this, SLOT(boardConnectedInfo()));
 	 
-	//connect(&main_timer, SIGNAL(timeout()), &boardThread, SLOT(run()));
+	boardThread.start();
+
+//	connect(&timer_plot, SIGNAL(timeout()), this, SLOT(plot_Update()));
+//	connect(&main_timer, SIGNAL(timeout()), this, SLOT(slot_Feed_Update()));
+
+
 
 
 //	connect(this, SIGNAL(stop()), &boardThread, SLOT(disconnect()));
 //	connect(&boardThread, SIGNAL(finished()), this, SLOT(boardStop( )));
-	Body_Widget::drawPlot();
-
+	
 	initializeWidgets();
+	dataInit();
 }
 
 Body_Widget::~Body_Widget()
@@ -266,37 +273,87 @@ void Body_Widget::afterSaveData()
 	app_data.cameraDataUpdated = false;
 }
 
-void Body_Widget::showPlot(const JointPositions& jointPos, const JointOrientations& jointOrient)
+//void Body_Widget::showPlot(const JointPositions& jointPos, const JointOrientations& jointOrient)
+//{
+//	
+//}
+
+//void Body_Widget::plot_Update()
+//{
+//	makePlot();
+//}
+
+//void Body_Widget::slot_Feed_Update()
+//{
+//	feedData();
+//}
+
+void Body_Widget::feedData(const JointPositions& jp, const JointOrientations& jo)
 {
-	if (jointOrient.size() == 0)
+	if (jo.size() == 0)
 		return;
 
 	int joint = ui.JointSelect->currentIndex();
 	int direction = ui.CoordinateSelect->currentIndex();
+
+	QVector<double> s;
+
+	// Joint Position selected
+	if (ui.jointPos->isChecked())
+	{
+		s.append((double)jp[joint].x());
+		s.append((double)jp[joint].y());
+		s.append((double)jp[joint].z());
+
+	}
+	// Joint Orientation selected
+	else if (ui.jointOrient->isChecked())
+	{
+		s.append((double)jo[joint].x());
+		s.append((double)jo[joint].y());
+		s.append((double)jo[joint].z());
+
+	}
+	// Centre of gravity
+	else
+	{
+		SpacePoint sp = newState.get_centOfGv();
+		
+		s.append((double)sp.x());
+		s.append( (double) sp.y());
+		s.append( (double) sp.z());
+	}
 	
-	//if (ui.jointPos->isChecked())
-	
+	data[0].append(s[0]);
+	data[1].append(s[1]);
+	data[2].append(s[2]);
+
+	time_data.append(data[0].size());
+
+	makePlot();
 }
 
-void Body_Widget::drawPlot()
+void Body_Widget::makePlot()
 {
-	// generate some data:
-	QVector<double> x(101), y(101); // initialize with entries 0..100
-	for (int i = 0; i<101; ++i)
-	{
-		x[i] = i / 50.0 - 1; // x goes from -1 to 1
-		y[i] = x[i] * x[i]; // let's plot a quadratic function
-	}
-	// create graph and assign data to it:
-	
+	// create graph and assign data:
 	ui.customPlot->addGraph();
-	ui.customPlot->graph(0)->setData(x, y);
-	// give the axes some labels:
-	ui.customPlot->xAxis->setLabel("x");
-	ui.customPlot->yAxis->setLabel("y");
-	// set axes ranges, so we see all data:
-	ui.customPlot->xAxis->setRange(-1, 1);
+
+	ui.customPlot->graph(0)->setData(time_data, data[ui.CoordinateSelect->currentIndex()]);
+
+
+	ui.customPlot->xAxis->setLabel("Time in ms");
+	ui.customPlot->yAxis->setLabel("Orientation " + ui.CoordinateSelect->currentText());
+
+	// set axes ranges, so that we see all data:
+	if (time_data.size() < 100)
+		ui.customPlot->xAxis->setRange(0, 100);
+	else
+		ui.customPlot->xAxis->setRange(time_data.size() - 100, time_data.size());
+			
 	ui.customPlot->yAxis->setRange(0, 1);
+
+	ui.customPlot->setInteraction(QCP::iRangeDrag, true);
+
 	ui.customPlot->replot();
 }
 
@@ -334,3 +391,20 @@ void Body_Widget::CogSelected()
 	if (ui.JointSelect->isEnabled())
 		ui.JointSelect->setEnabled(false);
 }
+
+
+void Body_Widget::dataInit()
+{
+	QVector<double> temp;
+	temp.append(0);
+	for (int i = 0; i < 3; i++){
+		data.append(temp);
+	}
+}
+
+
+//void Body_Widget::on_plotStart_clicked()
+//{
+//	timer_plot.start();
+//	ui.customPlot->setInteraction(QCP::iRangeDrag, true);
+//}
