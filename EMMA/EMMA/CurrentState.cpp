@@ -82,7 +82,7 @@ void CurrentState::set_angles()
 
 JointRelativeAngles CurrentState::anglesInRelativeCoordinateSystem()
 {
-	JointRelativeAngles angles;
+	JointRelativeAngles angles; 
 	// Define the direction of 3 axes
 	SpacePoint main_y(0, 1, 0);	// Y axis is vertical
 	SpacePoint main_x(joints[ShoulderLeft] - joints[SpineShoulder]); // X is directed along left arm in T-pose

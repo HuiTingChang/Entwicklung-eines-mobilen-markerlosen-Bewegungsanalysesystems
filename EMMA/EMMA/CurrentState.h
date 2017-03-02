@@ -30,7 +30,7 @@ typedef QPoint BoardPoint;
 typedef QMap<uint,SpacePoint> JointPositions;
 
 // A QMap to store the result of calculation of angles in a relative coordination system
-typedef QMap<uint, Angles3D> JointRelativeAngles;
+typedef QMap<uint, Angles3D> JointRelativeAngles; 
 
 typedef QMap<uint, Quaternion> JointOrientations;
 
@@ -66,7 +66,7 @@ public:
 	void set_centOfGv();
 	void set_gewicht(float g);
 	void set_jointPositions(JointPositions j);
-	void set_angles();
+	void set_angles(); 
 
 	// getter Methods
 	QDateTime get_timestamp() const;
