@@ -17,7 +17,8 @@ const QMap<CvCamera::State, QString> CvCamera::STATE_DESCRIPTION = create_map();
 
 
 CvCamera::CvCamera(int destinationWidth, int destinationHeight):
-    destinationSize(destinationWidth, destinationHeight)
+    destinationSize(destinationWidth, destinationHeight),
+    state(State::DISCONNECTED)
 {
 	
 }
@@ -86,4 +87,9 @@ CameraData CvCamera::run()
 
 void CvCamera::initialize()
 {
+}
+
+const CvCamera::State *CvCamera::get_state_ptr() const
+{
+    return &state;
 }

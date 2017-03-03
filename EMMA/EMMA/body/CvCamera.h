@@ -46,11 +46,13 @@ public:
     CvCamera(int destinationWidth=960, int destinationHeight=540);
     virtual CameraData run();
     virtual void initialize();
+    const State* get_state_ptr() const;
 protected:
     int cvChannelType = CV_8UC4;
     int colorWidth = 1920;
     int colorHeight = 1080;
     const cv::Size destinationSize;
+    State state;
     std::shared_ptr<cv::Mat> get_blank_mat();
 };
 

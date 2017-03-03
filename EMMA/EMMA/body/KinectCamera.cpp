@@ -33,6 +33,10 @@ KinectCamera::~KinectCamera()
 // Processing
 CameraData KinectCamera::run()
 {
+    if(state != State::CONNECTED)
+    {
+        return CvCamera::run();  // fall-back
+    }
     try
     {
         // Update Data
@@ -112,6 +116,7 @@ inline void KinectCamera::initializeSensor()
 	    throw camera_inactive_error();
     }
 
+    state = State::CONNECTED;
     // Retrieve Coordinate Mapper
     ERROR_CHECK( kinect->get_CoordinateMapper( &coordinateMapper ) );
 }

@@ -34,7 +34,6 @@ public:
 private:
 	QFuture<void> kinect_init_future;
 	KinectCamera kinect;
-	CvCamera::State state;
 	QLinkedList<QFuture<void>> updateQueue;
 	QMutex updateQueueMutex;
 };

@@ -11,17 +11,16 @@ void kinect_initialize(CameraCapture* capture, KinectCamera* kc)
 	try
 	{
 		kc->initialize();
-		emit capture->cameraStateChanged(CvCamera::CONNECTED);
 	}
 	catch (const camera_error& e)
 	{
-		emit capture->cameraStateChanged(CvCamera::DISCONNECTED);
+		// do something?
 	}
+	emit capture->cameraStateChanged(*(kc->get_state_ptr()));
 }
 
 CameraCapture::CameraCapture():
-	kinect_init_future(QtConcurrent::run(kinect_initialize, this, &kinect)),
-	state(CvCamera::DISCONNECTED)
+	kinect_init_future(QtConcurrent::run(kinect_initialize, this, &kinect))
 {
 }
 
@@ -77,5 +76,5 @@ void CameraCapture::update()
 
 CvCamera::State CameraCapture::get_state()
 {
-    return state;
+	return *(kinect.get_state_ptr());
 }
