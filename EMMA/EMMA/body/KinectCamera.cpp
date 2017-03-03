@@ -97,22 +97,19 @@ inline void KinectCamera::initializeSensor()
         throw camera_not_found_error();
     }
 
-    if(kinect->Open() != S_OK)
+    // Check Availability
+    BOOLEAN isAvailable = FALSE;
+    ERROR_CHECK(kinect->get_IsAvailable( &isAvailable ) );
+    if( !isAvailable || kinect->Open() != S_OK)
     {
-        // Check Availability
-        BOOLEAN isAvailable = FALSE;
-        ERROR_CHECK(kinect->get_IsAvailable( &isAvailable ) );
-        if( !isAvailable )
-        {
-            throw camera_not_available_error();
-        }
+        throw camera_not_available_error();
+    }
 	// Check Existence of an open stream
 	BOOLEAN isOpen = FALSE;
 	ERROR_CHECK( kinect->get_IsOpen( &isOpen ) );
 	if( !isOpen )
-        {
+    {
 	    throw camera_inactive_error();
-	}
     }
 
     // Retrieve Coordinate Mapper
