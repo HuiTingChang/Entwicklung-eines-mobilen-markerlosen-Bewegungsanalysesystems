@@ -85,10 +85,9 @@ INSTALLS += config_files
 
 WIIUSE_SRC = ../../inc/wiiuse/build/src
 win32 {
-    USE_WIIUSE_DEBUG = \
-        (debug:exists($${WIIUSE_SRC}/Debug/wiiuse_debug.dll))\
-        |!exists($${WIIUSE_SRC}/Debug/wiiuse.dll)
-    USE_WIIUSE_DEBUG {
+    # if use wiiuse_debug...
+    if(!release:exists($${WIIUSE_SRC}/Debug/wiiuse_debug.dll)) \
+        |!exists($${WIIUSE_SRC}/Release/wiiuse.dll) {
         LIBS += $${WIIUSE_SRC}/Debug/wiiuse_debug.lib
         wiidll.files = $${WIIUSE_SRC}/Debug/wiiuse_debug.dll
     } else {
