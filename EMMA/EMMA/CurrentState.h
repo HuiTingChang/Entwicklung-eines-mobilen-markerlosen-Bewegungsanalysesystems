@@ -89,7 +89,7 @@ private:
 	
 	SpacePoint centerOfGravityMeasurement();
 	JointRelativeAngles anglesInRelativeCoordinateSystem();
-	EMMA::Joints getParentJoint(EMMA::Joints);
+	static EMMA::Joints getParentJoint(EMMA::Joints);
 };
 
 /**
