@@ -1,4 +1,13 @@
 #pragma once
+
+// Normalized Mass and Length of Body Segments (Standard Human)
+// *MASS is segment mass/total body mass
+// *COM is proximal displacement of center of mass/segment length
+// adapted from DA Winter:
+// "Biomechanics and Motor Control of Human Movement", 3rd edition
+// (John Wiley & Sons 2005)
+// via http://www.ele.uri.edu/faculty/vetter/BME207/anthropometric-data.pdf
+
 #define HAND_MASS			0.006
 #define HAND_COM			0.506
 
