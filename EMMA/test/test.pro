@@ -21,6 +21,7 @@ SOURCES += test_currentstate.cpp \
         ../../inc/inih/ini.c \
         ../../inc/inih/cpp/INIReader.cpp \
         ../../inc/QtOpenCV/cvmatandqimage.cpp \
+	$${EMMA_DIR}/anatomy.cpp \
         $${EMMA_DIR}/ApplicationData.cpp \
         $${EMMA_DIR}/CurrentState.cpp \
         $${EMMA_DIR}/BalanceBoard.cpp \
