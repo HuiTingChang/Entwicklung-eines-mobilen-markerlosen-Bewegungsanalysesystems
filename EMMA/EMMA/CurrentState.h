@@ -12,6 +12,7 @@
 #include <QDataStream>
 #include <QTextStream>
 #include <QException>
+#include <QFuture>
 #include "Anatomy.h"
 
 
@@ -86,8 +87,7 @@ private:
 
 	//float angleOf3Points(SpacePoint& p1, SpacePoint& p2, SpacePoint& p3);
 
-	
-	SpacePoint centerOfGravityMeasurement();
+	QFuture<SpacePoint> centerOfGravityMeasurement() const;
 	JointRelativeAngles anglesInRelativeCoordinateSystem();
 	static EMMA::Joints getParentJoint(EMMA::Joints);
 };

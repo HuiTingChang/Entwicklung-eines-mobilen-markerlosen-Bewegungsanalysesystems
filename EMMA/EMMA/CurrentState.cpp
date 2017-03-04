@@ -1,4 +1,5 @@
 #include <sstream>
+#include <QtConcurrent>
 #include "text/csv/ostream.hpp"
 #include "CurrentState.h"
 
@@ -62,7 +63,7 @@ void CurrentState::set_centOfPr(BoardPoint cop)
 
 void CurrentState::set_centOfGv()
 {
-	centOfGv = centerOfGravityMeasurement();
+	centOfGv = centerOfGravityMeasurement().result();
 }
 
 void CurrentState::set_gewicht(float g)
@@ -292,26 +293,25 @@ float CurrentState::angleSizeCalc(EMMA::Joints jointNumber)
 
 
 // http://www.ele.uri.edu/faculty/vetter/BME207/anthropometric-data.pdf
-SpacePoint CurrentState::centerOfGravityMeasurement()
+QFuture<SpacePoint> CurrentState::centerOfGravityMeasurement() const
 {
-	SpacePoint cog(0.0, 0.0, 0.0);
-
-	cog[0] = TRUNK_MASS*joints[SpineBase][0] + HAND_MASS*joints[HandLeft][0] +
-		FOREARM_MASS*joints[ElbowLeft][0] + UPPERARM_MASS*joints[ShoulderLeft][0] +
-		FOOT_MASS*joints[FootLeft][0] + LOWERLEG_MASS*joints[KneeLeft][0] +
-		UPPERLEG_MASS*joints[HipLeft][0] + HEAD_NECK_MASS*joints[Neck][0];
-
-	cog[1] = TRUNK_MASS*joints[SpineBase][1] + HAND_MASS*joints[HandLeft][1] +
-		FOREARM_MASS*joints[ElbowLeft][1] + UPPERARM_MASS*joints[ShoulderLeft][1] +
-		FOOT_MASS*joints[FootLeft][1] + LOWERLEG_MASS*joints[KneeLeft][1] +
-		UPPERLEG_MASS*joints[HipLeft][1] + HEAD_NECK_MASS*joints[Neck][1];
-			
-	cog[2] = TRUNK_MASS*joints[SpineBase][2] + HAND_MASS*joints[HandLeft][2] +
-		FOREARM_MASS*joints[ElbowLeft][2] + UPPERARM_MASS*joints[ShoulderLeft][2] +
-		FOOT_MASS*joints[FootLeft][2] + LOWERLEG_MASS*joints[KneeLeft][2] +
-		UPPERLEG_MASS*joints[HipLeft][2] + HEAD_NECK_MASS*joints[Neck][2];
-	
-	return cog;
+	SpacePoint cog;
+	const QList<unsigned short> spacepoint_indices({0,1,2});
+	const JointPositions& joints = this->joints;
+	auto task = QtConcurrent::map(
+		spacepoint_indices,
+		[&cog,&joints](unsigned short i)
+		{
+	cog[i] = TRUNK_MASS*joints[SpineBase][i] + HAND_MASS*joints[HandLeft][i] +
+		FOREARM_MASS*joints[ElbowLeft][i] + UPPERARM_MASS*joints[ShoulderLeft][i] +
+		FOOT_MASS*joints[FootLeft][i] + LOWERLEG_MASS*joints[KneeLeft][i] +
+		UPPERLEG_MASS*joints[HipLeft][i] + HEAD_NECK_MASS*joints[Neck][i];
+	});
+	return QtConcurrent::run([&cog,&task]()
+	{
+		task.waitForFinished();
+		return cog;
+	});
 }
 
 QDataStream& CurrentState::__outStreamOperator(QDataStream& out) const
