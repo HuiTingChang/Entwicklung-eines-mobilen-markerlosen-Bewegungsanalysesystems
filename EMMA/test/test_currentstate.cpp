@@ -24,14 +24,18 @@ private slots:
     void writeReadTwice();
     void textExport();
     void cog_trivial();
+    void angle_left_shoulder_arm_perpendicular();
 };
 
 JointPositions Test_CurrentState::get_example_jpositions()
 {
-   SpacePoint p1(1,13,169);
-   SpacePoint p2(2,26,338);
-   JointPositions jp {{13,p1},{15,p2}}; 
-   return jp;
+    SpacePoint p1(1,13,169);
+    JointPositions jp;
+    for(unsigned int i=0; i<EMMA::JOINTS_COUNT; ++i)
+    {
+        jp[i] = (1+0.2*i)*p1;
+    }
+    return jp;
 }
 
 JointPositions Test_CurrentState::get_modified_example_jpositions(const JointPositions& before)
@@ -160,6 +164,23 @@ void Test_CurrentState::cog_trivial()
     const float tolerance = 1;
     float error = (p1-cog).length();
     qDebug() << cog << error;
+    QVERIFY(std::abs(error) < tolerance);
+}
+
+void Test_CurrentState::angle_left_shoulder_arm_perpendicular()
+{
+    CurrentState cs;
+    const SpacePoint p1(1,13,169);
+    JointPositions jp = get_example_jpositions();
+    const QVector3D main_y(0,1,0);
+    jp[EMMA::ElbowLeft] = jp[EMMA::ShoulderLeft] + QVector3D::normal(jp[EMMA::ShoulderLeft]-jp[EMMA::SpineShoulder], main_y);
+    const QVector3D expected(90,90,0);
+    cs.set_jointPositions(jp);
+    cs.set_angles();
+    auto result = cs.get_angles()[EMMA::ElbowLeft];
+    const float tolerance = 1;
+    float error = (result - expected).length();
+    qDebug() << result << error;
     QVERIFY(std::abs(error) < tolerance);
 }
 
