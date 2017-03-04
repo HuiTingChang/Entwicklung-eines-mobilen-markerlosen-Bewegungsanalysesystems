@@ -391,7 +391,7 @@ void Body_Widget::makePlot()
 void Body_Widget::on_save()
 {
 	StreamReader reader = streamIO.get_reader();
-	TextExport expo(reader, "emmaout.emtex");
+	TextExport expo(reader, app_data.outfilename);
 	expo();
 }
 

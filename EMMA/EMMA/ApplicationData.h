@@ -2,6 +2,7 @@
 #include <memory>
 #include <QPoint>
 #include <QSize>
+#include <QString>
 /*
 #include <opencv2/opencv.hpp>
 #include <opencv2/core/mat.hpp>
@@ -30,13 +31,11 @@ public :
 	bool cameraDataUpdated;
 	int main_timer_interval_ms;
 	int board_show_interval_ms; 
+	QString outfilename;
 	bool calibrationStart; 
  
 	std::vector<cv::Mat> rvecs;
 	std::vector<cv::Mat> tvecs;
  
 	std::shared_ptr<cv::Mat> cameraMatrix ;
-
-
 };
-

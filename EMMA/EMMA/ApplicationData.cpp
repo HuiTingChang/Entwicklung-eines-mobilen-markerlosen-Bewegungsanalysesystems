@@ -22,6 +22,7 @@ ApplicationData::ApplicationData():
 	cameraDataUpdated(false),
 	main_timer_interval_ms(50),
 	board_show_interval_ms(250),
+	outfilename("emmaout.emcsv"),
 	calibrationStart(false),
 	cameraMatrix(new Mat(INITIAL_CAMERA_MATRIX))
 {
@@ -37,6 +38,7 @@ ApplicationData::ApplicationData():
 	{
 		widgetWork = reader.GetBoolean("wii", "widgetWork", widgetWork);
 		main_timer_interval_ms = reader.GetInteger("capture", "main_timer_interval_ms", main_timer_interval_ms);
+		outfilename = QString::fromStdString(reader.Get("export", "outfilename", outfilename.toStdString()));
 	}
 }
 
