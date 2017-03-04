@@ -1,3 +1,4 @@
+#include <cmath>
 #include <QtTest/QtTest>
 #include <QString>
 #include <QFile>
@@ -12,6 +13,7 @@ class Test_CurrentState: public QObject
 private:
     static JointPositions get_example_jpositions();
     static JointPositions get_modified_example_jpositions(const JointPositions& before);
+    static JointPositions get_uniform_jpositions(const SpacePoint& p);
 signals:
     void write_now();
 private slots:
@@ -21,6 +23,7 @@ private slots:
     void writeRead();
     void writeReadTwice();
     void textExport();
+    void cog_trivial();
 };
 
 JointPositions Test_CurrentState::get_example_jpositions()
@@ -40,6 +43,16 @@ JointPositions Test_CurrentState::get_modified_example_jpositions(const JointPos
 	after.insert(before.keys()[k], asp);
     }
     return after;
+}
+
+JointPositions Test_CurrentState::get_uniform_jpositions(const SpacePoint& p)
+{
+    JointPositions jp;
+    for(unsigned int i=0; i<EMMA::JOINTS_COUNT; ++i)
+    {
+        jp[i] = p;
+    }
+    return jp;
 }
 
 void Test_CurrentState::getters()
@@ -135,6 +148,19 @@ void Test_CurrentState::textExport()
 	}
     }
     QCOMPARE(line, states_n);
+}
+
+void Test_CurrentState::cog_trivial()
+{
+    CurrentState cs;
+    const SpacePoint p1(1,13,169);
+    cs.set_jointPositions(get_uniform_jpositions(p1));
+    cs.set_centOfGv();
+    auto cog = cs.get_centOfGv();
+    const float tolerance = 1;
+    float error = (p1-cog).length();
+    qDebug() << cog << error;
+    QVERIFY(std::abs(error) < tolerance);
 }
 
 QTEST_GUILESS_MAIN(Test_CurrentState)
