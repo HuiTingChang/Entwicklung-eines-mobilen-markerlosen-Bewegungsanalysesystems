@@ -86,8 +86,13 @@ JointRelativeAngles CurrentState::anglesInRelativeCoordinateSystem()
 	// Define the direction of 3 axes
 	SpacePoint main_y(0, 1, 0);	// Y axis is vertical
 	SpacePoint main_x(joints[ShoulderLeft] - joints[SpineShoulder]); // X is directed along left arm in T-pose
+	// cannot define coordinate system!
+	if(main_x.length() == 0)
+	{
+		return angles;
+	}
 	main_x.setY(0); // X is perpendicular to Y
-	main_x.normalized();
+	main_x.normalize();
 
 	// Returns the normalized vector of a plane defined by vectors relative_x & relative_y.
 	SpacePoint main_z = SpacePoint::normal(main_x, main_y);
@@ -97,22 +102,27 @@ JointRelativeAngles CurrentState::anglesInRelativeCoordinateSystem()
 	Angles3D angle;
 	float theta, alpha, beta, gama;
 	SpacePoint parentJoint;
-	for (EMMA::Joints i = SpineMid; i != ThumbRight; i = EMMA::Joints(i + 1)){
+	for (EMMA::Joints i = SpineMid; (unsigned int) i < JOINTS_COUNT; i = EMMA::Joints(i + 1)){
 		parentJoint = joints[getParentJoint(i)];
 
 		v1 = main_x;
 		v2 = joints[i] - parentJoint;
-		theta = acos((v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2]) / (sqrt(pow(v1[0], 2) + pow(v1[1], 2) + pow(v1[2], 2))*sqrt(pow(v2[0], 2) + pow(v2[1], 2) + pow(v2[2], 2))));
+		float v1dotv2 = SpacePoint::dotProduct(v1,v2);
+		float v1len = 1;  // normalized!
+		float v2len = v2.length();
+		theta = acos(v1dotv2 / (v1len*v2len));
 		alpha = theta * 180 / P_PI;
 		angle.setX(alpha);
 
 		v1 = main_y;
-		theta = acos((v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2]) / (sqrt(pow(v1[0], 2) + pow(v1[1], 2) + pow(v1[2], 2))*sqrt(pow(v2[0], 2) + pow(v2[1], 2) + pow(v2[2], 2))));
+		v1dotv2 = SpacePoint::dotProduct(v1,v2);
+		theta = acos(v1dotv2 / (v1len*v2len));
 		beta = theta * 180 / P_PI;
 		angle.setY(beta);
 
 		v1 = main_z;
-		theta = acos((v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2]) / (sqrt(pow(v1[0], 2) + pow(v1[1], 2) + pow(v1[2], 2))*sqrt(pow(v2[0], 2) + pow(v2[1], 2) + pow(v2[2], 2))));
+		v1dotv2 = SpacePoint::dotProduct(v1,v2);
+		theta = acos(v1dotv2 / (v1len*v2len));
 		gama = theta * 180 / P_PI;
 		angle.setZ(gama);
 		angles[i] = angle;
