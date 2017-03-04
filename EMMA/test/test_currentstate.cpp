@@ -93,12 +93,12 @@ void Test_CurrentState::writeReadTwice()
     StreamIO sio(&cs);
     connect(this, &Test_CurrentState::write_now, &sio, &StreamIO::write);
     emit write_now();
+    auto sioreader = sio.get_reader();
+    qDebug() << QString(((std::string) sioreader.next()).c_str());
     cs.set_jointPositions(get_modified_example_jpositions(cs.get_joints()));
     qDebug() << QString(((std::string) cs).c_str());
     emit write_now();
     sio.flush();
-    auto sioreader = sio.get_reader();
-    sioreader.next();
     auto siocs = sioreader.next();
     qDebug() << QString(((std::string) siocs).c_str());
     QCOMPARE(cs, siocs);
