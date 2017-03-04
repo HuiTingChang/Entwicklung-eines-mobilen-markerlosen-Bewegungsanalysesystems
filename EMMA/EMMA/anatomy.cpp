@@ -1,4 +1,5 @@
 #include "Anatomy.h"
+
 namespace {
 QMap<EMMA::Bones, double> get_com_winter()
 {
@@ -63,5 +64,15 @@ QMap<EMMA::Bones, double> get_mass_winter()
 }
 }
 
-const QMap<EMMA::Bones,double> Winter_Anatomy::BONE_COM = ::get_com_winter();
-const QMap<EMMA::Bones,double> Winter_Anatomy::BONE_MASS = ::get_mass_winter();
+const QMap<EMMA::Bones,double> Winter_Anatomy::BONE_COM = get_com_winter();
+const QMap<EMMA::Bones,double> Winter_Anatomy::BONE_MASS = get_mass_winter();
+
+EMMA::Bones Winter_Anatomy::get_parent_bone(EMMA::Joints joint)
+{
+    return (EMMA::Bones) (unsigned int) joint;
+}
+
+EMMA::Joints Winter_Anatomy::get_child_joint(EMMA::Bones bone)
+{
+    return (EMMA::Joints) (unsigned int) bone;
+}

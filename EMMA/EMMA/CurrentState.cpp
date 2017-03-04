@@ -296,21 +296,15 @@ SpacePoint CurrentState::centerOfGravityMeasurement()
 {
 	SpacePoint cog(0.0, 0.0, 0.0);
 
-	cog[0] = TRUNK_MASS*joints[SpineBase][0] + HAND_MASS*joints[HandLeft][0] +
-		FOREARM_MASS*joints[ElbowLeft][0] + UPPERARM_MASS*joints[ShoulderLeft][0] +
-		FOOT_MASS*joints[FootLeft][0] + LOWERLEG_MASS*joints[KneeLeft][0] +
-		UPPERLEG_MASS*joints[HipLeft][0] + HEAD_NECK_MASS*joints[Neck][0];
-
-	cog[1] = TRUNK_MASS*joints[SpineBase][1] + HAND_MASS*joints[HandLeft][1] +
-		FOREARM_MASS*joints[ElbowLeft][1] + UPPERARM_MASS*joints[ShoulderLeft][1] +
-		FOOT_MASS*joints[FootLeft][1] + LOWERLEG_MASS*joints[KneeLeft][1] +
-		UPPERLEG_MASS*joints[HipLeft][1] + HEAD_NECK_MASS*joints[Neck][1];
-			
-	cog[2] = TRUNK_MASS*joints[SpineBase][2] + HAND_MASS*joints[HandLeft][2] +
-		FOREARM_MASS*joints[ElbowLeft][2] + UPPERARM_MASS*joints[ShoulderLeft][2] +
-		FOOT_MASS*joints[FootLeft][2] + LOWERLEG_MASS*joints[KneeLeft][2] +
-		UPPERLEG_MASS*joints[HipLeft][2] + HEAD_NECK_MASS*joints[Neck][2];
-	
+	// begin with 1 to skip SpineBase (has no parent)
+	for(unsigned int i=1; i<JOINTS_COUNT; i++)
+	{
+		Joints j = (Joints) i;
+		double mass = Winter_Anatomy::BONE_MASS[Winter_Anatomy::get_parent_bone(j)];
+		double cog_prox = Winter_Anatomy::BONE_COM[Winter_Anatomy::get_parent_bone(j)];
+		SpacePoint parentbone_cog = (1-cog_prox)*joints[j] + cog_prox*joints[getParentJoint(j)];
+		cog += mass*parentbone_cog;
+	}
 	return cog;
 }
 

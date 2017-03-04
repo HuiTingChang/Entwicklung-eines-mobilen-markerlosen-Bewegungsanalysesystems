@@ -99,21 +99,13 @@ enum Bones: unsigned int
 	HandRight_HandTipRight	=	23,
 	HandRight_ThumbRight	=		24
 };
-/*
-Bones get_parent_bone(Joints joint)
-{
-	return (Bones) (unsigned int) joint;
-}
-
-Joints get_child_joint(Bones bone)
-{
-	return (Joints) (unsigned int) bone;
-}
-*/
 }
 
 class Winter_Anatomy
 {
+public:
 static const QMap<EMMA::Bones,double> BONE_COM;
 static const QMap<EMMA::Bones,double> BONE_MASS;
+static EMMA::Bones get_parent_bone(EMMA::Joints joint);
+static EMMA::Joints get_child_joint(EMMA::Bones bone);
 };
