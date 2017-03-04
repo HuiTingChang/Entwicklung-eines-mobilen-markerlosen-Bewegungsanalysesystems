@@ -34,6 +34,7 @@ SOURCES += ../../inc/inih/ini.c \
         ../../inc/inih/cpp/INIReader.cpp \
         ../../inc/QCustomPlot/src/qcustomplot.cpp \
         ../../inc/QtOpenCV/cvmatandqimage.cpp \
+        anatomy.cpp \
         ApplicationData.cpp \
         CurrentState.cpp \
         main.cpp \
