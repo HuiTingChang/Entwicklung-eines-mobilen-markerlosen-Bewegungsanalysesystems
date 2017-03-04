@@ -1,9 +1,6 @@
 #ifndef BODY_WIDGET_H
 #define BODY_WIDGET_H
 
-#include <QLabel>
-#include <QMenuBar>
-#include <QPushButton>
 #include <QWidget>
 #include <QTimer>
 
@@ -34,9 +31,6 @@ public:
 	Body_Widget(QWidget *parent = 0);
 	~Body_Widget();
 
-	void checkSaveData();
-	void initializeWidgets();
-
 	Q_SLOT void setImage(const QImage & img);
 	Q_SLOT void afterSaveData();
 	
@@ -57,6 +51,8 @@ private:
 	QVector<QVector<double>> data;
 	QVector<double> time_data;
 
+	void checkSaveData();
+	void initializeWidgets();
 	void makePlot();
 	void dataInit();
 	void feedData(const JointPositions& jp, const JointRelativeAngles& jo);

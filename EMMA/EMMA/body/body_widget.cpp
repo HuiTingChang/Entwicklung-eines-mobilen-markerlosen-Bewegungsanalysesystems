@@ -1,9 +1,7 @@
 #include "body_widget.h"
 
 #include <QMessageBox>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QResizeEvent>
+//#include <QResizeEvent>
 //#include <QtConcurrent>
 #include "TextExport.h"
 
