@@ -491,22 +491,15 @@ inline void KinectCamera::drawLine(cv::Mat& image, const Joint& joint1, const Jo
 inline void KinectCamera::drawCOG(cv::Mat& image, const cv::Vec3b& color, const int thickness)
 {
 	CameraSpacePoint cog;
-
-
-	cog.X = TRUNK_MASS*jposition[SpineBase][0] + HAND_MASS*jposition[HandLeft][0] +
-		FOREARM_MASS*jposition[ElbowLeft][0] + UPPERARM_MASS*jposition[ShoulderLeft][0] +
-		FOOT_MASS*jposition[FootLeft][0] + LOWERLEG_MASS*jposition[KneeLeft][0] +
-		UPPERLEG_MASS*jposition[HipLeft][0] + HEAD_NECK_MASS*jposition[Neck][0];
-
-	cog.Y = TRUNK_MASS*jposition[SpineBase][1] + HAND_MASS*jposition[HandLeft][1] +
-		FOREARM_MASS*jposition[ElbowLeft][1] + UPPERARM_MASS*jposition[ShoulderLeft][1] +
-		FOOT_MASS*jposition[FootLeft][1] + LOWERLEG_MASS*jposition[KneeLeft][1] +
-		UPPERLEG_MASS*jposition[HipLeft][1] + HEAD_NECK_MASS*jposition[Neck][1];
-
-	cog.Z = TRUNK_MASS*jposition[SpineBase][2] + HAND_MASS*jposition[HandLeft][2] +
-		FOREARM_MASS*jposition[ElbowLeft][2] + UPPERARM_MASS*jposition[ShoulderLeft][2] +
-		FOOT_MASS*jposition[FootLeft][2] + LOWERLEG_MASS*jposition[KneeLeft][2] +
-		UPPERLEG_MASS*jposition[HipLeft][2] + HEAD_NECK_MASS*jposition[Neck][2];
+	{
+		CurrentState cs;
+		cs.set_jointPositions(jposition);
+		cs.set_centOfGv();
+		auto cog_qv3 = cs.get_centOfGv();
+		cog.X = cog_qv3.x();
+		cog.Y = cog_qv3.y();
+		cog.Z = cog_qv3.z();
+	}
 
 	// Convert Coordinate System and Draw Joint
 	ColorSpacePoint colorSpacePoint;
