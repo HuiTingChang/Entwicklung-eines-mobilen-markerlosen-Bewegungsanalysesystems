@@ -40,7 +40,7 @@ Joints are based on the ones defined in the Kinect SDK. In EMMA they are numbere
 
 ## Bones
 
-Bones are defined as the link between two joints, identified by the same number as its child joint. See more about joint hierarchy ("child" and "parent") in (Doc_relative_coordination_for_angle_calc_and_angleSize)[Doc_relative_coordination_for_angle_calc_and_angleSize.md)
+Bones are defined as the link between two joints, identified by the same number as its child joint. See more about joint hierarchy ("child" and "parent") in [Doc_relative_coordination_for_angle_calc_and_angleSize](Doc_relative_coordination_for_angle_calc_and_angleSize.md)
 
 ## Kinect Coordinates
 
