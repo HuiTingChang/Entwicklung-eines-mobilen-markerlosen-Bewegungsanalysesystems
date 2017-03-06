@@ -128,6 +128,9 @@ void Body_Widget::initializeWidgets()
 	ui.COG->setChecked(false);
 	ui.jointOrient->setChecked(false);
 	ui.jointPos->setChecked(true);
+
+	ui.Y_Min->setText("-1.0");
+	ui.Y_Max->setText("1.0");
 }
 
 void Body_Widget::load_button_clicked()
@@ -361,13 +364,20 @@ void Body_Widget::feedData(const JointPositions& jp, const JointRelativeAngles& 
 
 void Body_Widget::makePlot()
 {
+	int index_selected;
 	// create graph and assign data:
 	ui.customPlot->addGraph();
 
 	if (ui.AngleSize->isChecked())
+	{
 		ui.customPlot->graph(0)->setData(time_data, data[3]);
+		index_selected = 3;
+	}
 	else
+	{
 		ui.customPlot->graph(0)->setData(time_data, data[ui.CoordinateSelect->currentIndex()]);
+		index_selected = ui.CoordinateSelect->currentIndex();
+	}
 
 
 	ui.customPlot->xAxis->setLabel("Time in ms");
@@ -378,8 +388,31 @@ void Body_Widget::makePlot()
 		ui.customPlot->xAxis->setRange(0, 100);
 	else
 		ui.customPlot->xAxis->setRange(time_data.size() - 100, time_data.size());
-			
+	
+	//if (data[index_selected].size() < 100)
+	//{
+	//	if (data[index_selected].size() - 1 > max_range)
+	//		max_range = data[index_selected].size() - 1;
+
+	//	if (data[index_selected].size() - 1 < min_range)
+	//		min_range = data[index_selected].size() - 1;
+	//}
+	//else
+	//{
+	//	for (int i = data.size() - 101; i < data.size(); i++)
+	//	{
+	//		if (data[i] > max_range)
+	//			max_range = data[i];
+
+	//		if (data[i] < max_range)
+	//			max_range = data[i];
+	//	}
+	//	max_range = (double) *std::max_element(data.begin(), data.end());
+	//	mix_range = *std::min_element(data.begin(), data.end());
+	//}
+
 	ui.customPlot->yAxis->setRange(0, 1);
+	ui.customPlot->yAxis->setRange(ui.Y_Min->text().toDouble(), ui.Y_Max->text().toDouble());
 
 	ui.customPlot->setInteraction(QCP::iRangeDrag, true);
 
@@ -453,7 +486,8 @@ void Body_Widget::resetPlot()
 	dataInit();
 	time_data.append(0);
 
-
+	//max_range = 0.0;
+	//min_range = 0.0;
 	makePlot();
 }
 //void Body_Widget::on_plotStart_clicked()

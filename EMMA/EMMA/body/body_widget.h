@@ -50,7 +50,8 @@ private:
 	Converter converterThread;
 	QVector<QVector<double>> data;
 	QVector<double> time_data;
-
+	double max_range;
+	double min_range;
 	void checkSaveData();
 	void initializeWidgets();
 	void makePlot();

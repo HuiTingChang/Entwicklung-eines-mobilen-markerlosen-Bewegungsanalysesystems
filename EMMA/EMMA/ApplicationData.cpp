@@ -20,7 +20,7 @@ ApplicationData::ApplicationData():
 	weight(0),
 	balanceDataUpdated(false),
 	cameraDataUpdated(false),
-	main_timer_interval_ms(50),
+	main_timer_interval_ms(150),
 	board_show_interval_ms(250),
 	outfilename("emmaout.emcsv"),
 	calibrationStart(false),
