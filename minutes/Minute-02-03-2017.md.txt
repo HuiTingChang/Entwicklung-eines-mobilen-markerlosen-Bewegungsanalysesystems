@@ -1,0 +1,19 @@
+By Nuno Alves
+
+Attendance: Hui-Ting Chang, Inna Kh, Nuno Alves, Gilbert Nzondzhou, Yuliia Danylkina, Yushin Washio
+Activities
+Integrating plot function into the main application
+
+Nuno and Gilbert worked further on plot functions, so that it at the end it was possible to select between several parameters to be plotted such as: joint type, joint position or orientation with its direction (X-, Y- or Z-Axis), joint angle size und centre of gravity. A strategy for the adjustment of plot Y-Axis range was also discussed. 
+Joint angles and Relative coordination System
+
+Hui-Ting has modified the typedef and related code for the 2 angle calculation functions & started to write the documentation for the 2 functions.
+Data Save and Export
+
+Yushin has added the [TextExport](/EMMA/EMMA/TextExport.h) class that collects saved data from `StreamReader` and produces a csv output using the [text-csv](
+https://github.com/roman-kashitsyn/text-csv) library. Although the [test case](/EMMA/test/test_currentstate.cpp) `textExport` works, the actual EMMA app doesn't produce output. In this session, he could observe that if you actually connect the camera, it does produce an output, but it looks like containing less entries than expected.
+
+Inna and Julia haven´t reported what sie have done.
+Next session
+
+Software-Messe on 06th March.
