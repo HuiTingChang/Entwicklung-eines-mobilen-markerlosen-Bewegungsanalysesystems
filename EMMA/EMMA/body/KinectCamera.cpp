@@ -493,7 +493,8 @@ inline void KinectCamera::drawCOG(cv::Mat& image, const cv::Vec3b& color, const 
 	CameraSpacePoint cog;
 	{
 		CurrentState cs;
-		cs.set_jointPositions(jposition);
+		JointPositions jp(jposition);
+		cs.set_jointPositions(jp);
 		cs.set_centOfGv();
 		auto cog_qv3 = cs.get_centOfGv();
 		cog.X = cog_qv3.x();
