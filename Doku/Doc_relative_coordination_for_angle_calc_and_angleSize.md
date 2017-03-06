@@ -17,6 +17,6 @@ The coordination system of "Relative to parent joint" is defined in the [website
 - Center/Origine coincides with the coordinates of the parent joint.
 
 @return JointRelativeAngles, which is a QMap<uint, Angles3D>. 
-Anggles3D has 3 values: x, y and z, which coresponds to the angle between parent->child and x-axis, the angle between parent->child and y-axis and the angle between parent->child and z-axis.
+Anggles3D has 3 values: x, y and z, which coresponds to angle α: between parent->child and x-axis, angle β between parent->child and y-axis and angle γ between parent->child and z-axis.
 
 ![](angle_coordination.jpg)
