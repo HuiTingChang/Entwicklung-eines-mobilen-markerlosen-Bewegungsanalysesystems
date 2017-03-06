@@ -101,19 +101,22 @@ inline void KinectCamera::initializeSensor()
         throw camera_not_found_error();
     }
 
-    // Check Availability
-    BOOLEAN isAvailable = FALSE;
-    ERROR_CHECK(kinect->get_IsAvailable( &isAvailable ) );
-    if( !isAvailable || kinect->Open() != S_OK)
+    if(kinect->Open() != S_OK)
     {
-        throw camera_not_available_error();
-    }
+        // Check Availability
+        BOOLEAN isAvailable = FALSE;
+        ERROR_CHECK(kinect->get_IsAvailable( &isAvailable ) );
+        if( !isAvailable )
+        {
+            throw camera_not_available_error();
+        }
 	// Check Existence of an open stream
 	BOOLEAN isOpen = FALSE;
 	ERROR_CHECK( kinect->get_IsOpen( &isOpen ) );
 	if( !isOpen )
-    {
+        {
 	    throw camera_inactive_error();
+	}
     }
 
     state = State::CONNECTED;
