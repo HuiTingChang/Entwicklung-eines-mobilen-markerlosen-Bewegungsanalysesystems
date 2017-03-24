@@ -11,12 +11,13 @@
 * [2017-02-16-checkerboard](minute-2017-02-16-checkerboard.md):3:By Yushin Washio
 * [2017-02-20](minute-2017-02-20.md):22:Protocol ist von Hui-Ting geschrieben.
 * [2017-02-23-plot-for-poster](minute-2017-02-23-plot-for-poster.md):3:By Yushin Washio
+* [2017-03-02](minute-2017-03-02.md):1:By Nuno Alves
 
 ## By authors
 
 * Julia: 		2017-02-13, 2017-01-16
 * Yushin:		2017-01-05, 2017-02-02, 2017-02-16, 2017-02-23
 * Gilbert: 		2016-12-15, 2017-02-09
-* Nuno:			2017-01-02, 2017-02-06
+* Nuno:			2017-01-02, 2017-02-06, 2017-03-02
 * Hui-Ting:		2016-12-22, 2017-01-12, 2017-01-09, 2017-02-20
 * Inna: 		2016-12-19
