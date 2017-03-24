@@ -33,6 +33,43 @@ to [the manual method described here](https://msdn.microsoft.com/en-us/library/d
 OpenCV to the `PATH` variable. You need to re-login to your Windows user session
 before running qmake again.
 
+You also need the [Kinect for Windows SDK v2.0]
+(https://www.microsoft.com/en-us/download/details.aspx?id=44561).
+
+Runtime v1.8 runs on Windows 7, but USB 3.0 support is incomplete and **not
+useable for Kinect Sensor v2.0** anyway ((source)
+[https://social.msdn.microsoft.com/Forums/en-US/45830eac-f7ed-41fe-8621-8a7bcb84cebb/use-kinect-v2-with-windows-7?forum=kinectv2sdk]
+)
+
+[libfreenect2](https://github.com/OpenKinect/libfreenect2) of the project
+[OpenKinect](http://www.openkinect.org/) runs on Windows 7, Ubuntu, Mac
+OS, ..., but unfortunately turned out to be **not really a feasible
+alternative** because it doesn’t provide out-of-the-box solutions for human
+body recognition, but only [interfaces for raw camera and depth data]
+(https://openkinect.org/wiki/High_Level))
+
+- examples can be found at [the codeplex repository]
+    (https://kinectforwindows.codeplex.com/), one of which is
+    [the coloringbook]
+    (https://github.com/Microsoft/Windows-appsample-coloringbook)
+- [developer documentation](https://msdn.microsoft.com/library/dn799271.aspx)
+- requires Visual Studio 2012 or 2013, currently trying with
+    [2015 Community Edition](https://www.visualstudio.com/downloads/) anyway
+    - VS uses 14 GB disk space and installation takes veeeeery long!
+    - Visual Studio 2015 Community Edition couldn't be installed on
+        Windows 10 **to go** on 2016-11-18 using Julia's USB key drive at her
+        laptop with Windows 7
+- ~~freenect2: use any C++ IDE, documentation can be found at the
+    [OpenKinect Doxygen site](https://openkinect.github.io/libfreenect2/) and
+    examples [in the examples directory of its release]
+    (https://github.com/OpenKinect/libfreenect2/tree/master/examples)~~ (we’ll
+    use Microsoft Kinect SDK)
+- Faking it without the actual camera
+    - ~~[Fakenect](https://openkinect.org/wiki/Fakenect) from OpenKinect,
+        provides some sample outputs for download~~ (we’ll use Microsoft Kinect SDK)
+    - [the Kinect SDK record/play-back feature]
+        (https://msdn.microsoft.com/en-us/library/dn785516.aspx)
+
 ## Qt Way
 
 ### the Quick Qt Way
